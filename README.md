@@ -7,16 +7,16 @@ Grails Optimus Plugin lets you create some of the most popular artifacts that ar
 
 To get started, yo need to install the plugin by adding the following line in the @grails-app/conf/BuildConfig.goovy@ file:
 
-{code}
+```groovy
 plugins {
     ...
     compile ':optimus:0.1'
 }
-{code}
+```
 
 You must have at least one domain class with some constraints, for example:
 
-{code}
+```groovy
 package mypackage
 
 class Person {
@@ -32,13 +32,13 @@ class Person {
     }
 
 }
-{code}
+```
 
 Then, you can generate the corresponding artifacts by executing the [optimus-all|Scripts] command:
 
-{code}
+```
 grails optimus-all Person
-{code}
+```
 
 {note}
 Be aware that you don't need to write the full package of the domain class. Also, if you specify the wildcard (*) then the artifacts will be generated for all domain classes.
@@ -46,7 +46,7 @@ Be aware that you don't need to write the full package of the domain class. Also
 
 The command will tell you about what artifacts have been created, such as config files, unit tests, services, controllers, log files and views:
 
-{code}
+```
 $ grails optimus-all Person
 | Finished generation of 'config.properties' file
 | Finished generation of 'Config.groovy' file
@@ -90,7 +90,7 @@ $ grails optimus-all Person
 | Finished generation of views artifacts
 | Finished generation of artifacts
 $
-{code}
+```
 
 {warning}
 The [optimus-all|Scripts] command will overwrite some important files, such as @grails-app/conf/Config.groovy@ and @grails-app/conf/DataSource.groovy@. Be careful if you are working on an existing application and you have previosuly customized these files.
