@@ -8,7 +8,7 @@ target( createUnitTestsServiceGet:"Generate unit tests for 'get' service method"
     depends( createMock )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'get' service unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -19,25 +19,24 @@ setDefaultTarget( createUnitTestsServiceGet )
 void generate( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateThrownField()
-    content << this.generateSetUpMethod( domainClass.name )
-    content << this.generateOkMethod( domainClass.name, idAssigned )
-    content << this.generateNullMethod( domainClass.name, idAssigned )
-    content << this.generateNotFoundMethod( domainClass.name, idAssigned )
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateThrownField()
+    content << generateSetUpMethod( domainClass.name )
+    content << generateOkMethod( domainClass.name, idAssigned )
+    content << generateNullMethod( domainClass.name, idAssigned )
+    content << generateNotFoundMethod( domainClass.name, idAssigned )
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceGetTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
+    def content = "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
     content << "import org.junit.rules.*\n"
     content << "\n"
@@ -47,7 +46,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Service)\n"
+    def content = "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceGetTests {\n\n"
     content.toString()
@@ -56,7 +55,7 @@ String generateClassDeclaration( className ) {
 
 String generateThrownField() {
 
-    def content = '' << "${TAB}@Rule\n"
+    def content = "${TAB}@Rule\n"
     content << "${TAB}public ExpectedException thrown = "
     content << "ExpectedException.none()\n\n"
     content.toString()
@@ -65,7 +64,7 @@ String generateThrownField() {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}@Before\n"
+    def content = "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}${className}Mock.mock( 1 ).save("
     content << " failOnError:true )\n"
@@ -78,7 +77,7 @@ String generateOkMethod( className, idAssigned ) {
 
     def idName = 'id'
     if ( idAssigned ) idName = idAssigned.name
-    def content = '' << ''
+    def content = ''
     content << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def result = service.get("
     if ( idAssigned ) {
@@ -97,7 +96,7 @@ String generateNullMethod( className, idAssigned ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def idName = idAssigned ? idAssigned.name : 'id'
-    def content = '' << ''
+    def content = ''
     content << "${TAB}void test${idName.capitalize()}Null() {\n\n"
     content << "${TAB*2}thrown.expect("
     content << " IllegalArgumentException )\n"
@@ -113,7 +112,7 @@ String generateNotFoundMethod( className, idAssigned ) {
 
     def idName = 'id'
     if ( idAssigned ) idName = idAssigned.name
-    def content = '' << "${TAB}void testNotFound() {\n\n"
+    def content = "${TAB}void testNotFound() {\n\n"
     content << "${TAB*2}def result = service.get("
     if ( idAssigned ) {
         content << " ${className}Mock.mock( 2 ).${idName} )\n"

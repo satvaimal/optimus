@@ -2,7 +2,7 @@ target( createListUtils:'Generate ListUtils class' ) {
 
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    this.generate( domainClassList[ 0 ] )
+    generate( domainClassList[ 0 ] )
     def msg = "Finished generation of ListUtils class file"
     event( 'StatusFinal', [ msg ] )
 
@@ -12,22 +12,21 @@ setDefaultTarget( createListUtils )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}\n\n"
+    def content = "package ${domainClass.packageName}\n\n"
     content << "class ListUtils {\n\n"
-    content << this.generateParseMaxMethod()
-    content << this.generateParseOffsetMethod()
-    content << this.generateParseOrderMethod()
-    content << this.generateParseSortMethod()
+    content << generateParseMaxMethod()
+    content << generateParseOffsetMethod()
+    content << generateParseOrderMethod()
+    content << generateParseSortMethod()
     content << '}'
     def directory = generateDirectory( "src/groovy", domainClass.packageName )
-    def fileName = "ListUtils.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, "ListUtils.groovy").text = content.toString()
 
 }// End of method
 
 String generateParseMaxMethod() {
 
-    def content = '' << ''
+    def content = ''
     content << "${TAB}static Integer parseMax( String max ) {\n\n"
     content << "${TAB*2}if ( max?.isInteger() && max != '0' ) {\n"
     content << "${TAB*3}def maxInteger = new Integer( max )\n"
@@ -41,7 +40,7 @@ String generateParseMaxMethod() {
 
 String generateParseOffsetMethod() {
 
-    def content = '' << ''
+    def content = ''
     content << "${TAB}static Integer parseOffset("
     content << " String offset ) {\n\n"
     content << "${TAB*2}if ( offset?.isInteger() ) {\n"
@@ -55,7 +54,7 @@ String generateParseOffsetMethod() {
 
 String generateParseOrderMethod() {
 
-    def content = '' << ''
+    def content = ''
     content << "${TAB}static String parseOrder("
     content << " String order ) {\n\n"
     content << "${TAB*2}if ( order == 'asc' ||"
@@ -70,7 +69,7 @@ String generateParseOrderMethod() {
 
 String generateParseSortMethod() {
 
-    def content = '' << ''
+    def content = ''
     content << "${TAB}static String parseSort("
     content << " sort, fields ) {\n"
     content << "${TAB*2}fields.find { it == sort }\n"

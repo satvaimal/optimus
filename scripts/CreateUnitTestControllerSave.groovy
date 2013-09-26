@@ -8,7 +8,7 @@ target( createUnitTestsControllerSave:"Generate unit tests for 'save' controller
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'save' controller unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -20,27 +20,26 @@ void generate( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateSetUpMethod( domainClass.name )
-    content << this.generateOkMethod( domainClass.name, idName )
-    content << this.generateParamsInvalidMethod( domainClass )
-    content << this.generateRequestMethodInvalidMethod()
-    content << this.generateGetTemplateMethod( domainClass.name )
-    content << this.generateMockMethods( domainClass.name, idName )
-    content << this.generateSetUpParamsMethod( domainClass.name )
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateSetUpMethod( domainClass.name )
+    content << generateOkMethod( domainClass.name, idName )
+    content << generateParamsInvalidMethod( domainClass )
+    content << generateRequestMethodInvalidMethod()
+    content << generateGetTemplateMethod( domainClass.name )
+    content << generateMockMethods( domainClass.name, idName )
+    content << generateSetUpParamsMethod( domainClass.name )
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerSaveTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.GrailsMock\n"
+    def content = "import grails.test.GrailsMock\n"
     content << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
     content << "\n"
@@ -50,7 +49,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Controller)\n"
+    def content = "@TestFor(${className}Controller)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ControllerSaveTests {\n\n"
     content.toString()
@@ -60,7 +59,7 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before\n"
+    def content = "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
     content << " = this.getTemplate()\n"
@@ -73,7 +72,7 @@ String generateOkMethod( className, idName ) {
 
     def id = idName != 'id' ? "\${${className}Mock.mock(1).${idName}}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOk() {\n\n"
+    def content = "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service()\n"
     content << "${TAB*2}request.method = 'POST'\n"
     content << "${TAB*2}this.setUpParams()\n"
@@ -100,7 +99,7 @@ String generateParamsInvalidMethod( domainClass ) {
     if ( !requiredAttributes ) return ''
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testParamsInvalid() {\n\n"
+    def content = "${TAB}void testParamsInvalid() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( false )\n"
     content << "${TAB*2}request.method = 'POST'\n"
     content << "${TAB*2}this.setUpParams()\n"
@@ -119,7 +118,7 @@ String generateParamsInvalidMethod( domainClass ) {
 
 String generateRequestMethodInvalidMethod() {
 
-    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
     content << "${TAB*2}request.method = 'GET'\n"
@@ -134,7 +133,7 @@ String generateRequestMethodInvalidMethod() {
 String generateGetTemplateMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private String getTemplate() {\n"
+    def content = "${TAB}private String getTemplate() {\n"
     content << "${TAB*2}'<g:if test=\"\${${classNameLower}Instance}\">OK</g:if>"
     content << "<g:else>ERROR</g:else>'\n"
     content << "${TAB}}\n\n"
@@ -146,7 +145,7 @@ String generateMockMethods( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock(1).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private GrailsMock"
+    def content = "${TAB}private GrailsMock"
     content << " mock${className}Service( save = true ) {\n\n"
     content << "${TAB*2}def control = mockFor( ${className}Service )\n"
     content << "${TAB*2}control.demand.create( 1 ) {"
@@ -166,7 +165,7 @@ String generateMockMethods( className, idName ) {
 
 String generateSetUpParamsMethod( className ) {
 
-    def content = '' << "${TAB}private void setUpParams() {\n\n"
+    def content = "${TAB}private void setUpParams() {\n\n"
     content << "${TAB*2}def mock = ${className}Mock.mock( 1 )\n"
     content << "${TAB*2}mock.properties.each{ params.\"\${it.key}\""
     content << " = it.value }\n\n"

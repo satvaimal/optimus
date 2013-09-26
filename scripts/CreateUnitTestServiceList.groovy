@@ -16,7 +16,7 @@ target( createUnitTestsServiceList:"Generate unit tests for 'list' service metho
         createUnitTestServiceListSortOrder )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'list' service unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -26,28 +26,27 @@ setDefaultTarget( createUnitTestsServiceList )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateOkMethod()
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateOkMethod()
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceListTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
+    def content = "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
 
 }// End of method
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Service)\n"
+    def content = "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceListTests {\n\n"
     content.toString()
@@ -56,7 +55,7 @@ String generateClassDeclaration( className ) {
 
 String generateOkMethod() {
 
-    def content = '' << ''
+    def content = ''
     content << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def params = [:]\n"
     content << "${TAB*2}def result = service.list( params )\n"

@@ -58,12 +58,7 @@ class PersonServiceList {
         pointcut='list(java.util.Map)',
         throwing='e' )
     void afterThrowing( Exception e ) {
-
-        def message = '' << ''
-        message << "Error in request"
-        message << ": ${e.class.simpleName} - ${e.message}"
-        log.info( message.toString() )
-
+        log.info("Error in request: ${e.class.simpleName} - ${e.message})
     }
 
 }

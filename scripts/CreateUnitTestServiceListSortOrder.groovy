@@ -6,7 +6,7 @@ target( createUnitTestServiceListSortOrder:"Generate unit tests for 'list' servi
     depends( createMock )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'list-sort-order' service unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -16,32 +16,31 @@ setDefaultTarget( createUnitTestServiceListSortOrder )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateSetUpMethod( domainClass.name )
-    content << this.generateOkMethod( domainClass )
-    content << this.generateMethod( 'Null', "null" )
-    content << this.generateMethod( 'Blank', "''" )
-    content << this.generateMethod( 'Invalid', "'A'" )
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateSetUpMethod( domainClass.name )
+    content << generateOkMethod( domainClass )
+    content << generateMethod( 'Null', "null" )
+    content << generateMethod( 'Blank', "''" )
+    content << generateMethod( 'Invalid', "'A'" )
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceListSortOrderTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
+    def content = "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
 
 }// End of method
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Service)\n"
+    def content = "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceListSortOrderTests {\n\n"
     content.toString()
@@ -50,7 +49,7 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}@Before\n"
+    def content = "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}20.times {\n"
     content << "${TAB*3}${className}Mock.mock( it + 1 ).save("
@@ -65,8 +64,8 @@ String generateOkMethod( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
-    def expected = this.getId( domainClass, idAssigned )
-    def content = '' << ''
+    def expected = getId( domainClass, idAssigned )
+    def content = ''
     content << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def params = [ sort:'${idName}', order:'desc' ]\n"
     content << "${TAB*2}def result = service.list( params )\n"
@@ -83,7 +82,7 @@ String generateOkMethod( domainClass ) {
 }// End of method
 
 String getId( domainClass, idAssigned ) {
-	
+
     if ( !idAssigned ) return '20'
     def idName = idAssigned.name
     def constraint = domainClass.constrainedProperties[ idName ]
@@ -91,7 +90,7 @@ String getId( domainClass, idAssigned ) {
     def identifier = domainClass.properties.find { it.name == idName }
     def type = idAssigned.type
     if ( type == 'String' ) {
-        def id =  '' << "new String( ( 85 ) as Character )"
+        def id =  "new String( ( 85 ) as Character )"
         def sizeConstraint = constraint.appliedConstraints.find{
             it.name == 'size' }
         if ( sizeConstraint )
@@ -104,7 +103,7 @@ String getId( domainClass, idAssigned ) {
 
 String generateMethod( methodSuffix, value ) {
 
-    def content = '' << "${TAB}void test${methodSuffix}() {\n\n"
+    def content = "${TAB}void test${methodSuffix}() {\n\n"
     content << "${TAB*2}def params = [ sort:${value}"
     content << ", order:${value} ]\n"
     content << "${TAB*2}def result = service.list( params )\n"

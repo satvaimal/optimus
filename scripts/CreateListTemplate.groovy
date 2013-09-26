@@ -18,12 +18,11 @@ void generate( domainClass ) {
 
     def DefaultGrailsTemplateGenerator = classLoader.loadClass(
         'org.codehaus.groovy.grails.scaffolding.DefaultGrailsTemplateGenerator')
-    def templateGenerator = DefaultGrailsTemplateGenerator.newInstance(
-        classLoader )
+    def templateGenerator = DefaultGrailsTemplateGenerator.newInstance( classLoader )
     templateGenerator.grailsApplication = grailsApp
     templateGenerator.pluginManager = pluginManager
-    def viewsDir = new File(
-        "${basedir}/grails-app/views/${domainClass.propertyName}" )
+    def viewsDir = new File(basedir,
+        "grails-app/views/${domainClass.propertyName}" )
     if ( !viewsDir.exists() ) viewsDir.mkdirs()
     templateGenerator.generateView( domainClass, '_list',
         viewsDir.absolutePath )

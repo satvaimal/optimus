@@ -8,7 +8,7 @@ target( createServiceDeleteLog:"Generate application logs for 'delete' service m
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'delete' service logs"
     event( 'StatusFinal', [ msg ] )
 
@@ -18,24 +18,24 @@ setDefaultTarget( createServiceDeleteLog )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}.aop\n\n"
-    content << this.generateImports( domainClass )
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generatePointcutMethod( domainClass )
-    content << this.generateBeforeMethod( domainClass.name )
-    content << this.generateAfterReturningMethod( domainClass )
-    content << this.generateAfterThrowingMethod( domainClass )
+    def content = "package ${domainClass.packageName}.aop\n\n"
+    content << generateImports( domainClass )
+    content << generateClassDeclaration( domainClass.name )
+    content << generatePointcutMethod( domainClass )
+    content << generateBeforeMethod( domainClass.name )
+    content << generateAfterReturningMethod( domainClass )
+    content << generateAfterThrowingMethod( domainClass )
     content << '}'
     def directory = generateDirectory( "src/groovy",
         "${domainClass.packageName}.aop" )
     def fileName = "${domainClass.name}ServiceDelete.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports( domainClass ) {
 
-    def content = '' << "import ${domainClass.fullName}\n\n"
+    def content = "import ${domainClass.fullName}\n\n"
     [ 'AfterReturning', 'AfterThrowing', 'Aspect', 'Before',
         'Pointcut' ].each {
         content << "import org.aspectj.lang.annotation.${it}\n"
@@ -48,7 +48,7 @@ String generateImports( domainClass ) {
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << '@Component\n'
+    def content = '@Component\n'
     content << '@Aspect\n'
     content << "class ${className}ServiceDelete {\n\n"
     content.toString()
@@ -59,7 +59,7 @@ String generatePointcutMethod( domainClass ) {
 
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Pointcut(\n"
+    def content = "${TAB}@Pointcut(\n"
     content << "${TAB*2}value='execution(void "
     content << "${domainClass.fullName}Service.delete(..)) && bean"
     content << "(${classNameLower}Service) && args(${classNameLower})',\n"
@@ -73,7 +73,7 @@ String generatePointcutMethod( domainClass ) {
 String generateBeforeMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before('delete("
+    def content = "${TAB}@Before('delete("
     content << "${classNameLower})')\n"
     content << "${TAB}void before( ${className} "
     content << "${classNameLower} ) {\n"
@@ -85,7 +85,7 @@ String generateBeforeMethod( className ) {
 
 String generateAfterReturningMethod( domainClass ) {
 
-    def content = '' << "${TAB}@AfterReturning(\n"
+    def content = "${TAB}@AfterReturning(\n"
     content << "${TAB*2}pointcut='delete("
     content << "${domainClass.fullName})')\n"
     content << "${TAB}void afterReturning() {\n"
@@ -97,12 +97,12 @@ String generateAfterReturningMethod( domainClass ) {
 
 String generateAfterThrowingMethod( domainClass ) {
 
-    def content = '' << "${TAB}@AfterThrowing(\n"
+    def content = "${TAB}@AfterThrowing(\n"
     content << "${TAB*2}pointcut='delete("
     content << "${domainClass.fullName})',\n"
     content << "${TAB*2}throwing='e' )\n"
     content << "${TAB}void afterThrowing( Exception e ) {\n\n"
-    content << "${TAB*2}def message = '' << ''\n"
+    content << "${TAB*2}def message = ''\n"
     content << "${TAB*2}message << \"Error in request\"\n"
     content << "${TAB*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"

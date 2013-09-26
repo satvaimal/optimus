@@ -6,7 +6,7 @@ target( createUnitTestServiceListOffset:"Generate unit tests for 'list' service 
     depends( createMock )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'list-offset' service unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -16,32 +16,31 @@ setDefaultTarget( createUnitTestServiceListOffset )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateSetUpMethod( domainClass.name )
-    content << this.generateMethod( 'Ok', "'15'", 5 )
-    content << this.generateMethod( 'Null', "null", 10 )
-    content << this.generateMethod( 'Blank', "''", 10 )
-    content << this.generateMethod( 'Invalid', "'A'", 10 )
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateSetUpMethod( domainClass.name )
+    content << generateMethod( 'Ok', "'15'", 5 )
+    content << generateMethod( 'Null', "null", 10 )
+    content << generateMethod( 'Blank', "''", 10 )
+    content << generateMethod( 'Invalid', "'A'", 10 )
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceListOffsetTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
+    def content = "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
 
 }// End of method
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Service)\n"
+    def content = "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceListOffsetTests {\n\n"
     content.toString()
@@ -50,7 +49,7 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}@Before\n"
+    def content = "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}20.times {\n"
     content << "${TAB*3}${className}Mock.mock( it ).save("
@@ -63,7 +62,7 @@ String generateSetUpMethod( className ) {
 
 String generateMethod( methodSuffix, offsetValue, equalsValue ) {
 
-    def content = '' << "${TAB}void test${methodSuffix}() {\n\n"
+    def content = "${TAB}void test${methodSuffix}() {\n\n"
     content << "${TAB*2}def params = [ offset:${offsetValue} ]\n"
     content << "${TAB*2}def result = service.list( params )\n"
     content << "${TAB*2}assertNotNull \"'result'"
@@ -77,4 +76,3 @@ String generateMethod( methodSuffix, offsetValue, equalsValue ) {
     content.toString()
 
 }// End of method
-

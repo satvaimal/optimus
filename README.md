@@ -3,7 +3,7 @@ Grails Optimus Plugin
 
 Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
 
-To get started, yo need to install the plugin by adding the following line in the <b>grails-app/conf/BuildConfig.groovy</b> file:
+To get started, you need to install the plugin by adding the following line in the <b>grails-app/conf/BuildConfig.groovy</b> file:
 
 ```groovy
 plugins {
