@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>7 Creating logs for services 0.1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/gettingStarted.html"><strong>2</strong><span>Getting started</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/config.html"><strong>3</strong><span>Setting up the configuration</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/unitTestDomainClasses.html"><strong>4</strong><span>Creating unit tests for domain classes</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/services.html"><strong>5</strong><span>Creating services</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/unitTestServices.html"><strong>6</strong><span>Creating unit tests for services</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/logsServices.html"><strong>7</strong><span>Creating logs for services</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/controllers.html"><strong>8</strong><span>Creating controllers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/unitTestControllers.html"><strong>9</strong><span>Creating unit tests for controllers</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/views.html"><strong>10</strong><span>Creating views</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Grails Optimus Plugin
+</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/unitTestServices.html">&lt;&lt; <strong>6</strong><span>Creating unit tests for services</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/controllers.html"><strong>8</strong><span>Creating controllers</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>7 Creating logs for services - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Alejandro García Granados</p>
+
+                    <p><strong>Version:</strong> 0.1</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="logsServices">7 Creating logs for services</h1>
+Auditing and logging is one of the most important things you must consider when building web applications. Grails injects the <code>log</code> object for you in every artifact (such as domain classes, controllers and services), but the Spring Aspect Oriented Programming approach tells you that it is not a clean way to manage the logging. We strongly recommend the use of Spring AOP for this task.<p class="paragraph"/>Sometimes, it is difficult to configure AOP in Grails. There are a lot of blog entries suggesting you how to do it, but currently there isn't a standard approach. With this in mind, Optimus plugin lets you generate the corresponding AOP logs for every service method.<p class="paragraph"/>You can achieve this by executing the <a href="../ref/Scripts/create-logs.html" class="Scripts">create-logs</a> command:
+<div class="code"><pre>grails create&#45;logs &#91;domainClass&#93;</pre></div>
+Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-logs.html" class="Scripts">create-logs</a> command, you will get the following log files:
+<ul class="star">
+<li><code>src/groovy/mypackage/aop/PersonServiceList.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceCreate.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceUpdate.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceGet.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceDelete.groovy</code></li>
+</ul><p class="paragraph"/>You can generate each file with the following commands:
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceList.groovy</code></td><td><a href="../ref/Scripts/create-service-list-log.html" class="Scripts">create-service-list-log</a></td></tr><tr class="table-even"><td><code>src/groovy/mypackage/aop/PersonServiceCreate.groovy</code></td><td><a href="../ref/Scripts/create-service-create-log.html" class="Scripts">create-service-create-log</a></td></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceUpdate.groovy</code></td><td><a href="../ref/Scripts/create-service-update-log.html" class="Scripts">create-service-update-log</a></td></tr><tr class="table-even"><td><code>src/groovy/mypackage/aop/PersonServiceGet.groovy</code></td><td><a href="../ref/Scripts/create-service-get-log.html" class="Scripts">create-service-get-log</a></td></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceDelete.groovy</code></td><td><a href="../ref/Scripts/create-service-delete-log.html" class="Scripts">create-service-delete-log</a></td></tr></table>
+If we open the <code>src/groovy/mypackage/aop/PersonServiceList.groovy</code> file, we will find something like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage.aop<p class="paragraph"/><span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.AfterReturning
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.AfterThrowing
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Aspect
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Before
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Pointcut<p class="paragraph"/><span class="java&#45;keyword">import</span> org.springframework.stereotype.Component<p class="paragraph"/>@Component
+@Aspect
+class PersonServiceList &#123;<p class="paragraph"/>    @Pointcut(
+        value='execution(java.util.Map com.company.app.PersonService.list(..)) &#38;&#38; bean(personService) &#38;&#38; args(params)',
+        argNames='params')
+    <span class="java&#45;keyword">public</span> void list( Map params ) &#123;&#125;<p class="paragraph"/>    @Before('list(params)')
+    void before( Map params ) &#123;
+        log.info( <span class="java&#45;quote">"Begins request: $&#123;params&#125;"</span> )
+    &#125;<p class="paragraph"/>    @AfterReturning(
+        pointcut='list(java.util.Map)',
+        returning='map')
+    void afterReturning( Map map ) &#123;
+        log.info( <span class="java&#45;quote">"End of request: $&#123;map&#125;"</span> )
+    &#125;<p class="paragraph"/>    @AfterThrowing(
+        pointcut='list(java.util.Map)',
+        throwing='e' )
+    void afterThrowing( Exception e ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; ''
+        message &#60;&#60; <span class="java&#45;quote">"Error in request"</span>
+        message &#60;&#60; <span class="java&#45;quote">": $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;"</span>
+        log.info( message.toString() )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+There are some annotations that does the magic:
+<ul class="star">
+<li><code>Component</code>. Tells Spring that this class should be considered as Spring bean. It is configured via <code>grails-app/conf/Config.groovy</code> in the <code>grails.spring.bean.packages</code> property (the plugin does it for you).</li>
+<li><code>Aspect</code>. Indicates that the class must be managed as an aspect.</li>
+<li><code>Pointcut</code>. Indicates the method to be logged.</li>
+<li><code>Before</code>. Indicates the method to be executed before the method indicated in the <code>Pointcut</code> annotation is invoked.</li>
+<li><code>AfterReturning</code>. Indicates the method to be executed after the method indicated in the <code>Pointcut</code> annotation returns a value.</li>
+<li><code>AfterThrowing</code>. Indicates the method to be executed if the method indicated in the <code>Pointcut</code> annotation throws an exception.</li>
+</ul><p class="paragraph"/><blockquote class="note">
+We strongly recommend you to read the <a href="http://docs.spring.io/spring/docs/3.2.4.RELEASE/spring-framework-reference/html/aop.html" target="blank">Spring AOP</a> documentation for a further explanation.
+</blockquote>
+When you run the application and execute some actions, the logs will appear in the output console and they will be written in the <code>log/activity</code> file:<p class="paragraph"/>Listing items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceList  &#45; Begins request: &#91;action:content, controller:person&#93;
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceList  &#45; End of request: &#91;items:&#91;&#93;, total:0&#93;</pre></div>
+Creating items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceCreate  &#45; Begins request: com.company.app.Person : (unsaved)
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceCreate  &#45; End of request</pre></div>
+Getting items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceGet  &#45; Begins request:1
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceGet  &#45; End of request: com.company.app.Person : 1</pre></div>
+Updating items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceUpdate  &#45; Begins request: com.company.app.Person : 1
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceUpdate  &#45; End of request</pre></div>
+Deleting items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceDelete  &#45; Begins request:com.company.app.Person : 1
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceDelete  &#45; End of request</pre></div>
+<blockquote class="note">
+The default output is poor friendly (It uses the <code>toString</code> default method). You can edit the log output according to your own needings.
+</blockquote>
+
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/unitTestServices.html">&lt;&lt; <strong>6</strong><span>Creating unit tests for services</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/controllers.html"><strong>8</strong><span>Creating controllers</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
+                        
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-config-file.html">create-config-file</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-config.html">create-config</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-content-template.html">create-content-template</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-controller-class.html">create-controller-class</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-datasource-file.html">create-datasource-file</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-list-template.html">create-list-template</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-logs.html">create-logs</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-mock.html">create-mock</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-properties-file.html">create-properties-file</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-service-class.html">create-service-class</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-service-create-log.html">create-service-create-log</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-service-delete-log.html">create-service-delete-log</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-service-get-log.html">create-service-get-log</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-service-list-log.html">create-service-list-log</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-service-update-log.html">create-service-update-log</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints.html">create-unit-test-constraints</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content.html">create-unit-test-controller-content</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create.html">create-unit-test-controller-create</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete.html">create-unit-test-controller-delete</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit.html">create-unit-test-controller-edit</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index.html">create-unit-test-controller-index</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list.html">create-unit-test-controller-list</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save.html">create-unit-test-controller-save</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update.html">create-unit-test-controller-update</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller.html">create-unit-test-controller</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create.html">create-unit-test-service-create</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete.html">create-unit-test-service-delete</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get.html">create-unit-test-service-get</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max.html">create-unit-test-service-list-max</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset.html">create-unit-test-service-list-offset</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html">create-unit-test-service-list-sort-order</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list.html">create-unit-test-service-list</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update.html">create-unit-test-service-update</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service.html">create-unit-test-service</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-views-index.html">create-views-index</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-views.html">create-views</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/install-optimus-templates.html">install-optimus-templates</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/optimus-all.html">optimus-all</a>
+                            </div>
+                            
+                            </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

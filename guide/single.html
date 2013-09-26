@@ -1,0 +1,845 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Optimus Plugin 0.1</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#gettingStarted"><strong>2</strong><span>Getting started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#config"><strong>3</strong><span>Setting up the configuration</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#unitTestDomainClasses"><strong>4</strong><span>Creating unit tests for domain classes</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#services"><strong>5</strong><span>Creating services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#unitTestServices"><strong>6</strong><span>Creating unit tests for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#logsServices"><strong>7</strong><span>Creating logs for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#controllers"><strong>8</strong><span>Creating controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#unitTestControllers"><strong>9</strong><span>Creating unit tests for controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#views"><strong>10</strong><span>Creating views</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p>Grails Optimus Plugin
+</p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>Optimus Plugin - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Alejandro García Granados</p>
+                            <p><strong>Version:</strong> 0.1</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#changes"><strong>1.1</strong><span>Change Log</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#gettingStarted"><strong>2</strong><span>Getting started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#customGeneration"><strong>2.1</strong><span>Artifacts custom generation</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#config"><strong>3</strong><span>Setting up the configuration</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#unitTestDomainClasses"><strong>4</strong><span>Creating unit tests for domain classes</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#services"><strong>5</strong><span>Creating services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#unitTestServices"><strong>6</strong><span>Creating unit tests for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#logsServices"><strong>7</strong><span>Creating logs for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#controllers"><strong>8</strong><span>Creating controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#unitTestControllers"><strong>9</strong><span>Creating unit tests for controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#views"><strong>10</strong><span>Creating views</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+
+<h1 id="introduction">1 Introduction</h1>
+Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
+
+
+
+<h2 id="changes">1.1 Change Log</h2>
+<ul class="star">
+<li>October 1, 2013</li>
+<ul class="star">
+<li>Initial 0.1 release</li>
+</ul></ul><p class="paragraph"/>
+
+
+<h1 id="gettingStarted">2 Getting started</h1>
+To get started, yo need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.goovy</code> file:
+<div class="code"><pre>plugins &#123;
+    &#8230;
+    compile ':optimus:0.1'
+&#125;</pre></div>
+You must have at least one domain class with some constraints, for example:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
+    <span class="java&#45;object">String</span> lastName
+    Date birthdate
+    <span class="java&#45;object">Boolean</span> enabled<p class="paragraph"/>    <span class="java&#45;keyword">static</span> constraints = &#123;
+        name blank:<span class="java&#45;keyword">false</span>, size:1..100
+        lastName blank:<span class="java&#45;keyword">false</span>, size:1..100
+    &#125;<p class="paragraph"/>&#125;</pre></div>
+Then, you can generate the corresponding artifacts by executing the <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> command:
+<div class="code"><pre>grails optimus&#45;all Person</pre></div>
+<blockquote class="note">
+Be aware that you don't need to write the full package of the domain class. Also, if you specify the wildcard (*) then the artifacts will be generated for all domain classes.
+</blockquote>
+The command will tell you about what artifacts have been created, such as config files, unit tests, services, controllers, log files and views:
+<div class="code"><pre>$ grails optimus&#45;all Person
+| Finished generation of 'config.properties' file
+| Finished generation of 'Config.groovy' file
+| Finished generation of 'DataSource.groovy' file
+| Finished generation of config artifacts
+| Finished generation of constraints unit tests
+| Finished generation of ListUtils class file
+| Finished generation of service class files
+| Finished generation of mock classes
+| Finished generation of 'list&#45;max' service unit tests
+| Finished generation of 'list&#45;offset' service unit tests
+| Finished generation of 'list&#45;sort&#45;order' service unit tests
+| Finished generation of 'list' service unit tests
+| Finished generation of 'create' service unit tests
+| Finished generation of 'update' service unit tests
+| Finished generation of 'get' service unit tests
+| Finished generation of 'delete' service unit tests
+| Finished generation of service unit tests
+| Finished generation of 'list' service logs
+| Finished generation of 'create' service logs
+| Finished generation of 'update' service logs
+| Finished generation of 'get' service logs
+| Finished generation of 'delete' service logs
+| Finished generation of service logs
+| Finished generation of cracking service
+| Finished generation of controller class files
+| Finished generation of 'index' controller unit tests
+| Finished generation of 'content' controller unit tests
+| Finished generation of 'list' controller unit tests
+| Finished generation of 'create' controller unit tests
+| Finished generation of 'save' controller unit tests
+| Finished generation of 'edit' controller unit tests
+| Finished generation of 'update' controller unit tests
+| Finished generation of 'delete' controller unit tests
+| Finished generation of controller unit tests
+| Finished generation of 'index' files
+| Finished installation of Optimus templates
+| Finished generation of 'content' templates
+| Finished generation of 'list' templates
+| Finished generation of 'form' templates
+| Finished generation of views artifacts
+| Finished generation of artifacts
+$</pre></div>
+<blockquote class="warning">
+The <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> command will overwrite some important files, such as <code>grails-app/conf/Config.groovy</code> and <code>grails-app/conf/DataSource.groovy</code>. Be careful if you are working on an existing application and you have previosuly customized these files.
+</blockquote>
+You can try the generated artifacts by executing the <code>test-app</code> and <code>run-app</code> commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the <a href="http://getbootstrap.com/" target="blank">Twitter Bootstrap</a> framework and they are AJAX-based. Also, you will see some logs in the console output.
+
+
+
+<h2 id="customGeneration">2.1 Artifacts custom generation</h2>
+The <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> command makes use of other commands to do its job. You can customize the generation of the artifacts by executing these commands separately, as we explain in the following sections.
+
+
+
+<h1 id="config">3 Setting up the configuration</h1>
+The Optimus plugin lets you generate/overwrite some configuration artifacts. Basically, the plugin generates a <code>config.properties</code> external file, overrides the default LOG4J configuration and modifies the way the application gets the database data connection.<p class="paragraph"/>To do this, execute the <a href="../ref/Scripts/create-config.html" class="Scripts">create-config</a> command:
+<div class="code"><pre>grails create&#45;config &#91;domainClass&#93;</pre></div>
+<blockquote class="note">
+The domain class name is required. It is used in the <code>grails-app/conf/Config.groovy</code> file generation.
+</blockquote>
+The plugin will generate the following artifacts:
+<ul class="star">
+<li><code>src/java/config.properties</code>. Contains the database data connection.</li>
+<li><code>grails-app/conf/Config.groovy</code>. It contains the reference to the previous <code>config.properties</code> file and the modified configuration for LOG4J.</li>
+<li><code>grails-app/conf/DataSource.groovy</code>. It is similar to the original <code>DataSource.groovy</code> file, but data connection has been changed to the <code>config.properties</code> file</li>
+</ul><p class="paragraph"/>You can generate each file with the following commands:
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>src/java/config.properties</code></td><td><a href="../ref/Scripts/create-properties-file.html" class="Scripts">create-properties-file</a></td></tr><tr class="table-even"><td><code>grails-app/conf/Config.groovy</code></td><td><a href="../ref/Scripts/create-config-file.html" class="Scripts">create-config-file</a></td></tr><tr class="table-odd"><td><code>grails-app/conf/DataSource.groovy</code></td><td><a href="../ref/Scripts/create-datasource-file.html" class="Scripts">create-datasource-file</a></td></tr></table>
+<blockquote class="warning">
+These commands will overwrite some important files, such as <code>grails-app/conf/Config.groovy</code> and <code>grails-app/conf/DataSource.groovy</code>. Be careful if you are working on an existing application and you have previosuly customized these files.
+</blockquote>
+<h3>src/java/config.properties</h3>
+The <code>src/java/config.properties</code> file contains something like this:
+<div class="code"><pre>&#35;Development and test enviroment
+dataSource.dbCreate=create&#45;drop
+dataSource.driverClassName=org.h2.Driver
+dataSource.url=jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000
+dataSource.username=sa
+dataSource.password=
+dataSource.dialect=org.hibernate.dialect.H2Dialect<p class="paragraph"/>&#35;Production enviroment (MySQL)
+&#35;dataSource.driverClassName=com.mysql.jdbc.Driver
+&#35;dataSource.url=jdbc:mysql://localhost:3306/mydb
+&#35;dataSource.username=username
+&#35;dataSource.password=password
+&#35;dataSource.dialect=org.hibernate.dialect.MySQLDialect<p class="paragraph"/>&#35;Production enviroment (PostgreSQL)
+&#35;dataSource.driverClassName=org.postgresql.Driver
+&#35;dataSource.url=jdbc:postgresql://localhost:5432/mydb
+&#35;dataSource.username=username
+&#35;dataSource.password=password
+&#35;dataSource.dialect=org.hibernate.dialect.PostgreSQLDialect</pre></div>
+All the properties that you would set in the <code>grails-app/conf/DataSource.groovy</code> file has been externalized to this file. When you deploy the application, you can change these values without recompile the entire application. You just have to restart it.
+<h3>grails-app/conf/Config.groovy</h3>
+This files remains pretty equal to the original one generated by Grails. The things the plugin changes are the configuration of the <code>src/java/config.properties</code> file:
+<div class="code"><pre>grails.config.locations = &#91; <span class="java&#45;quote">"classpath:config.properties"</span> &#93;</pre></div>
+Besides, the default configuration for LOG4J has been changed:
+<div class="code"><pre><span class="java&#45;keyword">import</span> org.apache.log4j.rolling.RollingFileAppender
+<span class="java&#45;keyword">import</span> org.apache.log4j.rolling.TimeBasedRollingPolicy
+<span class="java&#45;keyword">import</span> org.apache.log4j.EnhancedPatternLayout
+&#8230;
+// packages to include in Spring bean scanning
+grails.spring.bean.packages = &#91; 'mypackage.aop' &#93;
+&#8230;
+log4j = &#123;<p class="paragraph"/>    def layout = <span class="java&#45;keyword">new</span> EnhancedPatternLayout()
+    layout.conversionPattern = '%d&#123;dd&#45;MM&#45;yyyy HH:mm:ss.SSS&#125; &#91;%t&#93; %&#45;5p %c&#123;1&#125; &#45; %m%n'
+    def rollingFile = <span class="java&#45;keyword">new</span> RollingFileAppender()
+    rollingFile.name = 'rollingFileAppender'
+    rollingFile.layout = layout
+    def rollingPolicy = <span class="java&#45;keyword">new</span> TimeBasedRollingPolicy()
+    rollingPolicy.fileNamePattern = 'log/activity.%d.zip'
+    rollingPolicy.activeFileName = 'log/activity'
+    rollingPolicy.activateOptions()
+    rollingFile.rollingPolicy = rollingPolicy<p class="paragraph"/>    appenders &#123;
+        appender rollingFile
+        '<span class="java&#45;keyword">null</span>' name:'stacktrace'
+    &#125;// End of closure<p class="paragraph"/>    error rollingFileAppender:&#91;
+        'org.codehaus.groovy.grails.web.servlet',        // controllers
+        'org.codehaus.groovy.grails.web.pages',          // GSP
+        'org.codehaus.groovy.grails.web.sitemesh',       // layouts
+        'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+        'org.codehaus.groovy.grails.web.mapping',        // URL mapping
+        'org.codehaus.groovy.grails.commons',            // core / classloading
+        'org.codehaus.groovy.grails.plugins',            // plugins
+        'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
+        'org.springframework',
+        'org.hibernate',
+        'net.sf.ehcache.hibernate'
+    &#93;<p class="paragraph"/>    info rollingFileAppender:&#91;
+        'mypackage.aop'
+    &#93;<p class="paragraph"/>&#125;// End of closure</pre></div>
+With this configuration, you can see the logs in the <code>log</code> directory and in the console output at the same time. You can also notice that the logs are zipped and stored every day.
+<h3>grails-app/conf/DataSource.groovy</h3>
+The data connection has been removed completely from this file and now it appears in the <code>src/java/config.properties</code> file:
+<div class="code"><pre>dataSource &#123;
+    url = <span class="java&#45;quote">""</span>
+    driverClassName = <span class="java&#45;quote">""</span>
+    username = <span class="java&#45;quote">""</span>
+    password = <span class="java&#45;quote">""</span>
+    dialect = <span class="java&#45;quote">""</span>
+&#125;
+hibernate &#123;
+    cache.use_second_level_cache = <span class="java&#45;keyword">true</span>
+    cache.use_query_cache = <span class="java&#45;keyword">false</span>
+    cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory'
+&#125;
+// environment specific settings
+environments &#123;
+    development &#123;
+        dataSource &#123;
+            dbCreate = <span class="java&#45;quote">""</span>
+        &#125;
+    &#125;
+    test &#123;
+        dataSource &#123;
+            dbCreate = <span class="java&#45;quote">""</span>
+        &#125;
+    &#125;
+    production &#123;
+        dataSource &#123;
+            pooled = <span class="java&#45;keyword">true</span>
+            properties &#123;
+               maxActive = &#45;1
+               minEvictableIdleTimeMillis=1800000
+               timeBetweenEvictionRunsMillis=1800000
+               numTestsPerEvictionRun=3
+               testOnBorrow=<span class="java&#45;keyword">true</span>
+               testWhileIdle=<span class="java&#45;keyword">true</span>
+               testOnReturn=<span class="java&#45;keyword">true</span>
+               validationQuery=<span class="java&#45;quote">"SELECT 1"</span>
+            &#125;
+        &#125;
+    &#125;
+&#125;</pre></div>
+
+
+
+<h1 id="unitTestDomainClasses">4 Creating unit tests for domain classes</h1>
+Testing domain class constraints is important. It contains logic that you should test if you want to prevent some very common errors, such as typos.<p class="paragraph"/>The Optimus plugin can do this for you with the <a href="../ref/Scripts/create-unit-test-constraints.html" class="Scripts">create-unit-test-constraints</a> command:
+<div class="code"><pre>grails create&#45;unit&#45;test&#45;constraints &#91;domainClass&#93;</pre></div>
+Suppose you have a domain class like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
+    <span class="java&#45;object">String</span> lastName
+    Date birthdate
+    <span class="java&#45;object">Boolean</span> enabled<p class="paragraph"/>    <span class="java&#45;keyword">static</span> constraints = &#123;
+        name blank:<span class="java&#45;keyword">false</span>, size:1..100
+        lastName blank:<span class="java&#45;keyword">false</span>, size:1..100
+    &#125;<p class="paragraph"/>&#125;</pre></div>
+With the <a href="../ref/Scripts/create-unit-test-constraints.html" class="Scripts">create-unit-test-constraints</a> command, you will get the following unit test files:
+<ul class="star">
+<li><code>test/unit/mypackage/PersonNameConstraintsTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonLastNameConstraintsTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonBirthdateConstraintsTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonEnabledConstraintsTests.groovy</code></li>
+</ul><p class="paragraph"/>If we open the <code>test/unit/mypackage/PersonNameConstraintsTests.groovy</code> file, we will find something like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
+<span class="java&#45;keyword">import</span> org.junit.&#42;<p class="paragraph"/>@TestFor(Person)
+class PersonNameConstraintsTests &#123;<p class="paragraph"/>    @Before
+    void setUp() &#123;
+        mockForConstraintsTests( Person, &#91; <span class="java&#45;keyword">new</span> Person() &#93; )
+    &#125;<p class="paragraph"/>    void testBlank() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person()
+        instance.name = ''
+        assertFalse <span class="java&#45;quote">"'validate' should be <span class="java&#45;keyword">false</span>"</span>, instance.validate()
+        assertNotNull <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should not be <span class="java&#45;keyword">null</span>"</span>,
+            instance.errors&#91; 'name' &#93;
+        assertEquals <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should be 'blank'"</span>,
+            'blank', instance.errors&#91; 'name' &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testSizeTooLong() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person()
+        instance.name = 'A' &#42; 101
+        assertFalse <span class="java&#45;quote">"'validate' should be <span class="java&#45;keyword">false</span>"</span>, instance.validate()
+        assertNotNull <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should not be <span class="java&#45;keyword">null</span>"</span>,
+            instance.errors&#91; 'name' &#93;
+        assertEquals <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should be 'size'"</span>,
+            'size', instance.errors&#91; 'name' &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testNullable() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person()
+        instance.name = <span class="java&#45;keyword">null</span>
+        assertFalse <span class="java&#45;quote">"'validate' should be <span class="java&#45;keyword">false</span>"</span>, instance.validate()
+        assertNotNull <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should not be <span class="java&#45;keyword">null</span>"</span>,
+            instance.errors&#91; 'name' &#93;
+        assertEquals <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should be 'nullable'"</span>,
+            'nullable', instance.errors&#91; 'name' &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+As you can see, the plugin generates unit tests for all the constraints contained in the <code>name</code> property.
+<blockquote class="note">
+The plugin can manage all the constraints but <code>matches</code> and <code>validator</code>, due to their complexity. The plugin will generate the unit test method but you must set some values by hand. If you forget this, the method will throw an exception every time you run the test.
+</blockquote>
+
+
+
+<h1 id="services">5 Creating services</h1>
+Almost all the Java Web Applications consider a "service" tier where the application logic takes place and Grails applications are included, but currently there isn't a "scaffolded" way to generate them. The Optimus plugin lets you do this, including the generation of the corresponding unit tests (as we explained in the following section).<p class="paragraph"/>You have to execute the <a href="../ref/Scripts/create-service-class.html" class="Scripts">create-service-class</a> command:
+<div class="code"><pre>grails create&#45;service&#45;class &#91;domainClass&#93;</pre></div>
+Suppose you have a class named <code>mypackage.Person</code>. The class generated in <code>grails-app/services/mypackage/PersonService.groovy</code> will look like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.gorm.DetachedCriteria
+<span class="java&#45;keyword">import</span> grails.validation.ValidationException<p class="paragraph"/>class PersonService &#123;<p class="paragraph"/>    Map list( Map params ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">this</span>.processParams( params )
+        def criteria = <span class="java&#45;keyword">new</span> DetachedCriteria( Person ).build &#123;&#125;
+        &#91; items:criteria.list( params ), total:criteria.count() &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void create( Person person ) &#123;
+        <span class="java&#45;keyword">this</span>.save( person )
+    &#125;<p class="paragraph"/>    void update( Person person ) &#123;
+        <span class="java&#45;keyword">this</span>.save( person )
+    &#125;<p class="paragraph"/>    Person get( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( id == <span class="java&#45;keyword">null</span> ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
+            <span class="java&#45;quote">"Parameter 'id' is <span class="java&#45;keyword">null</span>"</span> )
+        Person.findById( id )<p class="paragraph"/>    &#125;<p class="paragraph"/>    void delete( Person person ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( person == <span class="java&#45;keyword">null</span> ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
+            <span class="java&#45;quote">"Parameter 'person' is <span class="java&#45;keyword">null</span>"</span> )
+        person.delete()<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void processParams( params ) &#123;<p class="paragraph"/>        params.max = ListUtils.parseMax( params.max )
+        params.offset = ListUtils.parseOffset( params.offset )
+        params.order = ListUtils.parseOrder( params.order )
+        def fields = &#91; 'name', 'lastName', 'birthdate', 'enabled', 'id' &#93;
+        params.sort = ListUtils.parseSort( params.sort, fields )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void save( Person person ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( !person ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
+            <span class="java&#45;quote">"Parameter 'person' is <span class="java&#45;keyword">null</span>"</span> )
+        <span class="java&#45;keyword">try</span> &#123;
+            person.save( failOnError:<span class="java&#45;keyword">true</span> )
+        &#125; <span class="java&#45;keyword">catch</span> ( ValidationException ) &#123;
+            <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
+                <span class="java&#45;quote">"Parameter 'person' is invalid"</span> )
+        &#125;<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+The plugin generates the necessary methods for all the CRUD operations. As you probably realize, there is a class called in the <code>processParams</code> method named <code>ListUtils</code>. This class is automatically generated and placed in the <code>src/groovy/mypackage/ListUtils.groovy</code> file, and it contains utility methods for the <code>list</code> service method:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class ListUtils &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> <span class="java&#45;object">Integer</span> parseMax( <span class="java&#45;object">String</span> max ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( max?.isInteger() &#38;&#38; max != '0' ) &#123;
+            def maxInteger = <span class="java&#45;keyword">new</span> <span class="java&#45;object">Integer</span>( max )
+            <span class="java&#45;keyword">return</span> <span class="java&#45;object">Math</span>.min( maxInteger, 10 )
+        &#125;
+        10<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> <span class="java&#45;object">Integer</span> parseOffset( <span class="java&#45;object">String</span> offset ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( offset?.isInteger() ) &#123;
+            <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">new</span> <span class="java&#45;object">Integer</span>( offset )
+        &#125;
+        <span class="java&#45;keyword">null</span><p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> <span class="java&#45;object">String</span> parseOrder( <span class="java&#45;object">String</span> order ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( order == 'asc' || order == 'desc' ) &#123;
+            <span class="java&#45;keyword">return</span> order
+        &#125;
+        <span class="java&#45;keyword">null</span><p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> <span class="java&#45;object">String</span> parseSort( sort, fields ) &#123;
+        fields.find &#123; it == sort &#125;
+    &#125;<p class="paragraph"/>&#125;</pre></div>
+As you can see, this class avoids some common format problems, such as non-numeric values for "max" and "offset" properties, and constraints the fields that can be used with the "sort" property.
+
+
+
+<h1 id="unitTestServices">6 Creating unit tests for services</h1>
+When you create a service class with the <a href="../ref/Scripts/create-service-class.html" class="Scripts">create-service-class</a> command, it is highly recommended that you also create the corresponding unit tests. You can achieve this by executing the <a href="../ref/Scripts/create-unit-test-service.html" class="Scripts">create-unit-test-service</a> command:
+<div class="code"><pre>grails create&#45;unit&#45;test&#45;service &#91;domainClass&#93;</pre></div>
+Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-unit-test-service.html" class="Scripts">create-unit-test-service</a> command, you will get the following unit test files:
+<ul class="star">
+<li><code>test/unit/mypackage/PersonServiceListTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceListMaxTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceListOffsetTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceListSortOrderTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceCreateTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceUpdateTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceGetTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonServiceDeleteTests.groovy</code></li>
+</ul><p class="paragraph"/>You can generate each file with the following commands:
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list.html" class="Scripts">create-unit-test-service-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max.html" class="Scripts">create-unit-test-service-list-max</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset.html" class="Scripts">create-unit-test-service-list-offset</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html" class="Scripts">create-unit-test-service-list-sort-order</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create.html" class="Scripts">create-unit-test-service-create</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update.html" class="Scripts">create-unit-test-service-update</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get.html" class="Scripts">create-unit-test-service-get</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete.html" class="Scripts">create-unit-test-service-delete</a></td></tr></table>
+If we open the <code>test/unit/mypackage/PersonServiceCreateTests.groovy</code> file, we will find something like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
+<span class="java&#45;keyword">import</span> org.junit.&#42;
+<span class="java&#45;keyword">import</span> org.junit.rules.&#42;<p class="paragraph"/>@TestFor(PersonService)
+@Mock(Person)
+class PersonServiceCreateTests &#123;<p class="paragraph"/>    @Rule
+    <span class="java&#45;keyword">public</span> ExpectedException thrown = ExpectedException.none()<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def instance = PersonMock.mock( 0 )
+        assertEquals <span class="java&#45;quote">"'count' should be 0"</span>, 0, Person.count()
+        service.create( instance )
+        assertEquals <span class="java&#45;quote">"'count' should be 1"</span>, 1, Person.count()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testPersonNull() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">null</span>
+        thrown.expect( IllegalArgumentException )
+        thrown.expectMessage( <span class="java&#45;quote">"Parameter 'person' is <span class="java&#45;keyword">null</span>"</span> )
+        service.create( instance )<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testPersonInvalid() &#123;<p class="paragraph"/>        def instance = PersonMock.mock( 0 )
+        instance.name = <span class="java&#45;keyword">null</span>
+        thrown.expect( IllegalArgumentException )
+        thrown.expectMessage( <span class="java&#45;quote">"Parameter 'person' is invalid"</span> )
+        service.create( instance )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+The plugin generates a unit test that makes use of the <code>ExpectedException</code> JUnit class for managing the tests exceptions. You can notice the presence of the <code>PersonMock</code> class.  This class is automatically generated and placed in the <code>src/groovy/mypackage/PersonMock.groovy</code> file, and it contains utility methods for mocking a <code>Person</code> valid domain class:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class PersonMock &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> Person mock( id ) &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person(
+            name:'A' &#42; 1,
+            lastName:'A' &#42; 1,
+            birthdate:<span class="java&#45;keyword">new</span> Date(),
+            enabled:<span class="java&#45;keyword">true</span>,
+        )
+        instance<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+If you change the id of this class (to <code>assigned</code>, for example), this class already consider it, allowing you to set the id by hand.<p class="paragraph"/>You can generate the mock class separately by executing the <a href="../ref/Scripts/create-mock.html" class="Scripts">create-mock</a> command.
+
+
+
+<h1 id="logsServices">7 Creating logs for services</h1>
+Auditing and logging is one of the most important things you must consider when building web applications. Grails injects the <code>log</code> object for you in every artifact (such as domain classes, controllers and services), but the Spring Aspect Oriented Programming approach tells you that it is not a clean way to manage the logging. We strongly recommend the use of Spring AOP for this task.<p class="paragraph"/>Sometimes, it is difficult to configure AOP in Grails. There are a lot of blog entries suggesting you how to do it, but currently there isn't a standard approach. With this in mind, Optimus plugin lets you generate the corresponding AOP logs for every service method.<p class="paragraph"/>You can achieve this by executing the <a href="../ref/Scripts/create-logs.html" class="Scripts">create-logs</a> command:
+<div class="code"><pre>grails create&#45;logs &#91;domainClass&#93;</pre></div>
+Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-logs.html" class="Scripts">create-logs</a> command, you will get the following log files:
+<ul class="star">
+<li><code>src/groovy/mypackage/aop/PersonServiceList.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceCreate.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceUpdate.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceGet.groovy</code></li>
+<li><code>src/groovy/mypackage/aop/PersonServiceDelete.groovy</code></li>
+</ul><p class="paragraph"/>You can generate each file with the following commands:
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceList.groovy</code></td><td><a href="../ref/Scripts/create-service-list-log.html" class="Scripts">create-service-list-log</a></td></tr><tr class="table-even"><td><code>src/groovy/mypackage/aop/PersonServiceCreate.groovy</code></td><td><a href="../ref/Scripts/create-service-create-log.html" class="Scripts">create-service-create-log</a></td></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceUpdate.groovy</code></td><td><a href="../ref/Scripts/create-service-update-log.html" class="Scripts">create-service-update-log</a></td></tr><tr class="table-even"><td><code>src/groovy/mypackage/aop/PersonServiceGet.groovy</code></td><td><a href="../ref/Scripts/create-service-get-log.html" class="Scripts">create-service-get-log</a></td></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceDelete.groovy</code></td><td><a href="../ref/Scripts/create-service-delete-log.html" class="Scripts">create-service-delete-log</a></td></tr></table>
+If we open the <code>src/groovy/mypackage/aop/PersonServiceList.groovy</code> file, we will find something like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage.aop<p class="paragraph"/><span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.AfterReturning
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.AfterThrowing
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Aspect
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Before
+<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Pointcut<p class="paragraph"/><span class="java&#45;keyword">import</span> org.springframework.stereotype.Component<p class="paragraph"/>@Component
+@Aspect
+class PersonServiceList &#123;<p class="paragraph"/>    @Pointcut(
+        value='execution(java.util.Map com.company.app.PersonService.list(..)) &#38;&#38; bean(personService) &#38;&#38; args(params)',
+        argNames='params')
+    <span class="java&#45;keyword">public</span> void list( Map params ) &#123;&#125;<p class="paragraph"/>    @Before('list(params)')
+    void before( Map params ) &#123;
+        log.info( <span class="java&#45;quote">"Begins request: $&#123;params&#125;"</span> )
+    &#125;<p class="paragraph"/>    @AfterReturning(
+        pointcut='list(java.util.Map)',
+        returning='map')
+    void afterReturning( Map map ) &#123;
+        log.info( <span class="java&#45;quote">"End of request: $&#123;map&#125;"</span> )
+    &#125;<p class="paragraph"/>    @AfterThrowing(
+        pointcut='list(java.util.Map)',
+        throwing='e' )
+    void afterThrowing( Exception e ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; ''
+        message &#60;&#60; <span class="java&#45;quote">"Error in request"</span>
+        message &#60;&#60; <span class="java&#45;quote">": $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;"</span>
+        log.info( message.toString() )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+There are some annotations that does the magic:
+<ul class="star">
+<li><code>Component</code>. Tells Spring that this class should be considered as Spring bean. It is configured via <code>grails-app/conf/Config.groovy</code> in the <code>grails.spring.bean.packages</code> property (the plugin does it for you).</li>
+<li><code>Aspect</code>. Indicates that the class must be managed as an aspect.</li>
+<li><code>Pointcut</code>. Indicates the method to be logged.</li>
+<li><code>Before</code>. Indicates the method to be executed before the method indicated in the <code>Pointcut</code> annotation is invoked.</li>
+<li><code>AfterReturning</code>. Indicates the method to be executed after the method indicated in the <code>Pointcut</code> annotation returns a value.</li>
+<li><code>AfterThrowing</code>. Indicates the method to be executed if the method indicated in the <code>Pointcut</code> annotation throws an exception.</li>
+</ul><p class="paragraph"/><blockquote class="note">
+We strongly recommend you to read the <a href="http://docs.spring.io/spring/docs/3.2.4.RELEASE/spring-framework-reference/html/aop.html" target="blank">Spring AOP</a> documentation for a further explanation.
+</blockquote>
+When you run the application and execute some actions, the logs will appear in the output console and they will be written in the <code>log/activity</code> file:<p class="paragraph"/>Listing items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceList  &#45; Begins request: &#91;action:content, controller:person&#93;
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceList  &#45; End of request: &#91;items:&#91;&#93;, total:0&#93;</pre></div>
+Creating items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceCreate  &#45; Begins request: com.company.app.Person : (unsaved)
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceCreate  &#45; End of request</pre></div>
+Getting items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceGet  &#45; Begins request:1
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceGet  &#45; End of request: com.company.app.Person : 1</pre></div>
+Updating items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceUpdate  &#45; Begins request: com.company.app.Person : 1
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceUpdate  &#45; End of request</pre></div>
+Deleting items:
+<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceDelete  &#45; Begins request:com.company.app.Person : 1
+yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceDelete  &#45; End of request</pre></div>
+<blockquote class="note">
+The default output is poor friendly (It uses the <code>toString</code> default method). You can edit the log output according to your own needings.
+</blockquote>
+
+
+
+<h1 id="controllers">8 Creating controllers</h1>
+The Optimus plugin generates views for you in a similar way that Grails does, but the first one uses the 3.0.0 version of the <a href="http://getbootstrap.com/" target="blank">Twitter Bootstrap</a> framework and the Grails AJAX support, so controllers should be a bit different.<p class="paragraph"/>You can use the <a href="../ref/Scripts/create-controller-class.html" class="Scripts">create-controller-class</a> command:
+<div class="code"><pre>grails create&#45;controller&#45;class &#91;domainClass&#93;</pre></div>
+Suppose you have a class named <code>mypackage.Person</code>. The class generated in <code>grails-app/controllers/mypackage/PersonController.groovy</code> will look like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class PersonController &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> allowedMethods = &#91;
+        index:'GET',
+        content:'GET',
+        list:'GET',
+        create:'GET',
+        save:'POST',
+        edit:'GET',
+        update:'POST',
+        delete:'POST'
+    &#93;<p class="paragraph"/>    def personService
+    def crackingService<p class="paragraph"/>    def index() &#123;
+        redirect( action:'content', params:params )
+    &#125;<p class="paragraph"/>    def content() &#123;
+        <span class="java&#45;keyword">this</span>.renderList( 'content' )
+    &#125;<p class="paragraph"/>    def list() &#123;
+        <span class="java&#45;keyword">this</span>.renderList( 'list' )
+    &#125;<p class="paragraph"/>    def create() &#123;<p class="paragraph"/>        def model = &#91; personInstance:<span class="java&#45;keyword">new</span> Person( params ) &#93;
+        render( template:'form', model:model )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def save() &#123;<p class="paragraph"/>        def person = <span class="java&#45;keyword">new</span> Person( params )
+        <span class="java&#45;keyword">this</span>.saveOnDb( person, 'create',
+            'person.created.message' )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def edit( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
+        map.edit = <span class="java&#45;keyword">true</span>
+        render( template:'form', model:map )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def update( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
+        map.personInstance.properties = params
+        map.edit = <span class="java&#45;keyword">true</span>
+        <span class="java&#45;keyword">this</span>.saveOnDb( map.personInstance, 'update',
+            'person.updated.message', <span class="java&#45;keyword">true</span> )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def delete( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
+        personService.delete( map.personInstance )
+        flash.listMessage = message( code:'<span class="java&#45;keyword">default</span>.deleted.message',
+            args:&#91; message( code:'person.label',
+            <span class="java&#45;keyword">default</span>:'Person' ), id &#93; )
+        redirect( action:'content' )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void renderList( template ) &#123;<p class="paragraph"/>        def model = &#91;:&#93;
+        def result = personService.list( params )
+        model.items = result.items
+        model.total = result.total
+        render( template:template, model:model )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> Map get( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( !id ) &#123;
+            <span class="java&#45;keyword">this</span>.notifyCrack()
+            <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
+        &#125;
+        def person = personService.get( id )
+        <span class="java&#45;keyword">if</span> ( !person ) &#123;
+            <span class="java&#45;keyword">this</span>.notifyCrack()
+            <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
+        &#125;
+        &#91; personInstance:person &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void saveOnDb( person, method, msg, edit = <span class="java&#45;keyword">false</span> ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
+            personService.<span class="java&#45;quote">"$&#123;method&#125;"</span>( person )
+        &#125; <span class="java&#45;keyword">catch</span> ( IllegalArgumentException e ) &#123;
+            render( template:'form', model:&#91; personInstance:person,
+                edit:edit &#93; )
+            <span class="java&#45;keyword">return</span>
+        &#125;
+        flash.formMessage = message(
+            code:<span class="java&#45;quote">"<span class="java&#45;keyword">default</span>.$&#123;edit?'updated':'created'&#125;.message"</span>,
+            args:&#91; message( code:'person.label',
+            <span class="java&#45;keyword">default</span>:'Person' ), person.id&#93;)
+        redirect( action:'edit', id:person.id )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void notifyCrack() &#123;<p class="paragraph"/>        crackingService.notify( request, params )
+        redirect( controller:'logout' )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+As you can see, the controller makes use of the corresponding service to do its job. Therefore, every action performed by the controller is logged. There is another service called <code>CrackingService</code>. This one is automatically generated and it is invoked when the application tries to get an instance that doesn't exists (<code>get</code> method). Generally, this can be reached by cracking the web application, which is always unavoidable but you can handle it. The default implementation of the <code>CrackingService</code> is shown in the following lines:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> javax.servlet.http.HttpServletRequest<p class="paragraph"/>class CrackingService &#123;<p class="paragraph"/>    void notify( HttpServletRequest request, Map params ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; <span class="java&#45;quote">"Request $&#123;request.requestURL&#125;"</span>
+        message &#60;&#60; <span class="java&#45;quote">" from $&#123;request.remoteAddr&#125;"</span>
+        message &#60;&#60; <span class="java&#45;quote">" and params $&#123;params&#125;"</span>
+        message &#60;&#60; <span class="java&#45;quote">" has been detected as unusual activity"</span>
+        println message.toString()<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+Of course, you can customize this functionality according to your own needings.
+<blockquote class="note">
+You realized that the <code>notifyCrack</code> method in the <code>PersonController</code> makes a redirect to the <code>Logout</code> controller. This is due to the compatibility with the <a href="http://grails.org/plugin/spring-security-core" target="blank">Spring Security Plugin</a> in the near future, but you can of course modify this functionality.
+</blockquote>
+
+
+
+<h1 id="unitTestControllers">9 Creating unit tests for controllers</h1>
+When you create a controller class with the <a href="../ref/Scripts/create-controller-class.html" class="Scripts">create-controller-class</a> command, it is highly recommended that you also create the corresponding unit tests. You can achieve this by executing the <a href="../ref/Scripts/create-unit-test-controller.html" class="Scripts">create-unit-test-controller</a> command:
+<div class="code"><pre>grails create&#45;unit&#45;test&#45;controller &#91;domainClass&#93;</pre></div>
+Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-unit-test-controller.html" class="Scripts">create-unit-test-controller</a> command, you will get the following unit test files:
+<ul class="star">
+<li><code>test/unit/mypackage/PersonControllerIndexTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerContentTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerListTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerCreateTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerSaveTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerEditTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerUpdateTests.groovy</code></li>
+<li><code>test/unit/mypackage/PersonControllerDeleteTests.groovy</code></li>
+</ul><p class="paragraph"/>You can generate each file with the following commands:
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerIndexTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-index.html" class="Scripts">create-unit-test-controller-index</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerContentTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-content.html" class="Scripts">create-unit-test-controller-content</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerListTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-list.html" class="Scripts">create-unit-test-controller-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerCreateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-create.html" class="Scripts">create-unit-test-controller-create</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerSaveTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-save.html" class="Scripts">create-unit-test-controller-save</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerEditTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-edit.html" class="Scripts">create-unit-test-controller-edit</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerUpdateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-update.html" class="Scripts">create-unit-test-controller-update</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerDeleteTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-delete.html" class="Scripts">create-unit-test-controller-delete</a></td></tr></table>
+If we open the <code>test/unit/mypackage/PersonControllerSaveTests.groovy</code> file, we will find something like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.GrailsMock
+<span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
+<span class="java&#45;keyword">import</span> org.junit.&#42;<p class="paragraph"/>@TestFor(PersonController)
+@Mock(Person)
+class PersonControllerSaveTests &#123;<p class="paragraph"/>    @Before
+    void setUp() &#123;
+        views&#91; '/person/_form.gsp' &#93; = <span class="java&#45;keyword">this</span>.getTemplate()
+    &#125;<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def control = <span class="java&#45;keyword">this</span>.mockPersonService()
+        request.method = 'POST'
+        <span class="java&#45;keyword">this</span>.setUpParams()
+        controller.save()
+        def expected = '<span class="java&#45;keyword">default</span>.created.message'
+        assertEquals <span class="java&#45;quote">"'message' should be '$&#123;expected&#125;'"</span>,
+            expected, flash.formMessage
+        expected = <span class="java&#45;quote">"/person/edit/1"</span>
+        assertEquals <span class="java&#45;quote">"'redirectedUrl' should be '$&#123;expected&#125;'"</span>,
+            expected, response.redirectedUrl
+        assertEquals <span class="java&#45;quote">"'status' should be 302"</span>, 302, response.status
+        control.verify()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testParamsInvalid() &#123;<p class="paragraph"/>        def control = <span class="java&#45;keyword">this</span>.mockPersonService( <span class="java&#45;keyword">false</span> )
+        request.method = 'POST'
+        <span class="java&#45;keyword">this</span>.setUpParams()
+        params.name = <span class="java&#45;keyword">null</span>
+        controller.save()
+        def expected = 'OK'
+        assertEquals <span class="java&#45;quote">"'text' should be '$&#123;expected&#125;'"</span>,
+            expected, response.text
+        assertEquals <span class="java&#45;quote">"'status' should be 200"</span>, 200, response.status
+        control.verify()<p class="paragraph"/>    &#125;<p class="paragraph"/>    @Ignore( 'See http://jira.grails.org/browse/GRAILS&#45;8426' )
+    void testRequestMethodInvalid() &#123;<p class="paragraph"/>        request.method = 'GET'
+        controller.save()
+        assertEquals <span class="java&#45;quote">"'status' should be 405"</span>, 405, response.status<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> <span class="java&#45;object">String</span> getTemplate() &#123;
+        '&#60;g:<span class="java&#45;keyword">if</span> test=<span class="java&#45;quote">"$&#123;personInstance&#125;"</span>&#62;OK&#60;/g:<span class="java&#45;keyword">if</span>&#62;&#60;g:<span class="java&#45;keyword">else</span>&#62;ERROR&#60;/g:<span class="java&#45;keyword">else</span>&#62;'
+    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> GrailsMock mockPersonService( save = <span class="java&#45;keyword">true</span> ) &#123;<p class="paragraph"/>        def control = mockFor( PersonService )
+        control.demand.create( 1 ) &#123; Person instance &#45;&#62;
+            <span class="java&#45;keyword">if</span> ( save ) &#123;
+                instance.id = 1
+                instance.save( failOnError:<span class="java&#45;keyword">true</span> )
+            &#125; <span class="java&#45;keyword">else</span> <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException( 'error' )
+        &#125;
+        controller.personService = control.createMock()
+        control<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void setUpParams() &#123;<p class="paragraph"/>        def mock = PersonMock.mock( 1 )
+        mock.properties.each&#123; params.<span class="java&#45;quote">"$&#123;it.key&#125;"</span> = it.value &#125;<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+The unit tests make use of the Grails Testing and JUnit API. We strongly recommend you to read the <a href="http://grails.org/doc/latest/guide/testing.html" target="blank">Grails Testing</a> chapter for a further reference.
+
+
+
+<h1 id="views">10 Creating views</h1>
+Today, most modern web applications make strong use of AJAX and Responsive Web Design, two paradigms that enhances the user experience by making an application looks like a desktop-app in the browser. The Optimus plugin uses the <a href="http://grails.org/doc/latest/guide/theWebLayer.html#ajax" target="blank">Grails AJAX taglibs</a> and the 3.0.0 version of the <a href="http://getbootstrap.com/" target="blank">Twitter Bootstrap</a> framework, a powerful tool that makes easier the generation of responsive web pages.<p class="paragraph"/>You can generate all the GSP files by executing the <a href="../ref/Scripts/create-views.html" class="Scripts">create-views</a> command:
+<div class="code"><pre>grails create&#45;views &#91;domainClass&#93;</pre></div>
+The plugin will generate the following files:
+<ul class="star">
+<li><code>grails-app/views/index.gsp</code></li>
+<li><code>grails-app/views/_header.gsp</code></li>
+<li><code>grails-app/views/_topMenu.gsp</code></li>
+<li><code>grails-app/views/_menu.gsp</code></li>
+<li><code>grails-app/views/_content.gsp</code></li>
+</ul><p class="paragraph"/>Besides, the plugin will install the following templates:
+<ul class="star">
+<li><code>src/templates/scaffolding/_content.gsp</code></li>
+<li><code>src/templates/scaffolding/_list.gsp</code></li>
+<li><code>src/templates/scaffolding/_form.gsp</code></li>
+<li><code>src/templates/scaffolding/renderEditor.template</code></li>
+</ul><p class="paragraph"/>Finally, if you have a class named <code>mypackage.Person</code>, the plugin will generate the following files:
+<ul class="star">
+<li><code>grails-app/views/person/_content.gsp</code></li>
+<li><code>grails-app/views/person/_list.gsp</code></li>
+<li><code>grails-app/views/person/_form.gsp</code></li>
+</ul><p class="paragraph"/><blockquote class="warning">
+The plugin overrides some important files that could already exist:
+<ul class="star">
+<li><code>grails-app/views/index.gsp</code></li>
+<li><code>src/templates/scaffolding/_form.gsp</code></li>
+<li><code>src/templates/scaffolding/renderEditor.template</code>.</li>
+</ul><p class="paragraph"/>For this reason, use the <a href="../ref/Scripts/create-views.html" class="Scripts">create-views</a> command carefully if you are working on an existing application.
+</blockquote><p class="paragraph"/>You can generate each artifact with the following commands:
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td>Index artifacts (<code>index</code>, <code>_header</code>, <code>_topMenu</code>, <code>_menu</code> and <code>_content</code>)</td><td><a href="../ref/Scripts/create-views-index.html" class="Scripts">create-views-index</a></td></tr><tr class="table-even"><td>Templates (<code>_content</code>, <code>_list</code> and <code>_form</code>)</td><td><a href="../ref/Scripts/install-optimus-templates.html" class="Scripts">install-optimus-templates</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_content.gsp</code></td><td><a href="../ref/Scripts/create-content-template.html" class="Scripts">create-content-template</a></td></tr><tr class="table-even"><td><code>grails-app/views/person/_list.gsp</code></td><td><a href="../ref/Scripts/create-list-template.html" class="Scripts">create-list-template</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_form.gsp</code></td><td><a href="../ref/Scripts/create-form-template.html" class="Scripts">create-form-template</a></td></tr></table><p class="paragraph"/>All these files are designed for working together, simulating a Simple Page Application that looks well in any device that supports a browser.
+
+
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-config-file.html">create-config-file</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-config.html">create-config</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-content-template.html">create-content-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-controller-class.html">create-controller-class</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-datasource-file.html">create-datasource-file</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-list-template.html">create-list-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-logs.html">create-logs</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-mock.html">create-mock</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-properties-file.html">create-properties-file</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-service-class.html">create-service-class</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-service-create-log.html">create-service-create-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-service-delete-log.html">create-service-delete-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-service-get-log.html">create-service-get-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-service-list-log.html">create-service-list-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-service-update-log.html">create-service-update-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints.html">create-unit-test-constraints</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content.html">create-unit-test-controller-content</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create.html">create-unit-test-controller-create</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete.html">create-unit-test-controller-delete</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit.html">create-unit-test-controller-edit</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index.html">create-unit-test-controller-index</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list.html">create-unit-test-controller-list</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save.html">create-unit-test-controller-save</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update.html">create-unit-test-controller-update</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller.html">create-unit-test-controller</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create.html">create-unit-test-service-create</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete.html">create-unit-test-service-delete</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get.html">create-unit-test-service-get</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max.html">create-unit-test-service-list-max</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset.html">create-unit-test-service-list-offset</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html">create-unit-test-service-list-sort-order</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list.html">create-unit-test-service-list</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update.html">create-unit-test-service-update</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service.html">create-unit-test-service</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-views-index.html">create-views-index</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-views.html">create-views</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/install-optimus-templates.html">install-optimus-templates</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/optimus-all.html">optimus-all</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            
+            
+        </div>
+
+
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    </body>
+</html>

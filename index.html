@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Optimus Plugin 0.1</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="./css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="./css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="./guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/introduction.html"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/gettingStarted.html"><strong>2</strong><span>Getting started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/config.html"><strong>3</strong><span>Setting up the configuration</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/unitTestDomainClasses.html"><strong>4</strong><span>Creating unit tests for domain classes</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/services.html"><strong>5</strong><span>Creating services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/unitTestServices.html"><strong>6</strong><span>Creating unit tests for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/logsServices.html"><strong>7</strong><span>Creating logs for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/controllers.html"><strong>8</strong><span>Creating controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/unitTestControllers.html"><strong>9</strong><span>Creating unit tests for controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="./guide/views.html"><strong>10</strong><span>Creating views</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p>Grails Optimus Plugin
+</p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>Optimus Plugin - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Alejandro García Granados</p>
+                            <p><strong>Version:</strong> 0.1</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/introduction.html"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="./guide/introduction.html#changes"><strong>1.1</strong><span>Change Log</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/gettingStarted.html"><strong>2</strong><span>Getting started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="./guide/gettingStarted.html#customGeneration"><strong>2.1</strong><span>Artifacts custom generation</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/config.html"><strong>3</strong><span>Setting up the configuration</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/unitTestDomainClasses.html"><strong>4</strong><span>Creating unit tests for domain classes</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/services.html"><strong>5</strong><span>Creating services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/unitTestServices.html"><strong>6</strong><span>Creating unit tests for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/logsServices.html"><strong>7</strong><span>Creating logs for services</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/controllers.html"><strong>8</strong><span>Creating controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/unitTestControllers.html"><strong>9</strong><span>Creating unit tests for controllers</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="./guide/views.html"><strong>10</strong><span>Creating views</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="./guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-config-file.html">create-config-file</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-config.html">create-config</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-content-template.html">create-content-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-controller-class.html">create-controller-class</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-datasource-file.html">create-datasource-file</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-form-template.html">create-form-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-list-template.html">create-list-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-logs.html">create-logs</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-mock.html">create-mock</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-properties-file.html">create-properties-file</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-service-class.html">create-service-class</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-service-create-log.html">create-service-create-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-service-delete-log.html">create-service-delete-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-service-get-log.html">create-service-get-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-service-list-log.html">create-service-list-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-service-update-log.html">create-service-update-log</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-constraints.html">create-unit-test-constraints</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-content.html">create-unit-test-controller-content</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-create.html">create-unit-test-controller-create</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-delete.html">create-unit-test-controller-delete</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-edit.html">create-unit-test-controller-edit</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-index.html">create-unit-test-controller-index</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-list.html">create-unit-test-controller-list</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-save.html">create-unit-test-controller-save</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller-update.html">create-unit-test-controller-update</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-controller.html">create-unit-test-controller</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-create.html">create-unit-test-service-create</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-delete.html">create-unit-test-service-delete</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-get.html">create-unit-test-service-get</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-list-max.html">create-unit-test-service-list-max</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-list-offset.html">create-unit-test-service-list-offset</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-list-sort-order.html">create-unit-test-service-list-sort-order</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-list.html">create-unit-test-service-list</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service-update.html">create-unit-test-service-update</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-unit-test-service.html">create-unit-test-service</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-views-index.html">create-views-index</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/create-views.html">create-views</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/install-optimus-templates.html">install-optimus-templates</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="./ref/Scripts/optimus-all.html">optimus-all</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            
+            
+        </div>
+
+
+
+<script type="text/javascript" src="./js/docs.js"></script>
+
+    </body>
+</html>
