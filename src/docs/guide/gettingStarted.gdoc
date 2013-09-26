@@ -1,4 +1,4 @@
-To get started, yo need to install the plugin by adding the following line in the @grails-app/conf/BuildConfig.goovy@ file:
+To get started, yo need to install the plugin by adding the following line in the @grails-app/conf/BuildConfig.groovy@ file:
 {code}
 plugins {
     ...
