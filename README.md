@@ -86,4 +86,4 @@ $ grails optimus-all Person
 $
 ```
 
-You can try the generated artifacts by executing the <b>test-app</b> and <b>run-app</b> commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the "Twitter Bootstrap framework (http://getbootstrap.com/) and they are AJAX-based. Also, you will see some logs in the console output.
+You can try the generated artifacts by executing the <b>test-app</b> and <b>run-app</b> commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the Twitter Bootstrap framework (http://getbootstrap.com/) and they are AJAX-based. Also, you will see some logs in the console output.
