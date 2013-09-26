@@ -5,7 +5,7 @@ Grails Optimus Plugin
 
 Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
 
-To get started, yo need to install the plugin by adding the following line in the @grails-app/conf/BuildConfig.goovy@ file:
+To get started, yo need to install the plugin by adding the following line in the grails-app/conf/BuildConfig.goovy file:
 
 ```groovy
 plugins {
@@ -39,10 +39,6 @@ Then, you can generate the corresponding artifacts by executing the [optimus-all
 ```
 grails optimus-all Person
 ```
-
-{note}
-Be aware that you don't need to write the full package of the domain class. Also, if you specify the wildcard (*) then the artifacts will be generated for all domain classes.
-{note}
 
 The command will tell you about what artifacts have been created, such as config files, unit tests, services, controllers, log files and views:
 
@@ -92,8 +88,4 @@ $ grails optimus-all Person
 $
 ```
 
-{warning}
-The [optimus-all|Scripts] command will overwrite some important files, such as @grails-app/conf/Config.groovy@ and @grails-app/conf/DataSource.groovy@. Be careful if you are working on an existing application and you have previosuly customized these files.
-{warning}
-
-You can try the generated artifacts by executing the @test-app@ and @run-app@ commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the "Twitter Bootstrap":http://getbootstrap.com/ framework and they are AJAX-based. Also, you will see some logs in the console output.
+You can try the generated artifacts by executing the test-app and <b>run-app</b> commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the "Twitter Bootstrap":http://getbootstrap.com/ framework and they are AJAX-based. Also, you will see some logs in the console output.
