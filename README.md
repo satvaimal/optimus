@@ -5,7 +5,7 @@ Grails Optimus Plugin
 
 Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
 
-To get started, yo need to install the plugin by adding the following line in the grails-app/conf/BuildConfig.goovy file:
+To get started, yo need to install the plugin by adding the following line in the <b>grails-app/conf/BuildConfig.groovy</b> file:
 
 ```groovy
 plugins {
@@ -34,7 +34,7 @@ class Person {
 }
 ```
 
-Then, you can generate the corresponding artifacts by executing the [optimus-all|Scripts] command:
+Then, you can generate the corresponding artifacts by executing the <b>optimus-all</b> command:
 
 ```
 grails optimus-all Person
@@ -88,4 +88,4 @@ $ grails optimus-all Person
 $
 ```
 
-You can try the generated artifacts by executing the test-app and <b>run-app</b> commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the "Twitter Bootstrap":http://getbootstrap.com/ framework and they are AJAX-based. Also, you will see some logs in the console output.
+You can try the generated artifacts by executing the <b>test-app</b> and <b>run-app</b> commands. For the tests, you can realize that all the class domain constraints, services and controllers have their respective unit tests, and when you run the application, you will see that the views have been built with the 3.0.0 version of the "Twitter Bootstrap":http://getbootstrap.com/ framework and they are AJAX-based. Also, you will see some logs in the console output.
