@@ -1,0 +1,86 @@
+Testing domain class constraints is important. It contains logic that you should test if you want to prevent some very common errors, such as typos.
+
+The Optimus plugin can do this for you with the [create-unit-test-constraints|Scripts] command:
+{code}
+grails create-unit-test-constraints [domainClass]
+{code}
+Suppose you have a domain class like this:
+{code}
+package mypackage
+
+class Person {
+
+    String name
+    String lastName
+    Date birthdate
+    Boolean enabled
+
+    static constraints = {
+        name blank:false, size:1..100
+        lastName blank:false, size:1..100
+    }
+
+}
+{code}
+With the [create-unit-test-constraints|Scripts] command, you will get the following unit test files:
+* @test/unit/mypackage/PersonNameConstraintsTests.groovy@
+* @test/unit/mypackage/PersonLastNameConstraintsTests.groovy@
+* @test/unit/mypackage/PersonBirthdateConstraintsTests.groovy@
+* @test/unit/mypackage/PersonEnabledConstraintsTests.groovy@
+If we open the @test/unit/mypackage/PersonNameConstraintsTests.groovy@ file, we will find something like this:
+{code}
+package mypackage
+
+import grails.test.mixin.*
+import org.junit.*
+
+@TestFor(Person)
+class PersonNameConstraintsTests {
+
+    @Before
+    void setUp() {
+        mockForConstraintsTests( Person, [ new Person() ] )
+    }
+
+    void testBlank() {
+
+        def instance = new Person()
+        instance.name = ''
+        assertFalse "'validate' should be false", instance.validate()
+        assertNotNull "'errors[ 'name' ]' should not be null",
+            instance.errors[ 'name' ]
+        assertEquals "'errors[ 'name' ]' should be 'blank'",
+            'blank', instance.errors[ 'name' ]
+
+    }
+
+    void testSizeTooLong() {
+
+        def instance = new Person()
+        instance.name = 'A' * 101
+        assertFalse "'validate' should be false", instance.validate()
+        assertNotNull "'errors[ 'name' ]' should not be null",
+            instance.errors[ 'name' ]
+        assertEquals "'errors[ 'name' ]' should be 'size'",
+            'size', instance.errors[ 'name' ]
+
+    }
+
+    void testNullable() {
+
+        def instance = new Person()
+        instance.name = null
+        assertFalse "'validate' should be false", instance.validate()
+        assertNotNull "'errors[ 'name' ]' should not be null",
+            instance.errors[ 'name' ]
+        assertEquals "'errors[ 'name' ]' should be 'nullable'",
+            'nullable', instance.errors[ 'name' ]
+
+    }
+
+}
+{code}
+As you can see, the plugin generates unit tests for all the constraints contained in the @name@ property.
+{note}
+The plugin can manage all the constraints but @matches@ and @validator@, due to their complexity. The plugin will generate the unit test method but you must set some values by hand. If you forget this, the method will throw an exception every time you run the test.
+{note}

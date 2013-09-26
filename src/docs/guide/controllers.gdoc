@@ -1,0 +1,160 @@
+The Optimus plugin generates views for you in a similar way that Grails does, but the first one uses the 3.0.0 version of the "Twitter Bootstrap":http://getbootstrap.com/ framework and the Grails AJAX support, so controllers should be a bit different.
+
+You can use the [create-controller-class|Scripts] command:
+{code}
+grails create-controller-class [domainClass]
+{code}
+Suppose you have a class named @mypackage.Person@. The class generated in @grails-app/controllers/mypackage/PersonController.groovy@ will look like this:
+{code}
+package mypackage
+
+class PersonController {
+
+    static allowedMethods = [
+        index:'GET',
+        content:'GET',
+        list:'GET',
+        create:'GET',
+        save:'POST',
+        edit:'GET',
+        update:'POST',
+        delete:'POST'
+    ]
+
+    def personService
+    def crackingService
+
+    def index() {
+        redirect( action:'content', params:params )
+    }
+
+    def content() {
+        this.renderList( 'content' )
+    }
+
+    def list() {
+        this.renderList( 'list' )
+    }
+
+    def create() {
+
+        def model = [ personInstance:new Person( params ) ]
+        render( template:'form', model:model )
+
+    }
+
+    def save() {
+
+        def person = new Person( params )
+        this.saveOnDb( person, 'create',
+            'person.created.message' )
+
+    }
+
+    def edit( Long id ) {
+
+        def map = this.get( id )
+        if ( !map ) return
+        map.edit = true
+        render( template:'form', model:map )
+
+    }
+
+    def update( Long id ) {
+
+        def map = this.get( id )
+        if ( !map ) return
+        map.personInstance.properties = params
+        map.edit = true
+        this.saveOnDb( map.personInstance, 'update',
+            'person.updated.message', true )
+
+    }
+
+    def delete( Long id ) {
+
+        def map = this.get( id )
+        if ( !map ) return
+        personService.delete( map.personInstance )
+        flash.listMessage = message( code:'default.deleted.message',
+            args:[ message( code:'person.label',
+            default:'Person' ), id ] )
+        redirect( action:'content' )
+
+    }
+
+    private void renderList( template ) {
+
+        def model = [:]
+        def result = personService.list( params )
+        model.items = result.items
+        model.total = result.total
+        render( template:template, model:model )
+
+    }
+
+    private Map get( Long id ) {
+
+        if ( !id ) {
+            this.notifyCrack()
+            return null
+        }
+        def person = personService.get( id )
+        if ( !person ) {
+            this.notifyCrack()
+            return null
+        }
+        [ personInstance:person ]
+
+    }
+
+    private void saveOnDb( person, method, msg, edit = false ) {
+
+        try {
+            personService."${method}"( person )
+        } catch ( IllegalArgumentException e ) {
+            render( template:'form', model:[ personInstance:person,
+                edit:edit ] )
+            return
+        }
+        flash.formMessage = message(
+            code:"default.${edit?'updated':'created'}.message",
+            args:[ message( code:'person.label',
+            default:'Person' ), person.id])
+        redirect( action:'edit', id:person.id )
+
+    }
+
+    private void notifyCrack() {
+
+        crackingService.notify( request, params )
+        redirect( controller:'logout' )
+
+    }
+
+}
+{code}
+As you can see, the controller makes use of the corresponding service to do its job. Therefore, every action performed by the controller is logged. There is another service called @CrackingService@. This one is automatically generated and it is invoked when the application tries to get an instance that doesn't exists (@get@ method). Generally, this can be reached by cracking the web application, which is always unavoidable but you can handle it. The default implementation of the @CrackingService@ is shown in the following lines:
+{code}
+package mypackage
+
+import javax.servlet.http.HttpServletRequest
+
+class CrackingService {
+
+    void notify( HttpServletRequest request, Map params ) {
+
+        def message = '' << "Request ${request.requestURL}"
+        message << " from ${request.remoteAddr}"
+        message << " and params ${params}"
+        message << " has been detected as unusual activity"
+        println message.toString()
+
+    }
+
+}
+{code}
+Of course, you can customize this functionality according to your own needings.
+{note}
+You realized that the @notifyCrack@ method in the @PersonController@ makes a redirect to the @Logout@ controller. This is due to the compatibility with the "Spring Security Plugin":http://grails.org/plugin/spring-security-core in the near future, but you can of course modify this functionality.
+{note}

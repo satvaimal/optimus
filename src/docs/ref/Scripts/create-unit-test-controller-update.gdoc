@@ -1,0 +1,26 @@
+h1. update-unit-test-controller-update
+
+h2. Purpose
+
+The @update-unit-test-controller-update@ generates all the unit tests for the controller @update@ method.
+
+h2. Examples
+
+{code:java}
+grails update-unit-test-controller-update Person
+grails update-unit-test-controller-update "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the controller @update@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceUpdateTests.groovy@
+
+Usage:
+
+{code:java}
+grails update-unit-test-controller-update [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

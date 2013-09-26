@@ -1,0 +1,4 @@
+# ignore all files in the target/ directory
+target/
+grails-optimus-0.1.zip
+grails-optimus-0.1.zip.sha1

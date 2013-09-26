@@ -1,0 +1,1 @@
+The [optimus-all|Scripts] command makes use of other commands to do its job. You can customize the generation of the artifacts by executing these commands separately, as we explain in the following sections.

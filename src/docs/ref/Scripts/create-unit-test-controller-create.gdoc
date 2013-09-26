@@ -1,0 +1,26 @@
+h1. create-unit-test-controller-create
+
+h2. Purpose
+
+The @create-unit-test-controller-create@ generates all the unit tests for the controller @create@ method.
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-controller-create Person
+grails create-unit-test-controller-create "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the controller @create@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceCreateTests.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-controller-create [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

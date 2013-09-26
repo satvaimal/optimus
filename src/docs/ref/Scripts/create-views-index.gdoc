@@ -1,0 +1,31 @@
+h1. create-views-index
+
+h2. Purpose
+
+The @create-views-index@ generates the base views of the application
+
+h2. Examples
+
+{code:java}
+grails create-views-index
+{code}
+
+h2. Description
+
+This command creates the base views of the application. The command will generate the following files:
+* @grails-app/views/index.gsp@
+* @grails-app/views/_header.gsp@
+* @grails-app/views/_topMenu.gsp@
+* @grails-app/views/_menu.gsp@
+* @grails-app/views/_content.gsp@
+{warning}
+The command overrides some important files that could already exist:
+* @grails-app/views/index.gsp@
+For this reason, use the [create-views-index|Scripts] command carefully if you are working on an existing application.
+{warning}
+
+Usage:
+
+{code:java}
+grails create-views-index
+{code}

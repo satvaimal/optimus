@@ -1,0 +1,31 @@
+h1. install-optimus-templates
+
+h2. Purpose
+
+The @install-optimus-templates@ generates the necessary templates for a domain class.
+
+h2. Examples
+
+{code:java}
+grails install-optimus-templates
+{code}
+
+h2. Description
+
+This command generates the necessary templates for a domain class. The command will generate the following files:
+* @src/templates/scaffolding/_content.gsp@
+* @src/templates/scaffolding/_list.gsp@
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@
+{warning}
+The command overrides some important files that could already exist:
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@.
+For this reason, use the [install-optimus-templates|Scripts] command carefully if you are working on an existing application.
+{warning}
+
+Usage:
+
+{code:java}
+grails install-optimus-templates
+{code}

@@ -1,0 +1,22 @@
+h1. create-properties-file
+
+h2. Purpose
+
+The @create-properties-file@ command generates a configuration file that externalizes the database connection data.
+
+h2. Examples
+
+{code:java}
+grails create-properties-file
+{code}
+
+h2. Description
+
+This command creates the following artifacts:
+* @src/java/config.properties@
+
+Usage:
+
+{code:java}
+grails create-properties-file
+{code}

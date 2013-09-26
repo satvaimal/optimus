@@ -1,0 +1,113 @@
+Almost all the Java Web Applications consider a "service" tier where the application logic takes place and Grails applications are included, but currently there isn't a "scaffolded" way to generate them. The Optimus plugin lets you do this, including the generation of the corresponding unit tests (as we explained in the following section).
+
+You have to execute the [create-service-class|Scripts] command:
+{code}
+grails create-service-class [domainClass]
+{code}
+Suppose you have a class named @mypackage.Person@. The class generated in @grails-app/services/mypackage/PersonService.groovy@ will look like this:
+{code}
+package mypackage
+
+import grails.gorm.DetachedCriteria
+import grails.validation.ValidationException
+
+class PersonService {
+
+    Map list( Map params ) {
+
+        this.processParams( params )
+        def criteria = new DetachedCriteria( Person ).build {}
+        [ items:criteria.list( params ), total:criteria.count() ]
+
+    }
+
+    void create( Person person ) {
+        this.save( person )
+    }
+
+    void update( Person person ) {
+        this.save( person )
+    }
+
+    Person get( Long id ) {
+
+        if ( id == null ) throw new IllegalArgumentException(
+            "Parameter 'id' is null" )
+        Person.findById( id )
+
+    }
+
+    void delete( Person person ) {
+
+        if ( person == null ) throw new IllegalArgumentException(
+            "Parameter 'person' is null" )
+        person.delete()
+
+    }
+
+    private void processParams( params ) {
+
+        params.max = ListUtils.parseMax( params.max )
+        params.offset = ListUtils.parseOffset( params.offset )
+        params.order = ListUtils.parseOrder( params.order )
+        def fields = [ 'name', 'lastName', 'birthdate', 'enabled', 'id' ]
+        params.sort = ListUtils.parseSort( params.sort, fields )
+
+    }
+
+    private void save( Person person ) {
+
+        if ( !person ) throw new IllegalArgumentException(
+            "Parameter 'person' is null" )
+        try {
+            person.save( failOnError:true )
+        } catch ( ValidationException ) {
+            throw new IllegalArgumentException(
+                "Parameter 'person' is invalid" )
+        }
+
+    }
+
+}
+{code}
+The plugin generates the necessary methods for all the CRUD operations. As you probably realize, there is a class called in the @processParams@ method named @ListUtils@. This class is automatically generated and placed in the @src/groovy/mypackage/ListUtils.groovy@ file, and it contains utility methods for the @list@ service method:
+{code}
+package mypackage
+
+class ListUtils {
+
+    static Integer parseMax( String max ) {
+
+        if ( max?.isInteger() && max != '0' ) {
+            def maxInteger = new Integer( max )
+            return Math.min( maxInteger, 10 )
+        }
+        10
+
+    }
+
+    static Integer parseOffset( String offset ) {
+
+        if ( offset?.isInteger() ) {
+            return new Integer( offset )
+        }
+        null
+
+    }
+
+    static String parseOrder( String order ) {
+
+        if ( order == 'asc' || order == 'desc' ) {
+            return order
+        }
+        null
+
+    }
+
+    static String parseSort( sort, fields ) {
+        fields.find { it == sort }
+    }
+
+}
+{code}
+As you can see, this class avoids some common format problems, such as non-numeric values for "max" and "offset" properties, and constraints the fields that can be used with the "sort" property.

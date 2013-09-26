@@ -1,0 +1,37 @@
+h1. create-config
+
+h2. Purpose
+
+The @create-config@ command generates/overwrites the necessary config files for Optimus plugin.
+
+h2. Examples
+
+{code:java}
+grails create-config Person
+grails create-config "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates the following artifacts:
+* @src/java/config.properties@
+* @grails-app/conf/Config.groovy@
+* @grails-app/conf/DataSource.groovy@
+{warning}
+This command will overwrite some important files, such as @grails-app/conf/Config.groovy@ and @grails-app/conf/DataSource.groovy@. Be careful if you are working on an existing application and you have previosuly customized these files.
+{warning}
+
+Usage:
+
+{code:java}
+grails create-config [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
+{warning}
+If you don't specify a domain class, the command only generate the following files:
+* @src/java/config.properties@
+* @grails-app/conf/DataSource.groovy@
+The file @grails-app/conf/Config.groovy@ will not be generated and the command will throw an error about the domain class.
+{warning}

@@ -1,0 +1,58 @@
+h1. create-views
+
+h2. Purpose
+
+The @create-views@ generates the views for a domain class
+
+h2. Examples
+
+{code:java}
+grails create-views Person
+grails create-views "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates the views for it. The command will generate the following files:
+* @grails-app/views/index.gsp@
+* @grails-app/views/_header.gsp@
+* @grails-app/views/_topMenu.gsp@
+* @grails-app/views/_menu.gsp@
+* @grails-app/views/_content.gsp@
+Besides, the plugin will install the following templates:
+* @src/templates/scaffolding/_content.gsp@
+* @src/templates/scaffolding/_list.gsp@
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@
+Finally, for the class domain, the plugin will generate the following files:
+* @grails-app/views/{domainClass}/_content.gsp@
+* @grails-app/views/{domainClass}/_list.gsp@
+* @grails-app/views/{domainClass}/_form.gsp@
+{warning}
+The plugin overrides some important files that could already exist:
+* @grails-app/views/index.gsp@
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@.
+For this reason, use the [create-views|Scripts] command carefully if you are working on an existing application.
+{warning}
+
+Usage:
+
+{code:java}
+grails create-views [domainClass]
+{code}
+{warning}
+If you don't specify a domain class, the command only generate the following files:
+* @grails-app/views/index.gsp@
+* @grails-app/views/_header.gsp@
+* @grails-app/views/_topMenu.gsp@
+* @grails-app/views/_menu.gsp@
+* @grails-app/views/_content.gsp@
+* @src/templates/scaffolding/_content.gsp@
+* @src/templates/scaffolding/_list.gsp@
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@
+The domain class templates will not be generated and the command will throw an error about the domain class.
+{warning}
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

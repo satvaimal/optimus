@@ -1,0 +1,29 @@
+h1. create-unit-test-service-list
+
+h2. Purpose
+
+The @create-unit-test-service-list@ generates all the unit tests for the service @list@ method.
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-service-list Person
+grails create-unit-test-service-list "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the service @list@ method. The command will generate the following files:
+* @test/unit/{package}/{domainClass}ServiceListTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceListMaxTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceListOffsetTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceListSortOrderTests.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-service-list [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

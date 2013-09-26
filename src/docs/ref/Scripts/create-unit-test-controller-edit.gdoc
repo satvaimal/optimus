@@ -1,0 +1,26 @@
+h1. edit-unit-test-controller-edit
+
+h2. Purpose
+
+The @edit-unit-test-controller-edit@ generates all the unit tests for the controller @edit@ method.
+
+h2. Examples
+
+{code:java}
+grails edit-unit-test-controller-edit Person
+grails edit-unit-test-controller-edit "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the controller @edit@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceEditTests.groovy@
+
+Usage:
+
+{code:java}
+grails edit-unit-test-controller-edit [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

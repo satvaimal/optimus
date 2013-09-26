@@ -1,0 +1,111 @@
+When you create a controller class with the [create-controller-class|Scripts] command, it is highly recommended that you also create the corresponding unit tests. You can achieve this by executing the [create-unit-test-controller|Scripts] command:
+{code}
+grails create-unit-test-controller [domainClass]
+{code}
+Suppose you have a class named @mypackage.Person@. With the [create-unit-test-controller|Scripts] command, you will get the following unit test files:
+* @test/unit/mypackage/PersonControllerIndexTests.groovy@
+* @test/unit/mypackage/PersonControllerContentTests.groovy@
+* @test/unit/mypackage/PersonControllerListTests.groovy@
+* @test/unit/mypackage/PersonControllerCreateTests.groovy@
+* @test/unit/mypackage/PersonControllerSaveTests.groovy@
+* @test/unit/mypackage/PersonControllerEditTests.groovy@
+* @test/unit/mypackage/PersonControllerUpdateTests.groovy@
+* @test/unit/mypackage/PersonControllerDeleteTests.groovy@
+You can generate each file with the following commands:
+{table}
+ *File* | *Command*
+ @test/unit/mypackage/PersonControllerIndexTests.groovy@ | [create-unit-test-controller-index|Scripts]
+ @test/unit/mypackage/PersonControllerContentTests.groovy@ | [create-unit-test-controller-content|Scripts]
+ @test/unit/mypackage/PersonControllerListTests.groovy@ | [create-unit-test-controller-list|Scripts]
+ @test/unit/mypackage/PersonControllerCreateTests.groovy@ | [create-unit-test-controller-create|Scripts]
+ @test/unit/mypackage/PersonControllerSaveTests.groovy@ | [create-unit-test-controller-save|Scripts]
+ @test/unit/mypackage/PersonControllerEditTests.groovy@ | [create-unit-test-controller-edit|Scripts]
+ @test/unit/mypackage/PersonControllerUpdateTests.groovy@ | [create-unit-test-controller-update|Scripts]
+ @test/unit/mypackage/PersonControllerDeleteTests.groovy@ | [create-unit-test-controller-delete|Scripts]
+{table}
+If we open the @test/unit/mypackage/PersonControllerSaveTests.groovy@ file, we will find something like this:
+{code}
+package mypackage
+
+import grails.test.GrailsMock
+import grails.test.mixin.*
+import org.junit.*
+
+@TestFor(PersonController)
+@Mock(Person)
+class PersonControllerSaveTests {
+
+    @Before
+    void setUp() {
+        views[ '/person/_form.gsp' ] = this.getTemplate()
+    }
+
+    void testOk() {
+
+        def control = this.mockPersonService()
+        request.method = 'POST'
+        this.setUpParams()
+        controller.save()
+        def expected = 'default.created.message'
+        assertEquals "'message' should be '${expected}'",
+            expected, flash.formMessage
+        expected = "/person/edit/1"
+        assertEquals "'redirectedUrl' should be '${expected}'",
+            expected, response.redirectedUrl
+        assertEquals "'status' should be 302", 302, response.status
+        control.verify()
+
+    }
+
+    void testParamsInvalid() {
+
+        def control = this.mockPersonService( false )
+        request.method = 'POST'
+        this.setUpParams()
+        params.name = null
+        controller.save()
+        def expected = 'OK'
+        assertEquals "'text' should be '${expected}'",
+            expected, response.text
+        assertEquals "'status' should be 200", 200, response.status
+        control.verify()
+
+    }
+
+    @Ignore( 'See http://jira.grails.org/browse/GRAILS-8426' )
+    void testRequestMethodInvalid() {
+
+        request.method = 'GET'
+        controller.save()
+        assertEquals "'status' should be 405", 405, response.status
+
+    }
+
+    private String getTemplate() {
+        '<g:if test="${personInstance}">OK</g:if><g:else>ERROR</g:else>'
+    }
+
+    private GrailsMock mockPersonService( save = true ) {
+
+        def control = mockFor( PersonService )
+        control.demand.create( 1 ) { Person instance ->
+            if ( save ) {
+                instance.id = 1
+                instance.save( failOnError:true )
+            } else throw new IllegalArgumentException( 'error' )
+        }
+        controller.personService = control.createMock()
+        control
+
+    }
+
+    private void setUpParams() {
+
+        def mock = PersonMock.mock( 1 )
+        mock.properties.each{ params."${it.key}" = it.value }
+
+    }
+
+}
+{code}
+The unit tests make use of the Grails Testing and JUnit API. We strongly recommend you to read the "Grails Testing":http://grails.org/doc/latest/guide/testing.html chapter for a further reference.

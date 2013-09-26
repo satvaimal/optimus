@@ -1,0 +1,26 @@
+h1. create-service-create-log
+
+h2. Purpose
+
+The @create-service-create-log@ generates all the logs for the service @create@ method.
+
+h2. Examples
+
+{code:java}
+grails create-service-create-log Person
+grails create-service-create-log "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates logs for the service @create@ method. The command will generate the following file:
+* @src/groovy/{package}/aop/{domainClass}ServiceCreate.groovy@
+
+Usage:
+
+{code:java}
+grails create-service-create-log [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

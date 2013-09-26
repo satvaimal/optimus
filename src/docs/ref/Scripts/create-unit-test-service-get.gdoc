@@ -1,0 +1,27 @@
+h1. create-unit-test-service-get
+
+h2. Purpose
+
+The @create-unit-test-service-get@ generates all the unit tests for the service @get@ method.
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-service-get Person
+grails create-unit-test-service-get "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the service @get@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceGetTests.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-service-get [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
+

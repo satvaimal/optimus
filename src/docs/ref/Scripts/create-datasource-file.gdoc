@@ -1,0 +1,22 @@
+h1. create-datasource-file
+
+h2. Purpose
+
+The @create-datasource-file@ OVERWRITES the original @grails-app/conf/DataSource.groovy@ with the Optimus version.
+
+h2. Examples
+
+{code:java}
+grails create-datasource-file
+{code}
+
+h2. Description
+
+This command creates the following artifacts:
+* @grails-app/conf/DataSource.groovy@
+
+Usage:
+
+{code:java}
+grails create-datasource-file
+{code}

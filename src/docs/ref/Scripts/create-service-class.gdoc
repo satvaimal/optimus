@@ -1,0 +1,26 @@
+h1. create-service-class
+
+h2. Purpose
+
+The @create-service-class@ generates a service for a domain class
+
+h2. Examples
+
+{code:java}
+grails create-service-class Person
+grails create-service-class "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates a service for it.
+
+Usage:
+
+{code:java}
+grails create-service-class [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
+

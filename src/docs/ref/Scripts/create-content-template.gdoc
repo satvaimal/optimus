@@ -1,0 +1,25 @@
+h1. create-content-template
+
+h2. Purpose
+
+The @create-content-template@ generates the @_content.gsp@ template for a domain class
+
+h2. Examples
+
+{code:java}
+grails create-content-template Person
+grails create-content-template "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates the @_content.gsp@ template for it. The command will generate the following files:
+
+Usage:
+
+{code:java}
+grails create-content-template [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

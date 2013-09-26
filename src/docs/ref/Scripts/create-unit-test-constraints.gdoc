@@ -1,0 +1,25 @@
+h1. create-unit-test-constraints
+
+h2. Purpose
+
+The @create-unit-test-constraints@ generates all the unit tests for constraints.
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-constraints Person
+grails create-unit-test-constraints "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for all the domain class constraints. The command will generate one file for each class domain property.
+
+Usage:
+
+{code:java}
+grails create-unit-test-constraints [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

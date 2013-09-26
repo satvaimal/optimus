@@ -1,0 +1,40 @@
+Today, most modern web applications make strong use of AJAX and Responsive Web Design, two paradigms that enhances the user experience by making an application looks like a desktop-app in the browser. The Optimus plugin uses the "Grails AJAX taglibs":http://grails.org/doc/latest/guide/theWebLayer.html#ajax and the 3.0.0 version of the "Twitter Bootstrap":http://getbootstrap.com/ framework, a powerful tool that makes easier the generation of responsive web pages.
+
+You can generate all the GSP files by executing the [create-views|Scripts] command:
+{code}
+grails create-views [domainClass]
+{code}
+The plugin will generate the following files:
+* @grails-app/views/index.gsp@
+* @grails-app/views/_header.gsp@
+* @grails-app/views/_topMenu.gsp@
+* @grails-app/views/_menu.gsp@
+* @grails-app/views/_content.gsp@
+Besides, the plugin will install the following templates:
+* @src/templates/scaffolding/_content.gsp@
+* @src/templates/scaffolding/_list.gsp@
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@
+Finally, if you have a class named @mypackage.Person@, the plugin will generate the following files:
+* @grails-app/views/person/_content.gsp@
+* @grails-app/views/person/_list.gsp@
+* @grails-app/views/person/_form.gsp@
+{warning}
+The plugin overrides some important files that could already exist:
+* @grails-app/views/index.gsp@
+* @src/templates/scaffolding/_form.gsp@
+* @src/templates/scaffolding/renderEditor.template@.
+For this reason, use the [create-views|Scripts] command carefully if you are working on an existing application.
+{warning}
+
+You can generate each artifact with the following commands:
+{table}
+ *File* | *Command*
+ Index artifacts (@index@, @_header@, @_topMenu@, @_menu@ and @_content@) | [create-views-index|Scripts]
+ Templates (@_content@, @_list@ and @_form@) | [install-optimus-templates|Scripts]
+  @grails-app/views/person/_content.gsp@ | [create-content-template|Scripts]
+  @grails-app/views/person/_list.gsp@ | [create-list-template|Scripts]
+  @grails-app/views/person/_form.gsp@ | [create-form-template|Scripts]
+{table}
+
+All these files are designed for working together, simulating a Simple Page Application that looks well in any device that supports a browser.

@@ -1,0 +1,26 @@
+h1. index-unit-test-controller-index
+
+h2. Purpose
+
+The @index-unit-test-controller-index@ generates all the unit tests for the controller @index@ method.
+
+h2. Examples
+
+{code:java}
+grails index-unit-test-controller-index Person
+grails index-unit-test-controller-index "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the controller @index@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceIndexTests.groovy@
+
+Usage:
+
+{code:java}
+grails index-unit-test-controller-index [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

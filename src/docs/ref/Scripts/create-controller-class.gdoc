@@ -1,0 +1,25 @@
+h1. create-controller-class
+
+h2. Purpose
+
+The @create-controller-class@ generates a controller for a domain class
+
+h2. Examples
+
+{code:java}
+grails create-controller-class Person
+grails create-controller-class "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates a controller for it.
+
+Usage:
+
+{code:java}
+grails create-controller-class [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

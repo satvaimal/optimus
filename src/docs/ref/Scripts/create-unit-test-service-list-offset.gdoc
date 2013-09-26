@@ -1,0 +1,26 @@
+h1. create-unit-test-service-list-offset
+
+h2. Purpose
+
+The @create-unit-test-service-list-offset@ generates all the unit tests for the service @list@ method and @offset@ parameter.
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-service-list-offset Person
+grails create-unit-test-service-list-offset "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the service @list@ method and @offset@ parameter. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceListOffsetTests.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-service-list-offset [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

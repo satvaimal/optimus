@@ -1,0 +1,26 @@
+h1. save-unit-test-controller-save
+
+h2. Purpose
+
+The @save-unit-test-controller-save@ generates all the unit tests for the controller @save@ method.
+
+h2. Examples
+
+{code:java}
+grails save-unit-test-controller-save Person
+grails save-unit-test-controller-save "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the controller @save@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceSaveTests.groovy@
+
+Usage:
+
+{code:java}
+grails save-unit-test-controller-save [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

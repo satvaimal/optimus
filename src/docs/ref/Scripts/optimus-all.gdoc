@@ -1,0 +1,32 @@
+h1. optimus-all
+
+h2. Purpose
+
+The @optimus-all@ command generates all the artifacts managed by the Optimus Plugin, such as config files, unit tests, services, controllers, logs and views.
+
+h2. Examples
+
+{code:java}
+grails optimus-all Person
+grails optimus-all "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates the following artifacts:
+* Customized configuration
+* Unit tests for all the constraints
+* Services
+* Unit tests for services
+* Controllers
+* Unit tests for controllers
+* Views and templates for AJAX and Responsive Web Design
+
+Usage:
+
+{code:java}
+grails optimus-all [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

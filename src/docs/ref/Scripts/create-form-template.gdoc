@@ -1,0 +1,25 @@
+h1. create-form-template
+
+h2. Purpose
+
+The @create-form-template@ generates the @_form.gsp@ template for a domain class
+
+h2. Examples
+
+{code:java}
+grails create-form-template Person
+grails create-form-template "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates the @_form.gsp@ template for it. The command will generate the following files:
+
+Usage:
+
+{code:java}
+grails create-form-template [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

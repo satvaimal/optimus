@@ -1,0 +1,26 @@
+h1. create-mock
+
+h2. Purpose
+
+The @create-mock@ generates a mock for a domain class
+
+h2. Examples
+
+{code:java}
+grails create-mock Person
+grails create-mock "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates a mock for it. The file will be placed in the @src/groovy{classPackage}/{domainClass}.groovy@ file.
+
+Usage:
+
+{code:java}
+grails create-mock [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
+

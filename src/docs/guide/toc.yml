@@ -1,0 +1,14 @@
+introduction:
+  title: Introduction
+  changes: Change Log
+gettingStarted:
+  title: Getting started
+  customGeneration: Artifacts custom generation
+config: Setting up the configuration
+unitTestDomainClasses: Creating unit tests for domain classes
+services: Creating services
+unitTestServices: Creating unit tests for services
+logsServices: Creating logs for services
+controllers: Creating controllers
+unitTestControllers: Creating unit tests for controllers
+views: Creating views

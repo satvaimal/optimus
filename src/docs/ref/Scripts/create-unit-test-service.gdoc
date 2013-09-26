@@ -1,0 +1,33 @@
+h1. create-unit-test-service
+
+h2. Purpose
+
+The @create-unit-test-service@ generates all the unit tests for a service.
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-service Person
+grails create-unit-test-service "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for a service. The command will generate the following files:
+* @test/unit/{package}/{domainClass}ServiceListTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceListMaxTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceListOffsetTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceListSortOrderTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceCreateTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceUpdateTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceGetTests.groovy@
+* @test/unit/{package}/{domainClass}ServiceDeleteTests.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-service [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.

@@ -1,0 +1,26 @@
+h1. delete-unit-test-controller-delete
+
+h2. Purpose
+
+The @delete-unit-test-controller-delete@ generates all the unit tests for the controller @delete@ method.
+
+h2. Examples
+
+{code:java}
+grails delete-unit-test-controller-delete Person
+grails delete-unit-test-controller-delete "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the controller @delete@ method. The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceDeleteTests.groovy@
+
+Usage:
+
+{code:java}
+grails delete-unit-test-controller-delete [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
