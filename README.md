@@ -6,13 +6,16 @@ Grails Optimus Plugin
 Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
 
 To get started, yo need to install the plugin by adding the following line in the @grails-app/conf/BuildConfig.goovy@ file:
+
 {code}
 plugins {
     ...
     compile ':optimus:0.1'
 }
 {code}
+
 You must have at least one domain class with some constraints, for example:
+
 {code}
 package mypackage
 
@@ -30,14 +33,19 @@ class Person {
 
 }
 {code}
+
 Then, you can generate the corresponding artifacts by executing the [optimus-all|Scripts] command:
+
 {code}
 grails optimus-all Person
 {code}
+
 {note}
 Be aware that you don't need to write the full package of the domain class. Also, if you specify the wildcard (*) then the artifacts will be generated for all domain classes.
 {note}
+
 The command will tell you about what artifacts have been created, such as config files, unit tests, services, controllers, log files and views:
+
 {code}
 $ grails optimus-all Person
 | Finished generation of 'config.properties' file
