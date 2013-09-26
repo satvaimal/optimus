@@ -6,7 +6,7 @@ target( createMock:"Generate mock for domain class" ) {
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of mock classes"
     event( 'StatusFinal', [ msg ] )
 
@@ -16,28 +16,27 @@ setDefaultTarget( createMock )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}\n\n"
+    def content = "package ${domainClass.packageName}\n\n"
     content << "class ${domainClass.name}Mock {\n\n"
-    content << this.generateMockMethod( domainClass )
+    content << generateMockMethod( domainClass )
     content << '}'
     def directory = generateDirectory( "src/groovy",
         domainClass.packageName )
     def fileName = "${domainClass.name}Mock.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
-    }// End of method
+}// End of method
 
 String generateMockMethod( domainClass ) {
 
-    def initializedAttributes = this.initializeAttributes( domainClass )
+    def initializedAttributes = initializeAttributes( domainClass )
     def className = domainClass.name
-    def content = '' << ''
-    content << "${TAB}static ${className} mock( id ) {\n\n"
-    if ( properties.mockException ) content << this.generateException()
+    def content = "${TAB}static ${className} mock( id ) {\n\n"
+    if ( properties.mockException ) content << generateException()
     content << "${TAB*2}def instance = new ${className}(\n"
     content << initializedAttributes
     content << "${TAB*2})\n"
-    content << this.setUniqueProperties( domainClass.constrainedProperties )
+    content << setUniqueProperties( domainClass.constrainedProperties )
     if ( properties.idAssigned && !properties.idSet ) {
         content << "${TAB*2}instance.id = id\n"
     }// End of if
@@ -52,10 +51,10 @@ String generateMockMethod( domainClass ) {
 
 String initializeAttributes( domainClass ) {
 
-    def content = '' << ''
+    def content = ''
     domainClass.constrainedProperties.each {
         content << "${TAB*3}${it.key}:"
-        def attributeValue = this.getValue( domainClass, it.key,
+        def attributeValue = getValue( domainClass, it.key,
             it.value.appliedConstraints, it.value.propertyType )
         content << "${attributeValue},\n"
     }// End of closure
@@ -67,8 +66,7 @@ String getValue( domainClass, name, appliedConstraints, type ) {
 
     def value = getValueNullable( appliedConstraints )
     if ( !value ) value = getValueException( appliedConstraints )
-    if ( !value ) value = getValueId( domainClass, name, appliedConstraints,
-        type )
+    if ( !value ) value = getValueId( domainClass, name, appliedConstraints, type )
     if ( !value ) value = getValueEmail( appliedConstraints )
     if ( !value ) value = getValueInList( appliedConstraints, type )
     if ( !value ) value = getValueString( appliedConstraints, type )
@@ -76,7 +74,7 @@ String getValue( domainClass, name, appliedConstraints, type ) {
     if ( !value ) value = getValueNumeric( type )
     if ( !value ) value = getValueArray( type, 1 )
     if ( !value ) value = getValueBigDecimal( type )
-    if ( !value ) value = getValueObject( type ) 
+    if ( !value ) value = getValueObject( type )
     value
 
 }// End of method
@@ -105,7 +103,7 @@ String getValueId( domainClass, name, appliedConstraints, type ) {
     if ( idAssigned.name != name ) return null
     properties.idSet = true
     if ( type.name == 'java.lang.String' ) {
-        def content = '' << "new String( ( 65 + id ) as Character )"
+        def content = "new String( ( 65 + id ) as Character )"
         def sizeConstraint = appliedConstraints.find { it.name == 'size' }
         if ( sizeConstraint )
             content << " * ${sizeConstraint.parameter.from}"
@@ -134,7 +132,7 @@ String getValueInList( appliedConstraints, type ) {
 String getValueString( appliedConstraints, type ) {
 
     if ( type.name != 'java.lang.String' ) return null
-    def content = '' << "'A'"
+    def content = "'A'"
     def sizeConstraint = appliedConstraints.find { it.name == 'size' }
     if ( sizeConstraint )
         content << " * ${sizeConstraint.parameter.from}"
@@ -179,7 +177,7 @@ String getValueObject( type ) {
 
 String generateException() {
 
-    def content = '' << "${TAB*2}throw new IllegalStateException("
+    def content = "${TAB*2}throw new IllegalStateException("
     content << " 'Please set some values by hand' )\n/*\n"
     content.toString()
 
@@ -189,9 +187,9 @@ String setUniqueProperties( constraints ) {
 
     def uniqueSettings = getUniqueSettings( constraints )
     if ( !uniqueSettings ) return ''
-    def content = '' << '\n'
+    def content = '\n'
     uniqueSettings.each {
-        def value = this.getUniqueValue( it.value )
+        def value = getUniqueValue( it.value )
         content << "${TAB*2}instance.${it.key} = ${value}\n"
     }// End of closure
     content.toString()
@@ -202,7 +200,7 @@ String getUniqueValue( map ) {
 
     def uniqueValue = map.min
     if ( map.propertyType == 'java.lang.String' ) {
-    def content = '' << "new String( ( 65 + id ) as Character )"
+    def content = "new String( ( 65 + id ) as Character )"
         content << "${uniqueValue?' * ' + uniqueValue:''}"
         return content.toString()
     } else return "${uniqueValue}"

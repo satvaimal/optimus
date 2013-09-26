@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.RequestContextUtils as RCU
 class OptimusRemotePaginationTagLib {
     static namespace = "util"
     def grailsApplication
+    def messageSource
 
     def remotePaginate = {attrs ->
         def writer = out
@@ -22,21 +23,20 @@ class OptimusRemotePaginationTagLib {
         if (!attrs.action)
             throwTagError("Tag [remotePaginate] is missing required attribute [action]")
 
-        def messageSource = grailsApplication.getMainContext().getBean("messageSource")
         def locale = RCU.getLocale(request)
 
         Integer total = attrs.int('total')?: 0
         Integer offset = params.int('offset') ?: (attrs.int('offset') ?: 0)
         Integer max = params.int('max') ?: (attrs.int('max')  ?: grailsApplication.config.grails.plugins.remotepagination.max as Integer)
         Integer maxsteps = params.int('maxsteps') ?: (attrs.int('maxsteps') ?: 10)
-        Boolean alwaysShowPageSizes = new Boolean(attrs.alwaysShowPageSizes?:false)
+        Boolean alwaysShowPageSizes = Boolean.valueOf(attrs.alwaysShowPageSizes?:false)
         def pageSizes = attrs.pageSizes ?: []
         Map linkTagAttrs = attrs
-		boolean bootstrapEnabled = grailsApplication.config.grails.plugins.remotepagination.enableBootstrap as boolean
+        boolean bootstrapEnabled = grailsApplication.config.grails.plugins.remotepagination.enableBootstrap as boolean
 
-		if(bootstrapEnabled){
-			writer << '<ul class="pagination">'
-		}
+        if(bootstrapEnabled){
+            writer << '<ul class="pagination">'
+        }
 
         Map linkParams = [offset: offset - max, max: max]
         Map selectParams = [:]
@@ -190,7 +190,6 @@ class OptimusRemotePaginationTagLib {
         def titleKey = attrs.remove("titleKey")
         if (titleKey) {
             if (!title) title = titleKey
-            def messageSource = grailsAttributes.getApplicationContext().getBean("messageSource")
             def locale = RCU.getLocale(request)
             title = messageSource.getMessage(titleKey, null, title, locale)
         }
@@ -222,7 +221,6 @@ class OptimusRemotePaginationTagLib {
         if (!attrs.action)
             throwTagError("Tag [remotePageScroll] is missing required attribute [action]")
 
-        def messageSource = grailsAttributes.getApplicationContext().getBean("messageSource")
         def locale = RCU.getLocale(request)
 
         Integer total = attrs.int('total')?: 0
@@ -310,12 +308,11 @@ class OptimusRemotePaginationTagLib {
             writer << "jQuery(document).ready(function(){jQuery('#${attrs.update}').stopRemotePaginateOnScroll();});"
         }
         writer << "</script>"
-
     }
 
-	private def wrapInListItem(Boolean bootstrapEnabled, def val, def clazz = null){
-                if ( !bootstrapEnabled ) return val
-                def classStyle = clazz ? " class=\"${clazz}\"" : ''
-		"<li${classStyle}>$val</li>"
-	}
+    private wrapInListItem(Boolean bootstrapEnabled, val, clazz = null){
+        if ( !bootstrapEnabled ) return val
+        def classStyle = clazz ? " class=\"${clazz}\"" : ''
+        "<li${classStyle}>$val</li>"
+    }
 }

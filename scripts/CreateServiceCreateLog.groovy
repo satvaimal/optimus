@@ -8,7 +8,7 @@ target( createServiceCreateLog:"Generate application logs for 'create' service m
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'create' service logs"
     event( 'StatusFinal', [ msg ] )
 
@@ -18,28 +18,24 @@ setDefaultTarget( createServiceCreateLog )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}.aop\n\n"
-    content << this.generateImports( domainClass.packageName,
-        domainClass.name )
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generatePointcutMethod( domainClass.packageName,
-        domainClass.name )
-    content << this.generateBeforeMethod( domainClass.name )
-    content << this.generateAfterReturningMethod( domainClass.packageName,
-        domainClass.name )
-    content << this.generateAfterThrowingMethod( domainClass.packageName,
-        domainClass.name )
+    def content = "package ${domainClass.packageName}.aop\n\n"
+    content << generateImports( domainClass.packageName, domainClass.name )
+    content << generateClassDeclaration( domainClass.name )
+    content << generatePointcutMethod( domainClass.packageName, domainClass.name )
+    content << generateBeforeMethod( domainClass.name )
+    content << generateAfterReturningMethod( domainClass.packageName, domainClass.name )
+    content << generateAfterThrowingMethod( domainClass.packageName, domainClass.name )
     content << '}'
     def directory = generateDirectory( "src/groovy",
         "${domainClass.packageName}.aop" )
     def fileName = "${domainClass.name}ServiceCreate.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports( packageName, className ) {
 
-    def content = '' << "import ${packageName}.${className}\n\n"
+    def content = "import ${packageName}.${className}\n\n"
     [ 'AfterReturning', 'AfterThrowing', 'Aspect', 'Before',
         'Pointcut' ].each {
         content << "import org.aspectj.lang.annotation.${it}\n"
@@ -52,7 +48,7 @@ String generateImports( packageName, className ) {
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << '@Component\n'
+    def content = '@Component\n'
     content << '@Aspect\n'
     content << "class ${className}ServiceCreate {\n\n"
     content.toString()
@@ -62,7 +58,7 @@ String generateClassDeclaration( className ) {
 String generatePointcutMethod( packageName, className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Pointcut(\n"
+    def content = "${TAB}@Pointcut(\n"
     content << "${TAB*2}value='execution(void "
     content << "${packageName}.${className}Service.create(..)) && bean"
     content << "(${classNameLower}Service) && args(${classNameLower})',\n"
@@ -76,7 +72,7 @@ String generatePointcutMethod( packageName, className ) {
 String generateBeforeMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before('create("
+    def content = "${TAB}@Before('create("
     content << "${classNameLower})')\n"
     content << "${TAB}void before( ${className} "
     content << "${classNameLower} ) {\n"
@@ -87,7 +83,7 @@ String generateBeforeMethod( className ) {
 }// End of method
 
 String generateAfterReturningMethod( packageName, className ) {
-    def content = '' << "${TAB}@AfterReturning(\n"
+    def content = "${TAB}@AfterReturning(\n"
     content << "${TAB*2}pointcut='create("
     content << "${packageName}.${className})')\n"
     content << "${TAB}void afterReturning() {\n"
@@ -99,12 +95,12 @@ String generateAfterReturningMethod( packageName, className ) {
 
 String generateAfterThrowingMethod( packageName, className ) {
 
-    def content = '' << "${TAB}@AfterThrowing(\n"
+    def content = "${TAB}@AfterThrowing(\n"
     content << "${TAB*2}pointcut='create("
     content << "${packageName}.${className})',\n"
     content << "${TAB*2}throwing='e' )\n"
     content << "${TAB}void afterThrowing( Exception e ) {\n\n"
-    content << "${TAB*2}def message = '' << ''\n"
+    content << "${TAB*2}def message = ''\n"
     content << "${TAB*2}message << \"Error in request\"\n"
     content << "${TAB*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
@@ -113,4 +109,3 @@ String generateAfterThrowingMethod( packageName, className ) {
     content.toString()
 
 }// End of method
-

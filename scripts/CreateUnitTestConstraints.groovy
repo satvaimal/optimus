@@ -6,7 +6,7 @@ target( createUnitTestConstraints:'Generate unit test for class domain constrain
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of constraints unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -19,7 +19,7 @@ void generate( domainClass ) {
     def constraints = domainClass.constrainedProperties
     properties.uniqueSettings = getUniqueSettings( constraints )
     properties.requiredAttributes = getRequiredAttributes( constraints )
-    constraints.each { this.processConstraint( domainClass, it.value ) }
+    constraints.each { processConstraint( domainClass, it.value ) }
 
 }// End of method
 
@@ -27,42 +27,39 @@ void processConstraint( domainClass, constraint ) {
 
     if ( EXCLUDED_ATTRIBUTES.contains( constraint.propertyName ) ||
         constraint.propertyType.name == 'boolean' ) return
-    def testMethods = '' << ''
+    def testMethods = ''
     constraint.appliedConstraints.each { ac ->
         if ( EXCLUDED_CONSTRAINTS.contains( ac.name ) ) return
         else if ( PRIMITIVE_TYPES.contains( constraint.propertyType ) &&
         ac.name == 'nullable' ) return
         else if ( RANGE_CONSTRAINTS.contains( ac.name ) ) {
-        testMethods << this.generateRangeTestMethods( domainClass.name,
-            constraint, ac )
+            testMethods << generateRangeTestMethods( domainClass.name, constraint, ac )
         } else {
-        testMethods << this.generateTestMethod( domainClass.name,
-            constraint, ac, '' )
+            testMethods << generateTestMethod( domainClass.name, constraint, ac, '' )
         }// End of else
     }// End of closure
-    this.generateFile( domainClass, constraint.propertyName, testMethods )
+    generateFile( domainClass, constraint.propertyName, testMethods )
 
 }// End of method
 
 void generateFile( domainClass, propertyName, testMethods ) {
 
     def className = domainClass.name
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( className, propertyName )
-    content << this.generateSetUpMethod( className, propertyName )
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( className, propertyName )
+    content << generateSetUpMethod( className, propertyName )
     content << testMethods
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
-    new File( "${directory}/${getFilename(className, propertyName)}" ).text =
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
+    new File(directory, getFilename(className, propertyName)).text =
         content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
+    def content = "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
     content.toString()
 
@@ -70,7 +67,7 @@ String generateImports() {
 
 String generateClassDeclaration( className, propertyName ) {
 
-    def content = '' << "@TestFor(${className})\n"
+    def content = "@TestFor(${className})\n"
     content << "class ${className}${propertyName.capitalize()}"
     content << 'ConstraintsTests {\n\n'
     content.toString()
@@ -79,14 +76,14 @@ String generateClassDeclaration( className, propertyName ) {
 
 String generateSetUpMethod( className, propertyName ) {
 
-    def attribute = this.getInitializedAttribute( propertyName )
-    def content = '' << "${TAB}@Before\n"
+    def attribute = getInitializedAttribute( propertyName )
+    def content = "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}mockForConstraintsTests("
     content << " ${className}, [ new ${className}(${attribute}) ] )\n"
     content << "${TAB}}\n\n"
     content.toString()
-    
+
 }// End of method
 
 String getInitializedAttribute( propertyName ) {
@@ -94,7 +91,7 @@ String getInitializedAttribute( propertyName ) {
     if ( !properties.uniqueSettings ) return ''
     def uniqueSetting = properties.uniqueSettings[ propertyName ]
     if ( !uniqueSetting ) return ''
-    " ${propertyName}:${this.getUniqueMinValue( uniqueSetting )} "
+    " ${propertyName}:${getUniqueMinValue( uniqueSetting )} "
 
 }// End of method
 
@@ -110,11 +107,9 @@ String getUniqueMinValue( map ) {
 String generateRangeTestMethods( className, constraint,
     appliedConstraint ) {
 
-    def content = '' << ''
-    content << this.generateRangeTooShortTestMethods( className,
-        constraint, appliedConstraint )
-    content << this.generateTestMethod( className, constraint,
-        appliedConstraint, 'TooLong' )
+    def content = ''
+    content << generateRangeTooShortTestMethods( className, constraint, appliedConstraint )
+    content << generateTestMethod( className, constraint, appliedConstraint, 'TooLong' )
     content.toString()
 
 }// End of method
@@ -125,8 +120,7 @@ String generateRangeTooShortTestMethods( className, constraint,
     if ( appliedConstraint.name == 'size' &&
         constraint.propertyType.name == 'java.lang.String' &&
         appliedConstraint.parameter.from <= 1 ) return ''
-    this.generateTestMethod( className, constraint,
-        appliedConstraint, 'TooShort' )
+    generateTestMethod( className, constraint, appliedConstraint, 'TooShort' )
 
 }// End of method
 
@@ -134,16 +128,15 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
 
     def propertyName = constraint.propertyName
     def constraintName = appliedConstraint.name
-    def content = '' << "${TAB}void test"
+    def content = "${TAB}void test"
     content << "${constraintName.capitalize()}${suffix}() {\n\n"
-    content << this.generateException( constraintName )
-    content << this.generateClassInstance( className )
-    content << this.generateAttributeSetting( constraint, appliedConstraint,
-        suffix )
-    content << this.generateValidateAssertion( propertyName, appliedConstraint )
-    content << this.generateNullAssertion( propertyName, appliedConstraint )
-    content << this.generateEqualsAssertion( propertyName, constraintName )
-    content << this.closeExceptionComment( constraintName )
+    content << generateException( constraintName )
+    content << generateClassInstance( className )
+    content << generateAttributeSetting( constraint, appliedConstraint, suffix )
+    content << generateValidateAssertion( propertyName, appliedConstraint )
+    content << generateNullAssertion( propertyName, appliedConstraint )
+    content << generateEqualsAssertion( propertyName, constraintName )
+    content << closeExceptionComment( constraintName )
     content << "\n${TAB}}\n\n"
     content.toString()
 
@@ -152,7 +145,7 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
 String generateException( constraintName ) {
 
     if ( !EXCEPTION_CONSTRAINTS.contains( constraintName ) ) return ''
-    def content = '' << "${TAB*2}throw new IllegalStateException("
+    def content = "${TAB*2}throw new IllegalStateException("
     content << "\n${TAB*3}\"'${constraintName}' constraint found."
     content << " Please implement it by hand\" )\n/*\n"
     content.toString()
@@ -160,20 +153,17 @@ String generateException( constraintName ) {
 }// End of method
 
 String generateClassInstance( className ) {
-
-    def content = '' << "${TAB*2}def instance = new ${className}()\n"
-    content.toString()
+    "${TAB*2}def instance = new ${className}()\n"
 
 }// End of method
 
 String generateAttributeSetting( constraint, appliedConstraint, suffix ) {
 
-    def propertyValue = this.getPropertyValue( constraint, appliedConstraint,
-        suffix )
-    def content = '' << "${TAB*2}instance.${constraint.propertyName}"
+    def propertyValue = getPropertyValue( constraint, appliedConstraint, suffix )
+    def content = "${TAB*2}instance.${constraint.propertyName}"
     content << " = ${propertyValue}\n"
     content.toString()
-    
+
 }// End of method
 
 String getPropertyValue( constraint, appliedConstraint, suffix ) {
@@ -211,9 +201,9 @@ String getEmailValue() {
 
 String getInListValue( constraintValue ) {
 
-    def value = this.createRandomWord( 10 )
+    def value = createRandomWord( 10 )
     while ( constraintValue.contains( value ) ) {
-        value = this.createRandomWord( 10 )
+        value = createRandomWord( 10 )
     }// End of while
     "'${value}'"
 
@@ -224,19 +214,19 @@ String getMatchesValue() {
 }// End of method
 
 String getMaxValue( propertyType, constraintValue ) {
-    this.getMaxMinValue( propertyType, constraintValue, 1 )
+    getMaxMinValue( propertyType, constraintValue, 1 )
 }// End of method
 
 String getMaxSizeValue( propertyType, constraintValue ) {
-    this.getMiscValue( propertyType, constraintValue, 1 )
+    getMiscValue( propertyType, constraintValue, 1 )
 }// End of method
 
 String getMinValue( propertyType, constraintValue ) {
-    this.getMaxMinValue( propertyType, constraintValue, -1 )
+    getMaxMinValue( propertyType, constraintValue, -1 )
 }// End of method
 
 String getMinSizeValue( propertyType, constraintValue ) {
-    this.getMiscValue( propertyType, constraintValue, -1 )
+    getMiscValue( propertyType, constraintValue, -1 )
 }// End of method
 
 String getNotEqualValue( propertyType, constraintValue ) {
@@ -264,11 +254,11 @@ String getRangeTooLongValue( constraintValue ) {
 }// End of method
 
 String getSizeTooShortValue( propertyType, constraintValue ) {
-    this.getMiscValue( propertyType, constraintValue.from, -1 )
+    getMiscValue( propertyType, constraintValue.from, -1 )
 }// End of method
 
 String getSizeTooLongValue( propertyType, constraintValue ) {
-    this.getMiscValue( propertyType, constraintValue.to, 1 )
+    getMiscValue( propertyType, constraintValue.to, 1 )
 }// End of method
 
 String getSizeValue() {
@@ -276,7 +266,7 @@ String getSizeValue() {
 }// End of method
 
 String getUniqueValue( propertyName ) {
-    this.getUniqueMinValue( properties.uniqueSettings[ propertyName ] )
+    getUniqueMinValue( properties.uniqueSettings[ propertyName ] )
 }// End of method
 
 String getUrlValue() {
@@ -295,9 +285,8 @@ String getMaxMinValue( propertyType, constraintValue, add ) {
         charArray[ charArray.size() - 1 ] =
         ( lastChar + add ) as Character
         return "'${charArray}'"
-    } else {
-        return "${(constraintValue as BigDecimal) + add}"
-    }// End of else
+    }
+    return "${(constraintValue as BigDecimal) + add}"
 
 }// End of method
 
@@ -305,20 +294,20 @@ String getMiscValue( propertyType, constraintValue, add ) {
 
     if ( propertyType.name == 'java.lang.String' ) {
         return "'A' * ${constraintValue + add}"
-    } else if ( propertyType.name.startsWith( '[' ) ) {
+    }
+    if ( propertyType.name.startsWith( '[' ) ) {
         def arrayType = getArrayType( propertyType.name )
         return "new ${arrayType}[ ${(constraintValue as BigDecimal)+add} ]"
-    } else {
-        return "${(constraintValue as BigDecimal) + add}"
-    }// End of else
+    }
+    return "${(constraintValue as BigDecimal) + add}"
 
 }// End of method
 
 String generateValidateAssertion( propertyName, appliedConstraint ) {
 
-    def flag = this.getValidateFlag( propertyName, appliedConstraint )
+    def flag = getValidateFlag( propertyName, appliedConstraint )
     properties.flag = flag
-    def content = '' << "${TAB*2}assert${flag.toString().capitalize()}"
+    def content = "${TAB*2}assert${flag.toString().capitalize()}"
     content << " \"'validate' should be ${flag}\", instance.validate()\n"
     content.toString()
 
@@ -340,9 +329,8 @@ String generateNullAssertion( propertyName, appliedConstraint ) {
 
     def constraintName = appliedConstraint.name
     def constraintValue = appliedConstraint.parameter
-    def content = '' << ''
-    def flag = ( constraintName == 'nullable' || constraintName == 'blank' ) &&
-        constraintValue == true
+    def content = ''
+    def flag = ( constraintName == 'nullable' || constraintName == 'blank' ) && constraintValue == true
     properties.flag = flag
     content << "${TAB*2}assert${flag?'':'Not'}Null"
     content << " \"'errors[ '${propertyName}' ]'"
@@ -355,7 +343,7 @@ String generateNullAssertion( propertyName, appliedConstraint ) {
 String generateEqualsAssertion( propertyName, constraintName ) {
 
     if ( properties.flag ) return ''
-    def content = '' << ''
+    def content = ''
     content << "${TAB*2}assertEquals \"'errors[ '${propertyName}' ]'"
     content << " should be '${constraintName}'\",\n"
     content << "${TAB*3}'${constraintName}', "
@@ -374,7 +362,7 @@ String closeExceptionComment( constraintName ) {
 String createRandomWord( size ) {
 
     def random = new Random()
-    def output = '' << ''
+    def output = ''
     size.times { output << ( ( 65 + random.nextInt( 26 ) ) as Character ) }
     output.toString()
 
@@ -382,7 +370,7 @@ String createRandomWord( size ) {
 
 String getFilename( className, propertyName ) {
 
-    def fileName = '' << "${className}${propertyName.capitalize()}"
+    def fileName = "${className}${propertyName.capitalize()}"
     fileName << "ConstraintsTests.groovy"
     fileName.toString()
 

@@ -8,7 +8,7 @@ target( createUnitTestsControllerIndex:"Generate unit tests for 'index' controll
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'index' controller unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -18,23 +18,22 @@ setDefaultTarget( createUnitTestsControllerIndex )
 
 void generate( domainClass ) {
 
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateOkMethod( domainClass.name )
-    content << this.generateOkWithParamsMethod( domainClass.name )
-    content << this.generateRequestMethodInvalidMethod()
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateOkMethod( domainClass.name )
+    content << generateOkWithParamsMethod( domainClass.name )
+    content << generateRequestMethodInvalidMethod()
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerIndexTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
+    def content = "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
     content << "\n"
     content.toString()
@@ -43,7 +42,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Controller)\n"
+    def content = "@TestFor(${className}Controller)\n"
     content << "class ${className}ControllerIndexTests {\n\n"
     content.toString()
 
@@ -52,7 +51,7 @@ String generateClassDeclaration( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOk() {\n\n"
+    def content = "${TAB}void testOk() {\n\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}controller.index()\n"
     content << "${TAB*2}def expected = '/${classNameLower}/content'\n"
@@ -69,7 +68,7 @@ String generateOkMethod( className ) {
 String generateOkWithParamsMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOkWithParams() {\n\n"
+    def content = "${TAB}void testOkWithParams() {\n\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}params.name = 'value'\n"
     content << "${TAB*2}controller.index()\n"
@@ -87,7 +86,7 @@ String generateOkWithParamsMethod( className ) {
 
 String generateRequestMethodInvalidMethod() {
 
-    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
     content << "${TAB*2}request.method = 'POST'\n"

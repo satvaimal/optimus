@@ -29,11 +29,11 @@ class PersonController {
     }
 
     def content() {
-        this.renderList( 'content' )
+        renderList( 'content' )
     }
 
     def list() {
-        this.renderList( 'list' )
+        renderList( 'list' )
     }
 
     def create() {
@@ -46,14 +46,13 @@ class PersonController {
     def save() {
 
         def person = new Person( params )
-        this.saveOnDb( person, 'create',
-            'person.created.message' )
+        saveOnDb( person, 'create', 'person.created.message' )
 
     }
 
     def edit( Long id ) {
 
-        def map = this.get( id )
+        def map = get( id )
         if ( !map ) return
         map.edit = true
         render( template:'form', model:map )
@@ -62,18 +61,18 @@ class PersonController {
 
     def update( Long id ) {
 
-        def map = this.get( id )
+        def map = get( id )
         if ( !map ) return
         map.personInstance.properties = params
         map.edit = true
-        this.saveOnDb( map.personInstance, 'update',
+        saveOnDb( map.personInstance, 'update',
             'person.updated.message', true )
 
     }
 
     def delete( Long id ) {
 
-        def map = this.get( id )
+        def map = get( id )
         if ( !map ) return
         personService.delete( map.personInstance )
         flash.listMessage = message( code:'default.deleted.message',
@@ -96,12 +95,12 @@ class PersonController {
     private Map get( Long id ) {
 
         if ( !id ) {
-            this.notifyCrack()
+            notifyCrack()
             return null
         }
         def person = personService.get( id )
         if ( !person ) {
-            this.notifyCrack()
+            notifyCrack()
             return null
         }
         [ personInstance:person ]
@@ -144,7 +143,7 @@ class CrackingService {
 
     void notify( HttpServletRequest request, Map params ) {
 
-        def message = '' << "Request ${request.requestURL}"
+        def message = "Request ${request.requestURL}"
         message << " from ${request.remoteAddr}"
         message << " and params ${params}"
         message << " has been detected as unusual activity"

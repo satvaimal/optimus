@@ -37,14 +37,14 @@ class PersonControllerSaveTests {
 
     @Before
     void setUp() {
-        views[ '/person/_form.gsp' ] = this.getTemplate()
+        views[ '/person/_form.gsp' ] = getTemplate()
     }
 
     void testOk() {
 
-        def control = this.mockPersonService()
+        def control = mockPersonService()
         request.method = 'POST'
-        this.setUpParams()
+        setUpParams()
         controller.save()
         def expected = 'default.created.message'
         assertEquals "'message' should be '${expected}'",
@@ -59,9 +59,9 @@ class PersonControllerSaveTests {
 
     void testParamsInvalid() {
 
-        def control = this.mockPersonService( false )
+        def control = mockPersonService( false )
         request.method = 'POST'
-        this.setUpParams()
+        setUpParams()
         params.name = null
         controller.save()
         def expected = 'OK'

@@ -8,7 +8,7 @@ target( createUnitTestsControllerUpdate:"Generate unit tests for 'update' contro
     depends( checkVersion, configureProxy, bootstrap )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'update' controller unit tests"
     event( 'StatusFinal', [ msg ] )
 
@@ -20,30 +20,28 @@ void generate( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
-    def content = '' << "package ${domainClass.packageName}\n\n"
-    content << this.generateImports()
-    content << this.generateClassDeclaration( domainClass.name )
-    content << this.generateSetUpMethod( domainClass.name )
-    content << this.generateOkMethod( domainClass.name, idName )
-    content << this.generateIdNullMethod()
-    content << this.generateNotFoundMethod( domainClass.name, idName )
-    content << this.generateParamsInvalidMethod( domainClass, idName )
-    content << this.generateRequestMethodInvalidMethod( domainClass.name,
-        idName )
-    content << this.generateGetTemplateMethod( domainClass.name )
-    content << this.generateMockMethods( domainClass.name, idAssigned )
-    content << this.generateSetUpParamsMethod( domainClass.name )
+    def content = "package ${domainClass.packageName}\n\n"
+    content << generateImports()
+    content << generateClassDeclaration( domainClass.name )
+    content << generateSetUpMethod( domainClass.name )
+    content << generateOkMethod( domainClass.name, idName )
+    content << generateIdNullMethod()
+    content << generateNotFoundMethod( domainClass.name, idName )
+    content << generateParamsInvalidMethod( domainClass, idName )
+    content << generateRequestMethodInvalidMethod( domainClass.name, idName )
+    content << generateGetTemplateMethod( domainClass.name )
+    content << generateMockMethods( domainClass.name, idAssigned )
+    content << generateSetUpParamsMethod( domainClass.name )
     content << '}'
-    def directory = generateDirectory( "test/unit",
-        domainClass.packageName )
+    def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerUpdateTests.groovy"
-    new File( "${directory}/${fileName}" ).text = content.toString()
+    new File(directory, fileName).text = content.toString()
 
 }// End of method
 
 String generateImports() {
 
-    def content = '' << "import javax.servlet.http.HttpServletRequest\n"
+    def content = "import javax.servlet.http.HttpServletRequest\n"
     content << "import grails.test.GrailsMock\n"
     content << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
@@ -54,7 +52,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = '' << "@TestFor(${className}Controller)\n"
+    def content = "@TestFor(${className}Controller)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ControllerUpdateTests {\n\n"
     content.toString()
@@ -64,7 +62,7 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before\n"
+    def content = "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}${className}Mock.mock( 1 ).save("
     content << " failOnError:true )\n"
@@ -79,7 +77,7 @@ String generateOkMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOk() {\n\n"
+    def content = "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service()\n"
     content << "${TAB*2}request.method = 'POST'\n"
     content << "${TAB*2}this.setUpParams()\n"
@@ -101,7 +99,7 @@ String generateOkMethod( className, idName ) {
 
 String generateIdNullMethod() {
 
-    def content = '' << "${TAB}void testIdNull() {\n\n"
+    def content = "${TAB}void testIdNull() {\n\n"
     content << "${TAB*2}def control = this.mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
@@ -122,7 +120,7 @@ String generateNotFoundMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 2 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testNotFound() {\n\n"
+    def content = "${TAB}void testNotFound() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( true, 0 )\n"
     content << "${TAB*2}def control2 = this.mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
@@ -149,7 +147,7 @@ String generateParamsInvalidMethod( domainClass, idName ) {
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
-    def content = '' << "${TAB}void testParamsInvalid() {\n\n"
+    def content = "${TAB}void testParamsInvalid() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( false )\n"
     content << "${TAB*2}request.method = 'POST'\n"
     content << "${TAB*2}this.setUpParams()\n"
@@ -169,7 +167,7 @@ String generateParamsInvalidMethod( domainClass, idName ) {
 String generateRequestMethodInvalidMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
-    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
     content << "${TAB*2}request.method = 'GET'\n"
@@ -184,7 +182,7 @@ String generateRequestMethodInvalidMethod( className, idName ) {
 String generateGetTemplateMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private String getTemplate() {\n"
+    def content = "${TAB}private String getTemplate() {\n"
     content << "${TAB*2}'<g:if test=\"\${${classNameLower}Instance"
     content << " && edit}\">OK</g:if><g:else>ERROR</g:else>'\n"
     content << "${TAB}}\n\n"
@@ -194,11 +192,11 @@ String generateGetTemplateMethod( className ) {
 
 String generateMockMethods( className, idAssigned ) {
 
-    def content = '' << ""
-    content << this.generateMockServiceMethod( className, idAssigned )
-    content << this.generateCrackingServiceMethod()
+    def content = ''
+    content << generateMockServiceMethod( className, idAssigned )
+    content << generateCrackingServiceMethod()
     content.toString()
- 
+
 }// End of method
 
 String generateMockServiceMethod( className, idAssigned ) {
@@ -206,7 +204,7 @@ String generateMockServiceMethod( className, idAssigned ) {
     def idName = idAssigned ? idAssigned.name : 'id'
     def idType = idAssigned ? idAssigned.type : 'Long'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private GrailsMock"
+    def content = "${TAB}private GrailsMock"
     content << " mock${className}Service( update = true"
     content << ", updateTimes = 1 ) {\n\n"
     content << "${TAB*2}def control = mockFor( ${className}Service )\n"
@@ -229,7 +227,7 @@ String generateMockServiceMethod( className, idAssigned ) {
 
 String generateCrackingServiceMethod() {
 
-    def content = '' << "${TAB}private GrailsMock"
+    def content = "${TAB}private GrailsMock"
     content << " mock${CRACKING_SERVICE.capitalize()}Service() {\n\n"
     content << "${TAB*2}def control = mockFor("
     content << " ${CRACKING_SERVICE.capitalize()}Service )\n"
@@ -245,7 +243,7 @@ String generateCrackingServiceMethod() {
 
 String generateSetUpParamsMethod( className ) {
 
-    def content = '' << "${TAB}private void setUpParams() {\n\n"
+    def content = "${TAB}private void setUpParams() {\n\n"
     content << "${TAB*2}def mock = ${className}Mock.mock( 1 )\n"
     content << "${TAB*2}mock.properties.each{ params.\"\${it.key}\""
     content << " = it.value }\n\n"

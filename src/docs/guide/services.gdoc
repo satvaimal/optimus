@@ -15,18 +15,18 @@ class PersonService {
 
     Map list( Map params ) {
 
-        this.processParams( params )
+        processParams( params )
         def criteria = new DetachedCriteria( Person ).build {}
         [ items:criteria.list( params ), total:criteria.count() ]
 
     }
 
     void create( Person person ) {
-        this.save( person )
+        save( person )
     }
 
     void update( Person person ) {
-        this.save( person )
+        save( person )
     }
 
     Person get( Long id ) {
