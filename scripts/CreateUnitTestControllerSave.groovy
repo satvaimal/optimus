@@ -108,8 +108,8 @@ String generateParamsInvalidMethod( domainClass ) {
     content << "${TAB*2}def expected = 'OK'\n"
     content << "${TAB*2}assertEquals \"'text' should be '\${expected}'\",\n"
     content << "${TAB*3}expected, response.text\n"
-    content << "${TAB*2}assertEquals \"'status' should be 200\""
-    content << ", 200, response.status\n"
+    content << "${TAB*2}assertEquals \"'status' should be 400\""
+    content << ", 400, response.status\n"
     content << "${TAB*2}control.verify()\n\n"
     content << "${TAB}}\n\n"
     content.toString()
