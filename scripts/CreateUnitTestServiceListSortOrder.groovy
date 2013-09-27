@@ -16,7 +16,7 @@ setDefaultTarget( createUnitTestServiceListSortOrder )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
@@ -33,14 +33,14 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = "import grails.test.mixin.*\n"
+    def content = '' << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
 
 }// End of method
 
 String generateClassDeclaration( className ) {
 
-    def content = "@TestFor(${className}Service)\n"
+    def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceListSortOrderTests {\n\n"
     content.toString()
@@ -49,7 +49,7 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = "${TAB}@Before\n"
+    def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}20.times {\n"
     content << "${TAB*3}${className}Mock.mock( it + 1 ).save("
@@ -65,7 +65,7 @@ String generateOkMethod( domainClass ) {
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
     def expected = getId( domainClass, idAssigned )
-    def content = ''
+    def content = new StringBuilder()
     content << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def params = [ sort:'${idName}', order:'desc' ]\n"
     content << "${TAB*2}def result = service.list( params )\n"
@@ -103,7 +103,7 @@ String getId( domainClass, idAssigned ) {
 
 String generateMethod( methodSuffix, value ) {
 
-    def content = "${TAB}void test${methodSuffix}() {\n\n"
+    def content = '' << "${TAB}void test${methodSuffix}() {\n\n"
     content << "${TAB*2}def params = [ sort:${value}"
     content << ", order:${value} ]\n"
     content << "${TAB*2}def result = service.list( params )\n"

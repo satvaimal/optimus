@@ -18,7 +18,7 @@ setDefaultTarget( createUnitTestsControllerContent )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
@@ -35,7 +35,7 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = "import grails.test.GrailsMock\n"
+    def content = '' << "import grails.test.GrailsMock\n"
     content << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
     content << "\n"
@@ -45,7 +45,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = "@TestFor(${className}Controller)\n"
+    def content = '' << "@TestFor(${className}Controller)\n"
     content << "class ${className}ControllerContentTests {\n\n"
     content.toString()
 
@@ -54,7 +54,7 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}@Before\n"
+    def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_content.gsp' ]"
     content << " = this.getTemplate()\n"
@@ -66,7 +66,7 @@ String generateSetUpMethod( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}void testOk() {\n\n"
+    def content = '' << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}def model = controller.content()\n"
@@ -83,7 +83,7 @@ String generateOkMethod( className ) {
 
 String generateRequestMethodInvalidMethod() {
 
-    def content = "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
     content << "${TAB*2}request.method = 'POST'\n"
@@ -97,7 +97,7 @@ String generateRequestMethodInvalidMethod() {
 
 String generateGetTemplateMethod() {
 
-    def content = "${TAB}private String getTemplate() {\n"
+    def content = '' << "${TAB}private String getTemplate() {\n"
     content << "${TAB*2}'<g:if test=\"\${items && total}\">OK</g:if>"
     content << "<g:else>ERROR</g:else>'\n"
     content << "${TAB}}\n\n"
@@ -108,7 +108,7 @@ String generateGetTemplateMethod() {
 String generateMockMethods( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}private GrailsMock mock${className}Service() {\n\n"
+    def content = '' << "${TAB}private GrailsMock mock${className}Service() {\n\n"
     content << "${TAB*2}def control = mockFor( ${className}Service )\n"
     content << "${TAB*2}control.demand.list( 1 ) { Map params ->\n"
     content << "${TAB*3}[ items:[ new ${className}() ], total:1 ] }\n"
