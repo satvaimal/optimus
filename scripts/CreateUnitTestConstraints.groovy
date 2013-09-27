@@ -27,7 +27,7 @@ void processConstraint( domainClass, constraint ) {
 
     if ( EXCLUDED_ATTRIBUTES.contains( constraint.propertyName ) ||
         constraint.propertyType.name == 'boolean' ) return
-    def testMethods = ''
+    def testMethods = new StringBuilder()
     constraint.appliedConstraints.each { ac ->
         if ( EXCLUDED_CONSTRAINTS.contains( ac.name ) ) return
         else if ( PRIMITIVE_TYPES.contains( constraint.propertyType ) &&
@@ -45,7 +45,7 @@ void processConstraint( domainClass, constraint ) {
 void generateFile( domainClass, propertyName, testMethods ) {
 
     def className = domainClass.name
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( className, propertyName )
     content << generateSetUpMethod( className, propertyName )
@@ -59,7 +59,7 @@ void generateFile( domainClass, propertyName, testMethods ) {
 
 String generateImports() {
 
-    def content = "import grails.test.mixin.*\n"
+    def content = '' << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
     content.toString()
 
@@ -67,7 +67,7 @@ String generateImports() {
 
 String generateClassDeclaration( className, propertyName ) {
 
-    def content = "@TestFor(${className})\n"
+    def content = '' << "@TestFor(${className})\n"
     content << "class ${className}${propertyName.capitalize()}"
     content << 'ConstraintsTests {\n\n'
     content.toString()
@@ -77,7 +77,7 @@ String generateClassDeclaration( className, propertyName ) {
 String generateSetUpMethod( className, propertyName ) {
 
     def attribute = getInitializedAttribute( propertyName )
-    def content = "${TAB}@Before\n"
+    def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}mockForConstraintsTests("
     content << " ${className}, [ new ${className}(${attribute}) ] )\n"
@@ -107,7 +107,7 @@ String getUniqueMinValue( map ) {
 String generateRangeTestMethods( className, constraint,
     appliedConstraint ) {
 
-    def content = ''
+    def content = new StringBuilder()
     content << generateRangeTooShortTestMethods( className, constraint, appliedConstraint )
     content << generateTestMethod( className, constraint, appliedConstraint, 'TooLong' )
     content.toString()
@@ -128,7 +128,7 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
 
     def propertyName = constraint.propertyName
     def constraintName = appliedConstraint.name
-    def content = "${TAB}void test"
+    def content = '' << "${TAB}void test"
     content << "${constraintName.capitalize()}${suffix}() {\n\n"
     content << generateException( constraintName )
     content << generateClassInstance( className )
@@ -145,7 +145,7 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
 String generateException( constraintName ) {
 
     if ( !EXCEPTION_CONSTRAINTS.contains( constraintName ) ) return ''
-    def content = "${TAB*2}throw new IllegalStateException("
+    def content = '' << "${TAB*2}throw new IllegalStateException("
     content << "\n${TAB*3}\"'${constraintName}' constraint found."
     content << " Please implement it by hand\" )\n/*\n"
     content.toString()
@@ -160,7 +160,7 @@ String generateClassInstance( className ) {
 String generateAttributeSetting( constraint, appliedConstraint, suffix ) {
 
     def propertyValue = getPropertyValue( constraint, appliedConstraint, suffix )
-    def content = "${TAB*2}instance.${constraint.propertyName}"
+    def content = '' << "${TAB*2}instance.${constraint.propertyName}"
     content << " = ${propertyValue}\n"
     content.toString()
 
@@ -307,7 +307,7 @@ String generateValidateAssertion( propertyName, appliedConstraint ) {
 
     def flag = getValidateFlag( propertyName, appliedConstraint )
     properties.flag = flag
-    def content = "${TAB*2}assert${flag.toString().capitalize()}"
+    def content = '' << "${TAB*2}assert${flag.toString().capitalize()}"
     content << " \"'validate' should be ${flag}\", instance.validate()\n"
     content.toString()
 
@@ -329,7 +329,7 @@ String generateNullAssertion( propertyName, appliedConstraint ) {
 
     def constraintName = appliedConstraint.name
     def constraintValue = appliedConstraint.parameter
-    def content = ''
+    def content = new StringBuilder()
     def flag = ( constraintName == 'nullable' || constraintName == 'blank' ) && constraintValue == true
     properties.flag = flag
     content << "${TAB*2}assert${flag?'':'Not'}Null"
@@ -343,7 +343,7 @@ String generateNullAssertion( propertyName, appliedConstraint ) {
 String generateEqualsAssertion( propertyName, constraintName ) {
 
     if ( properties.flag ) return ''
-    def content = ''
+    def content = new StringBuilder()
     content << "${TAB*2}assertEquals \"'errors[ '${propertyName}' ]'"
     content << " should be '${constraintName}'\",\n"
     content << "${TAB*3}'${constraintName}', "
@@ -362,7 +362,7 @@ String closeExceptionComment( constraintName ) {
 String createRandomWord( size ) {
 
     def random = new Random()
-    def output = ''
+    def output = new StringBuilder()
     size.times { output << ( ( 65 + random.nextInt( 26 ) ) as Character ) }
     output.toString()
 
@@ -370,7 +370,7 @@ String createRandomWord( size ) {
 
 String getFilename( className, propertyName ) {
 
-    def fileName = "${className}${propertyName.capitalize()}"
+    def fileName = '' << "${className}${propertyName.capitalize()}"
     fileName << "ConstraintsTests.groovy"
     fileName.toString()
 

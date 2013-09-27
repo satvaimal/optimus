@@ -22,7 +22,7 @@ setDefaultTarget( createControllerClass )
 void generate( domainClass ) {
 
     def classNameLower = WordUtils.uncapitalize( domainClass.name )
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << "class ${domainClass.name}Controller {\n\n"
     content << generateAllowedMethods()
     content << generateServiceDependencies( domainClass.name )
@@ -36,7 +36,7 @@ void generate( domainClass ) {
 
 String generateAllowedMethods() {
 
-    def content = "${TAB}static allowedMethods = [\n"
+    def content = '' << "${TAB}static allowedMethods = [\n"
     content << "${TAB*2}index:'GET',\n"
     content << "${TAB*2}content:'GET',\n"
     content << "${TAB*2}list:'GET',\n"
@@ -53,7 +53,7 @@ String generateAllowedMethods() {
 String generateServiceDependencies( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}def ${classNameLower}Service\n"
+    def content = '' << "${TAB}def ${classNameLower}Service\n"
     content << "${TAB}def ${CRACKING_SERVICE}Service\n\n"
     content.toString()
 
@@ -64,7 +64,7 @@ String generateMethods( domainClass ) {
     def idAssigned = getIdAssigned( domainClass )
     def idType = idAssigned ? idAssigned.type : 'Long'
     def idName = idAssigned ? idAssigned.name : 'id'
-    def content = generateIndexMethod()
+    def content = '' << generateIndexMethod()
     content << generateContentMethod()
     content << generateListMethod()
     content << generateCreateMethod( domainClass.name )
@@ -82,7 +82,7 @@ String generateMethods( domainClass ) {
 
 String generateIndexMethod() {
 
-    def content = "${TAB}def index() {\n"
+    def content = '' << "${TAB}def index() {\n"
     content << "${TAB*2}redirect( action:'content', params:params )\n"
     content << "${TAB}}\n\n"
     content.toString()
@@ -91,7 +91,7 @@ String generateIndexMethod() {
 
 String generateContentMethod() {
 
-    def content = "${TAB}def content() {\n"
+    def content = '' << "${TAB}def content() {\n"
     content << "${TAB*2}this.renderList( 'content' )\n"
     content << "${TAB}}\n\n"
     content.toString()
@@ -100,7 +100,7 @@ String generateContentMethod() {
 
 String generateListMethod() {
 
-    def content = "${TAB}def list() {\n"
+    def content = '' << "${TAB}def list() {\n"
     content << "${TAB*2}this.renderList( 'list' )\n"
     content << "${TAB}}\n\n"
     content.toString()
@@ -110,7 +110,7 @@ String generateListMethod() {
 String generateCreateMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}def create() {\n\n"
+    def content = '' << "${TAB}def create() {\n\n"
     content << "${TAB*2}def model = "
     content << "[ ${classNameLower}Instance:new ${className}( params ) ]\n"
     content << "${TAB*2}render( template:'form', model:model )\n\n"
@@ -122,7 +122,7 @@ String generateCreateMethod( className ) {
 String generateSaveMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}def save() {\n\n"
+    def content = '' << "${TAB}def save() {\n\n"
     content << "${TAB*2}def ${classNameLower} = new ${className}( params )\n"
     content << "${TAB*2}this.saveOnDb( ${classNameLower}, 'create',\n"
     content << "${TAB*3}'${classNameLower}.created.message' )\n\n"
@@ -133,7 +133,7 @@ String generateSaveMethod( className ) {
 
 String generateEditMethod( idType ) {
 
-    def content = "${TAB}def edit( ${idType} id ) {\n\n"
+    def content = '' << "${TAB}def edit( ${idType} id ) {\n\n"
     content << "${TAB*2}def map = this.get( id )\n"
     content << "${TAB*2}if ( !map ) return\n"
     content << "${TAB*2}map.edit = true\n"
@@ -146,7 +146,7 @@ String generateEditMethod( idType ) {
 String generateUpdateMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}def update( ${idType} id ) {\n\n"
+    def content = '' << "${TAB}def update( ${idType} id ) {\n\n"
     content << "${TAB*2}def map = this.get( id )\n"
     content << "${TAB*2}if ( !map ) return\n"
     content << "${TAB*2}map.${classNameLower}Instance.properties = params\n"
@@ -162,7 +162,7 @@ String generateUpdateMethod( className, idType ) {
 String generateDeleteMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}def delete( ${idType} id ) {\n\n"
+    def content = '' << "${TAB}def delete( ${idType} id ) {\n\n"
     content << "${TAB*2}def map = this.get( id )\n"
     content << "${TAB*2}if ( !map ) return\n"
     content << "${TAB*2}${classNameLower}Service.delete("
@@ -180,7 +180,7 @@ String generateDeleteMethod( className, idType ) {
 String generateRenderListMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}private void renderList( template ) {\n\n"
+    def content = '' << "${TAB}private void renderList( template ) {\n\n"
     content << "${TAB*2}def model = [:]\n"
     content << "${TAB*2}def result = ${classNameLower}Service.list( params )\n"
     content << "${TAB*2}model.items = result.items\n"
@@ -194,7 +194,7 @@ String generateRenderListMethod( className ) {
 String generateGetMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}private Map get( ${idType} id ) {\n\n"
+    def content = '' << "${TAB}private Map get( ${idType} id ) {\n\n"
     content << "${TAB*2}if ( !id ) {\n"
     content << "${TAB*3}this.notifyCrack()\n"
     content << "${TAB*3}return null\n"
@@ -214,7 +214,7 @@ String generateGetMethod( className, idType ) {
 String generateSaveOnDbMethod( className, idName ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}private void saveOnDb( ${classNameLower}"
+    def content = '' << "${TAB}private void saveOnDb( ${classNameLower}"
     content << ", method, msg, edit = false ) {\n\n"
     content << "${TAB*2}try {\n"
     content << "${TAB*3}${classNameLower}Service.\"\${method}\""
@@ -239,7 +239,7 @@ String generateSaveOnDbMethod( className, idName ) {
 
 String generateNotifyCrackMethod() {
 
-    def content = "${TAB}private void notifyCrack() {\n\n"
+    def content = '' << "${TAB}private void notifyCrack() {\n\n"
     content << "${TAB*2}crackingService.notify( request, params )\n"
     content << "${TAB*2}redirect( controller:'logout' )\n\n"
     content << "${TAB}}\n\n"

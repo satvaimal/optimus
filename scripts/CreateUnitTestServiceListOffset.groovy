@@ -16,7 +16,7 @@ setDefaultTarget( createUnitTestServiceListOffset )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
@@ -33,14 +33,14 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = "import grails.test.mixin.*\n"
+    def content = '' << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
 
 }// End of method
 
 String generateClassDeclaration( className ) {
 
-    def content = "@TestFor(${className}Service)\n"
+    def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceListOffsetTests {\n\n"
     content.toString()
@@ -49,7 +49,7 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = "${TAB}@Before\n"
+    def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}20.times {\n"
     content << "${TAB*3}${className}Mock.mock( it ).save("
@@ -62,7 +62,7 @@ String generateSetUpMethod( className ) {
 
 String generateMethod( methodSuffix, offsetValue, equalsValue ) {
 
-    def content = "${TAB}void test${methodSuffix}() {\n\n"
+    def content = '' << "${TAB}void test${methodSuffix}() {\n\n"
     content << "${TAB*2}def params = [ offset:${offsetValue} ]\n"
     content << "${TAB*2}def result = service.list( params )\n"
     content << "${TAB*2}assertNotNull \"'result'"

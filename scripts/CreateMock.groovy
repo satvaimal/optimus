@@ -16,7 +16,7 @@ setDefaultTarget( createMock )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << "class ${domainClass.name}Mock {\n\n"
     content << generateMockMethod( domainClass )
     content << '}'
@@ -31,7 +31,7 @@ String generateMockMethod( domainClass ) {
 
     def initializedAttributes = initializeAttributes( domainClass )
     def className = domainClass.name
-    def content = "${TAB}static ${className} mock( id ) {\n\n"
+    def content = '' << "${TAB}static ${className} mock( id ) {\n\n"
     if ( properties.mockException ) content << generateException()
     content << "${TAB*2}def instance = new ${className}(\n"
     content << initializedAttributes
@@ -51,7 +51,7 @@ String generateMockMethod( domainClass ) {
 
 String initializeAttributes( domainClass ) {
 
-    def content = ''
+    def content = new StringBuilder()
     domainClass.constrainedProperties.each {
         content << "${TAB*3}${it.key}:"
         def attributeValue = getValue( domainClass, it.key,
@@ -103,7 +103,7 @@ String getValueId( domainClass, name, appliedConstraints, type ) {
     if ( idAssigned.name != name ) return null
     properties.idSet = true
     if ( type.name == 'java.lang.String' ) {
-        def content = "new String( ( 65 + id ) as Character )"
+        def content = '' << "new String( ( 65 + id ) as Character )"
         def sizeConstraint = appliedConstraints.find { it.name == 'size' }
         if ( sizeConstraint )
             content << " * ${sizeConstraint.parameter.from}"
@@ -132,7 +132,7 @@ String getValueInList( appliedConstraints, type ) {
 String getValueString( appliedConstraints, type ) {
 
     if ( type.name != 'java.lang.String' ) return null
-    def content = "'A'"
+    def content = '' << "'A'"
     def sizeConstraint = appliedConstraints.find { it.name == 'size' }
     if ( sizeConstraint )
         content << " * ${sizeConstraint.parameter.from}"
@@ -177,7 +177,7 @@ String getValueObject( type ) {
 
 String generateException() {
 
-    def content = "${TAB*2}throw new IllegalStateException("
+    def content = '' << "${TAB*2}throw new IllegalStateException("
     content << " 'Please set some values by hand' )\n/*\n"
     content.toString()
 
@@ -187,7 +187,7 @@ String setUniqueProperties( constraints ) {
 
     def uniqueSettings = getUniqueSettings( constraints )
     if ( !uniqueSettings ) return ''
-    def content = '\n'
+    def content = new StringBuilder('\n')
     uniqueSettings.each {
         def value = getUniqueValue( it.value )
         content << "${TAB*2}instance.${it.key} = ${value}\n"
@@ -200,7 +200,7 @@ String getUniqueValue( map ) {
 
     def uniqueValue = map.min
     if ( map.propertyType == 'java.lang.String' ) {
-    def content = "new String( ( 65 + id ) as Character )"
+    def content = '' << "new String( ( 65 + id ) as Character )"
         content << "${uniqueValue?' * ' + uniqueValue:''}"
         return content.toString()
     } else return "${uniqueValue}"
