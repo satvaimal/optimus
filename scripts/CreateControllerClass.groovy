@@ -232,7 +232,8 @@ String generateSaveOnDbMethod( className, idName ) {
     content << "${TAB*3}args:[ message( code:'${classNameLower}.label',\n"
     content << "${TAB*3}default:'${className}' ),"
     content << " ${classNameLower}.${idName}])\n"
-    content << "${TAB*2}redirect( action:'edit', id:person.${idName} )\n\n"
+    content << "${TAB*2}redirect( action:'edit'"
+    content << ", id:${classNameLower}.${idName} )\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
