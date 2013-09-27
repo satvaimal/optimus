@@ -57,7 +57,7 @@
 				sb << '/>'
             } else if (cp.inList) {
 				sb << "<g:select class=\"form-control\" name=\"" << property.name << '"'
-				sb << ' from="${' << "${domainInstance}.constraints.${property.name}.inList" << '}"'
+				sb << ' from="${' << "${domainInstance}?.constraints.${property.name}.inList" << '}"'
 				if (isRequired()) sb << ' required=""'
 				sb << ' value="${' << "${domainInstance}?.${property.name}" << '}"'
 				sb << ' valueMessagePrefix="' << "${domainClass.propertyName}.${property.name}" << '"'
