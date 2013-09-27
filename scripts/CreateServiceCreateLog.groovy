@@ -18,7 +18,7 @@ setDefaultTarget( createServiceCreateLog )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}.aop\n\n"
+    def content = '' << "package ${domainClass.packageName}.aop\n\n"
     content << generateImports( domainClass.packageName, domainClass.name )
     content << generateClassDeclaration( domainClass.name )
     content << generatePointcutMethod( domainClass.packageName, domainClass.name )
@@ -35,7 +35,7 @@ void generate( domainClass ) {
 
 String generateImports( packageName, className ) {
 
-    def content = "import ${packageName}.${className}\n\n"
+    def content = '' << "import ${packageName}.${className}\n\n"
     [ 'AfterReturning', 'AfterThrowing', 'Aspect', 'Before',
         'Pointcut' ].each {
         content << "import org.aspectj.lang.annotation.${it}\n"
@@ -48,7 +48,7 @@ String generateImports( packageName, className ) {
 
 String generateClassDeclaration( className ) {
 
-    def content = '@Component\n'
+    def content = '' << '@Component\n'
     content << '@Aspect\n'
     content << "class ${className}ServiceCreate {\n\n"
     content.toString()
@@ -58,7 +58,7 @@ String generateClassDeclaration( className ) {
 String generatePointcutMethod( packageName, className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}@Pointcut(\n"
+    def content = '' << "${TAB}@Pointcut(\n"
     content << "${TAB*2}value='execution(void "
     content << "${packageName}.${className}Service.create(..)) && bean"
     content << "(${classNameLower}Service) && args(${classNameLower})',\n"
@@ -72,7 +72,7 @@ String generatePointcutMethod( packageName, className ) {
 String generateBeforeMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}@Before('create("
+    def content = '' << "${TAB}@Before('create("
     content << "${classNameLower})')\n"
     content << "${TAB}void before( ${className} "
     content << "${classNameLower} ) {\n"
@@ -83,7 +83,7 @@ String generateBeforeMethod( className ) {
 }// End of method
 
 String generateAfterReturningMethod( packageName, className ) {
-    def content = "${TAB}@AfterReturning(\n"
+    def content = '' << "${TAB}@AfterReturning(\n"
     content << "${TAB*2}pointcut='create("
     content << "${packageName}.${className})')\n"
     content << "${TAB}void afterReturning() {\n"
@@ -95,7 +95,7 @@ String generateAfterReturningMethod( packageName, className ) {
 
 String generateAfterThrowingMethod( packageName, className ) {
 
-    def content = "${TAB}@AfterThrowing(\n"
+    def content = '' << "${TAB}@AfterThrowing(\n"
     content << "${TAB*2}pointcut='create("
     content << "${packageName}.${className})',\n"
     content << "${TAB*2}throwing='e' )\n"

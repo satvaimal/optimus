@@ -26,7 +26,7 @@ setDefaultTarget( createUnitTestsServiceList )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateOkMethod()
@@ -39,14 +39,14 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = "import grails.test.mixin.*\n"
+    def content = '' << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n\n"
 
 }// End of method
 
 String generateClassDeclaration( className ) {
 
-    def content = "@TestFor(${className}Service)\n"
+    def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceListTests {\n\n"
     content.toString()
@@ -55,7 +55,7 @@ String generateClassDeclaration( className ) {
 
 String generateOkMethod() {
 
-    def content = ''
+    def content = new StringBuilder()
     content << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def params = [:]\n"
     content << "${TAB*2}def result = service.list( params )\n"

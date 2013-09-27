@@ -12,7 +12,7 @@ setDefaultTarget( createCrackingService )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << 'import javax.servlet.http.HttpServletRequest\n\n'
     content << "class ${CRACKING_SERVICE.capitalize()}Service {\n\n"
     content << generateNotifyMethod()
@@ -26,7 +26,7 @@ void generate( domainClass ) {
 
 String generateNotifyMethod() {
 
-    def content = "${TAB}void notify( HttpServletRequest request"
+    def content = '' << "${TAB}void notify( HttpServletRequest request"
     content << ", Map params ) {\n\n"
     content << "${TAB*2}def message = \"Request"
     content << " \${request.requestURL}\"\n"

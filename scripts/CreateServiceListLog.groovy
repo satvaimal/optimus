@@ -18,7 +18,7 @@ setDefaultTarget( createServiceListLog )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}.aop\n\n"
+    def content = '' << "package ${domainClass.packageName}.aop\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generatePointcutMethod( domainClass.packageName, domainClass.name )
@@ -35,7 +35,7 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = ''
+    def content = new StringBuilder()
     [ 'AfterReturning', 'AfterThrowing', 'Aspect', 'Before',
         'Pointcut' ].each {
         content << "import org.aspectj.lang.annotation.${it}\n"
@@ -48,7 +48,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = '@Component\n'
+    def content = '' << '@Component\n'
     content << '@Aspect\n'
     content << "class ${className}ServiceList {\n\n"
     content.toString()
@@ -58,7 +58,7 @@ String generateClassDeclaration( className ) {
 String generatePointcutMethod( packageName, className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}@Pointcut(\n"
+    def content = '' << "${TAB}@Pointcut(\n"
     content << "${TAB*2}value='execution(java.util.Map "
     content << "${packageName}.${className}Service.list(..)) && bean"
     content << "(${classNameLower}Service) && args(params)',\n"
@@ -70,7 +70,7 @@ String generatePointcutMethod( packageName, className ) {
 
 String generateBeforeMethod() {
 
-    def content = "${TAB}@Before('list(params)')\n"
+    def content = '' << "${TAB}@Before('list(params)')\n"
     content << "${TAB}void before( Map params ) {\n"
     content << "${TAB*2}log.info( \"Begins request: \${params}\" )\n"
     content << "${TAB}}\n\n"
@@ -80,7 +80,7 @@ String generateBeforeMethod() {
 
 String generateAfterReturningMethod() {
 
-    def content = "${TAB}@AfterReturning(\n"
+    def content = '' << "${TAB}@AfterReturning(\n"
     content << "${TAB*2}pointcut='list(java.util.Map)',\n"
     content << "${TAB*2}returning='map')\n"
     content << "${TAB}void afterReturning( Map map ) {\n"
@@ -92,7 +92,7 @@ String generateAfterReturningMethod() {
 
 String generateAfterThrowingMethod() {
 
-    def content = "${TAB}@AfterThrowing(\n"
+    def content = '' << "${TAB}@AfterThrowing(\n"
     content << "${TAB*2}pointcut='list(java.util.Map)',\n"
     content << "${TAB*2}throwing='e' )\n"
     content << "${TAB}void afterThrowing( Exception e ) {\n\n"

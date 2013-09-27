@@ -20,7 +20,7 @@ void generate( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
@@ -38,7 +38,7 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = "import javax.servlet.http.HttpServletRequest\n"
+    def content = '' << "import javax.servlet.http.HttpServletRequest\n"
     content << "import grails.test.GrailsMock\n"
     content << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
@@ -49,7 +49,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = "@TestFor(${className}Controller)\n"
+    def content = '' << "@TestFor(${className}Controller)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ControllerDeleteTests {\n\n"
     content.toString()
@@ -58,7 +58,7 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = "${TAB}@Before\n"
+    def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
     content << "${TAB*2}${className}Mock.mock( 1 ).save("
     content << " failOnError:true )\n"
@@ -71,7 +71,7 @@ String generateOkMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}void testOk() {\n\n"
+    def content = '' << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service()\n"
     content << "${TAB*2}request.method = 'POST'\n"
     content << "${TAB*2}controller.delete( ${id} )\n"
@@ -92,7 +92,7 @@ String generateOkMethod( className, idName ) {
 
 String generateIdNullMethod() {
 
-    def content = "${TAB}void testIdNull() {\n\n"
+    def content = '' << "${TAB}void testIdNull() {\n\n"
     content << "${TAB*2}def control = this.mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
@@ -113,7 +113,7 @@ String generateNotFoundMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 2 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}void testNotFound() {\n\n"
+    def content = '' << "${TAB}void testNotFound() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( false )\n"
     content << "${TAB*2}def control2 = this.mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
@@ -135,7 +135,7 @@ String generateNotFoundMethod( className, idName ) {
 String generateRequestMethodInvalidMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
-    def content = "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
     content << "${TAB*2}request.method = 'GET'\n"
@@ -149,7 +149,7 @@ String generateRequestMethodInvalidMethod( className, idName ) {
 
 String generateMockMethods( className, idAssigned ) {
 
-    def content = ''
+    def content = new StringBuilder()
     content << generateMockServiceMethod( className, idAssigned )
     content << generateCrackingServiceMethod()
     content.toString()
@@ -161,7 +161,7 @@ String generateMockServiceMethod( className, idAssigned ) {
     def idName = idAssigned ? idAssigned.name : 'id'
     def idType = idAssigned ? idAssigned.type : 'Long'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}private GrailsMock"
+    def content = '' << "${TAB}private GrailsMock"
     content << " mock${className}Service( delete = true ) {\n\n"
     content << "${TAB*2}def control = mockFor( ${className}Service )\n"
     content << "${TAB*2}control.demand.get( 1 ) { ${idType} id ->\n"
@@ -182,7 +182,7 @@ String generateMockServiceMethod( className, idAssigned ) {
 
 String generateCrackingServiceMethod() {
 
-    def content = "${TAB}private GrailsMock"
+    def content = '' << "${TAB}private GrailsMock"
     content << " mock${CRACKING_SERVICE.capitalize()}Service() {\n\n"
     content << "${TAB*2}def control = mockFor("
     content << " ${CRACKING_SERVICE.capitalize()}Service )\n"

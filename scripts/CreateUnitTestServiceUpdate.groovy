@@ -18,7 +18,7 @@ setDefaultTarget( createUnitTestsServiceUpdate )
 
 void generate( domainClass ) {
 
-    def content = "package ${domainClass.packageName}\n\n"
+    def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateThrownField()
@@ -34,7 +34,7 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = "import grails.test.mixin.*\n"
+    def content = '' << "import grails.test.mixin.*\n"
     content << "import org.junit.*\n"
     content << "import org.junit.rules.*\n"
     content << "\n"
@@ -44,7 +44,7 @@ String generateImports() {
 
 String generateClassDeclaration( className ) {
 
-    def content = "@TestFor(${className}Service)\n"
+    def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
     content << "class ${className}ServiceUpdateTests {\n\n"
     content.toString()
@@ -53,7 +53,7 @@ String generateClassDeclaration( className ) {
 
 String generateThrownField() {
 
-    def content = "${TAB}@Rule\n"
+    def content = '' << "${TAB}@Rule\n"
     content << "${TAB}public ExpectedException thrown = "
     content << "ExpectedException.none()\n\n"
     content.toString()
@@ -62,7 +62,7 @@ String generateThrownField() {
 
 String generateOkMethod( className ) {
 
-    def content = "${TAB}void testOk() {\n\n"
+    def content = '' << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def instance = ${className}Mock.mock( 0 )\n"
     content << "${TAB*2}assertEquals \"'count' should be 0\""
     content << ", 0, ${className}.count()\n"
@@ -77,7 +77,7 @@ String generateOkMethod( className ) {
 String generateNullMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = "${TAB}void test${className}Null() {\n\n"
+    def content = '' << "${TAB}void test${className}Null() {\n\n"
     content << "${TAB*2}def instance = null\n"
     content << "${TAB*2}thrown.expect("
     content << " IllegalArgumentException )\n"
@@ -96,7 +96,7 @@ String generateInvalidMethod( domainClass ) {
     if ( !requiredAttributes ) return ''
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = ''
+    def content = new StringBuilder()
     content << "${TAB}void test${className}Invalid() {\n\n"
     content << "${TAB*2}def instance = ${className}Mock.mock( 0 )\n"
     content << "${TAB*2}instance.${requiredAttributes[0]} = null\n"
