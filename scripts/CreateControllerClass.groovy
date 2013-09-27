@@ -220,6 +220,7 @@ String generateSaveOnDbMethod( className, idName ) {
     content << "${TAB*3}${classNameLower}Service.\"\${method}\""
     content << "( ${classNameLower} )\n"
     content << "${TAB*2}} catch ( IllegalArgumentException e ) {\n"
+    content << "${TAB*3}response.status = 400\n"
     content << "${TAB*3}render( template:'form',"
     content << " model:[ ${classNameLower}Instance:${classNameLower},\n"
     content << "${TAB*4}edit:edit ] )\n"
