@@ -20,7 +20,7 @@
                         if (p.isAssociation()) { %>
             <th><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></th>
             <%          } else { %>
-            <g:sortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" />
+            <util:remoteSortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" action="list" update="list" method="GET" params="\${params}"/>
             <%  }   }   } %>
             <th><g:message code="default.options.label" default="Options" /></th>
           </tr>
