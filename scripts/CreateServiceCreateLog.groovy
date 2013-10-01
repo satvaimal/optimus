@@ -5,7 +5,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createServiceCreateLog:"Generate application logs for 'create' service method" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     domainClassList.each { generate( it ) }

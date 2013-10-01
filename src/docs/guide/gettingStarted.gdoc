@@ -2,7 +2,7 @@ To get started, you need to install the plugin by adding the following line in t
 {code}
 plugins {
     ...
-    compile ':optimus:0.1'
+    compile ':optimus:0.1.1'
 }
 {code}
 You must have at least one domain class with some constraints, for example:

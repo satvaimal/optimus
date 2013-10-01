@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createViewsIndex:"Generate 'index.gsp' file" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def commonDir = '/grails-app/views'
     def targetDir = "${basedir}${commonDir}"
     [ 'header', 'topMenu', 'menu', 'content' ].each {

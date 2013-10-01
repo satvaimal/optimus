@@ -17,7 +17,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createUnitTestController:'Generate unit tests for controller class' ) {
 
-    depends( checkVersion, configureProxy, bootstrap,
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createUnitTestsControllerIndex,
         createUnitTestsControllerContent,
         createUnitTestsControllerList,

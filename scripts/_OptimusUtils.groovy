@@ -1,6 +1,7 @@
 import org.codehaus.groovy.grails.orm.hibernate.cfg.CompositeIdentity
 import org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsDomainBinder
 
+includeTargets << grailsScript( '_GrailsPackage' )
 includeTargets << grailsScript( '_GrailsBootstrap' )
 
 TAB = ' ' * 4

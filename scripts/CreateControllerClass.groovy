@@ -7,7 +7,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createControllerClass:'Generate controller for class domain' ) {
 
-    depends( checkVersion, configureProxy, bootstrap,
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createCrackingService )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return

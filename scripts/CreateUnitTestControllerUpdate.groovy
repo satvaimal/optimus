@@ -5,7 +5,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createUnitTestsControllerUpdate:"Generate unit tests for 'update' controller method" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     domainClassList.each { generate( it ) }

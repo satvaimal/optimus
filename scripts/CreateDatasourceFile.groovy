@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createDatasourceFile:"Generate 'DataSource.groovy' file" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def content = new File(optimusPluginDir, "grails-app/utils/OptimusDataSource.txt").text
     new File(basedir, "grails-app/conf/DataSource.groovy" ).text = content
     def msg = "Finished generation of 'DataSource.groovy' file"

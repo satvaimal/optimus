@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createLogs:'Generate application logs' ) {
 
-    depends( checkVersion, configureProxy, bootstrap,
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createServiceLogs )
     def msg = "Finished generation of service logs"
     event( 'StatusFinal', [ msg ] )

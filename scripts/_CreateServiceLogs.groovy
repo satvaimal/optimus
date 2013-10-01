@@ -11,7 +11,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createServiceLogs:'Generate logs for service class' ) {
 
-    depends( checkVersion, configureProxy, bootstrap,
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createServiceListLog,
         createServiceCreateLog,
         createServiceUpdateLog,

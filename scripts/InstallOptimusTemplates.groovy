@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( installOptimusTemplates:'Generate templates for Optimus views' ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def commonDir = '/src/templates/scaffolding'
     def targetDir = "${basedir}${commonDir}"
     if ( !new File( targetDir ).exists() ) {

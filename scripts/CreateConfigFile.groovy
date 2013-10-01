@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createConfigFile:"Generate 'Config.groovy' file" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     generate( domainClassList[ 0 ] )

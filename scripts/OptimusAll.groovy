@@ -16,7 +16,7 @@ includeTargets << new File( optimusPluginDir,
     'scripts/CreateViews.groovy' )
 
 target( optimusAll:'Generate all optimus artifacts' ) {
-    depends( checkVersion, configureProxy, bootstrap,
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createConfig,
         createUnitTestConstraints,
         createServiceClass,

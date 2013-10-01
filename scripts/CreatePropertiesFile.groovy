@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createPropertiesFile:"Generate 'config.properties' file" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def commonDir = '/src/java'
     def targetDir = "${basedir}${commonDir}"
     ant.copy( file:"${optimusPluginDir}${commonDir}/config.properties",

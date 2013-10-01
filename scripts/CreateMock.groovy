@@ -3,7 +3,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createMock:"Generate mock for domain class" ) {
 
-    depends( checkVersion, configureProxy, bootstrap )
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     domainClassList.each { generate( it ) }

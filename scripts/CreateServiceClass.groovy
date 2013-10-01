@@ -7,7 +7,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createServiceClass:'Generate service for class domain' ) {
 
-    depends( checkVersion, configureProxy, bootstrap,
+    depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createListUtils )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
