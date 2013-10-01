@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>7 Creating logs for services 0.1</title>
+    <title>7 Creating logs for services 0.1.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -67,8 +67,7 @@ function addJsClass() {
         
         
     </div>
-    <p>Grails Optimus Plugin
-</p>
+    <p>Grails Optimus Plugin</p>
 </div>
 
 
@@ -93,7 +92,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.1.1</p>
 
                     
                 </div>
@@ -135,10 +134,9 @@ class PersonServiceList &#123;<p class="paragraph"/>    @Pointcut(
     &#125;<p class="paragraph"/>    @AfterThrowing(
         pointcut='list(java.util.Map)',
         throwing='e' )
-    void afterThrowing( Exception e ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; ''
-        message &#60;&#60; <span class="java&#45;quote">"Error in request"</span>
-        message &#60;&#60; <span class="java&#45;quote">": $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;"</span>
-        log.info( message.toString() )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+    void afterThrowing( Exception e ) &#123;
+        log.info("Error in request: $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;)
+    &#125;<p class="paragraph"/>&#125;</pre></div>
 There are some annotations that does the magic:
 <ul class="star">
 <li><code>Component</code>. Tells Spring that this class should be considered as Spring bean. It is configured via <code>grails-app/conf/Config.groovy</code> in the <code>grails.spring.bean.packages</code> property (the plugin does it for you).</li>

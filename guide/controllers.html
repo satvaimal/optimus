@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>8 Creating controllers 0.1</title>
+    <title>8 Creating controllers 0.1.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -67,8 +67,7 @@ function addJsClass() {
         
         
     </div>
-    <p>Grails Optimus Plugin
-</p>
+    <p>Grails Optimus Plugin</p>
 </div>
 
 
@@ -93,7 +92,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.1.1</p>
 
                     
                 </div>
@@ -119,21 +118,20 @@ Suppose you have a class named <code>mypackage.Person</code>. The class generate
     def crackingService<p class="paragraph"/>    def index() &#123;
         redirect( action:'content', params:params )
     &#125;<p class="paragraph"/>    def content() &#123;
-        <span class="java&#45;keyword">this</span>.renderList( 'content' )
+        renderList( 'content' )
     &#125;<p class="paragraph"/>    def list() &#123;
-        <span class="java&#45;keyword">this</span>.renderList( 'list' )
+        renderList( 'list' )
     &#125;<p class="paragraph"/>    def create() &#123;<p class="paragraph"/>        def model = &#91; personInstance:<span class="java&#45;keyword">new</span> Person( params ) &#93;
         render( template:'form', model:model )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def save() &#123;<p class="paragraph"/>        def person = <span class="java&#45;keyword">new</span> Person( params )
-        <span class="java&#45;keyword">this</span>.saveOnDb( person, 'create',
-            'person.created.message' )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def edit( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        saveOnDb( person, 'create', 'person.created.message' )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def edit( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = get( id )
         <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
         map.edit = <span class="java&#45;keyword">true</span>
-        render( template:'form', model:map )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def update( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        render( template:'form', model:map )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def update( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = get( id )
         <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
         map.personInstance.properties = params
         map.edit = <span class="java&#45;keyword">true</span>
-        <span class="java&#45;keyword">this</span>.saveOnDb( map.personInstance, 'update',
-            'person.updated.message', <span class="java&#45;keyword">true</span> )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def delete( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        saveOnDb( map.personInstance, 'update',
+            'person.updated.message', <span class="java&#45;keyword">true</span> )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def delete( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = get( id )
         <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
         personService.delete( map.personInstance )
         flash.listMessage = message( code:'<span class="java&#45;keyword">default</span>.deleted.message',
@@ -144,12 +142,12 @@ Suppose you have a class named <code>mypackage.Person</code>. The class generate
         model.items = result.items
         model.total = result.total
         render( template:template, model:model )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> Map get( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( !id ) &#123;
-            <span class="java&#45;keyword">this</span>.notifyCrack()
+            notifyCrack()
             <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
         &#125;
         def person = personService.get( id )
         <span class="java&#45;keyword">if</span> ( !person ) &#123;
-            <span class="java&#45;keyword">this</span>.notifyCrack()
+            notifyCrack()
             <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
         &#125;
         &#91; personInstance:person &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void saveOnDb( person, method, msg, edit = <span class="java&#45;keyword">false</span> ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
@@ -166,7 +164,7 @@ Suppose you have a class named <code>mypackage.Person</code>. The class generate
         redirect( action:'edit', id:person.id )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void notifyCrack() &#123;<p class="paragraph"/>        crackingService.notify( request, params )
         redirect( controller:'logout' )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
 As you can see, the controller makes use of the corresponding service to do its job. Therefore, every action performed by the controller is logged. There is another service called <code>CrackingService</code>. This one is automatically generated and it is invoked when the application tries to get an instance that doesn't exists (<code>get</code> method). Generally, this can be reached by cracking the web application, which is always unavoidable but you can handle it. The default implementation of the <code>CrackingService</code> is shown in the following lines:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> javax.servlet.http.HttpServletRequest<p class="paragraph"/>class CrackingService &#123;<p class="paragraph"/>    void notify( HttpServletRequest request, Map params ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; <span class="java&#45;quote">"Request $&#123;request.requestURL&#125;"</span>
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> javax.servlet.http.HttpServletRequest<p class="paragraph"/>class CrackingService &#123;<p class="paragraph"/>    void notify( HttpServletRequest request, Map params ) &#123;<p class="paragraph"/>        def message = <span class="java&#45;quote">"Request $&#123;request.requestURL&#125;"</span>
         message &#60;&#60; <span class="java&#45;quote">" from $&#123;request.remoteAddr&#125;"</span>
         message &#60;&#60; <span class="java&#45;quote">" and params $&#123;params&#125;"</span>
         message &#60;&#60; <span class="java&#45;quote">" has been detected as unusual activity"</span>

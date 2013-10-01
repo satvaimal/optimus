@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Optimus Plugin 0.1</title>
+        <title>Optimus Plugin 0.1.1</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -56,8 +56,7 @@ function addJsClass(el) {
                 
                 
             </div>
-            <p>Grails Optimus Plugin
-</p>
+            <p>Grails Optimus Plugin</p>
         </div>
 
 
@@ -71,7 +70,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Optimus Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alejandro García Granados</p>
-                            <p><strong>Version:</strong> 0.1</p>
+                            <p><strong>Version:</strong> 0.1.1</p>
                             
                         </div>
 
@@ -117,15 +116,20 @@ Grails Optimus Plugin lets you create some of the most popular artifacts that ar
 <ul class="star">
 <li>October 1, 2013</li>
 <ul class="star">
+<li>0.1.1 release</li>
+<li><a href="https://github.com/satvaimal/optimus/issues/3" target="blank">JIRA Issues</a></li>
+</ul>
+<li>September 30 , 2013</li>
+<ul class="star">
 <li>Initial 0.1 release</li>
 </ul></ul><p class="paragraph"/>
 
 
 <h1 id="gettingStarted">2 Getting started</h1>
-To get started, yo need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.goovy</code> file:
+To get started, you need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.groovy</code> file:
 <div class="code"><pre>plugins &#123;
     &#8230;
-    compile ':optimus:0.1'
+    compile ':optimus:0.1.1'
 &#125;</pre></div>
 You must have at least one domain class with some constraints, for example:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
@@ -370,12 +374,12 @@ Almost all the Java Web Applications consider a "service" tier where the applica
 <div class="code"><pre>grails create&#45;service&#45;class &#91;domainClass&#93;</pre></div>
 Suppose you have a class named <code>mypackage.Person</code>. The class generated in <code>grails-app/services/mypackage/PersonService.groovy</code> will look like this:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.gorm.DetachedCriteria
-<span class="java&#45;keyword">import</span> grails.validation.ValidationException<p class="paragraph"/>class PersonService &#123;<p class="paragraph"/>    Map list( Map params ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">this</span>.processParams( params )
+<span class="java&#45;keyword">import</span> grails.validation.ValidationException<p class="paragraph"/>class PersonService &#123;<p class="paragraph"/>    Map list( Map params ) &#123;<p class="paragraph"/>        processParams( params )
         def criteria = <span class="java&#45;keyword">new</span> DetachedCriteria( Person ).build &#123;&#125;
         &#91; items:criteria.list( params ), total:criteria.count() &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void create( Person person ) &#123;
-        <span class="java&#45;keyword">this</span>.save( person )
+        save( person )
     &#125;<p class="paragraph"/>    void update( Person person ) &#123;
-        <span class="java&#45;keyword">this</span>.save( person )
+        save( person )
     &#125;<p class="paragraph"/>    Person get( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( id == <span class="java&#45;keyword">null</span> ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
             <span class="java&#45;quote">"Parameter 'id' is <span class="java&#45;keyword">null</span>"</span> )
         Person.findById( id )<p class="paragraph"/>    &#125;<p class="paragraph"/>    void delete( Person person ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( person == <span class="java&#45;keyword">null</span> ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
@@ -487,10 +491,9 @@ class PersonServiceList &#123;<p class="paragraph"/>    @Pointcut(
     &#125;<p class="paragraph"/>    @AfterThrowing(
         pointcut='list(java.util.Map)',
         throwing='e' )
-    void afterThrowing( Exception e ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; ''
-        message &#60;&#60; <span class="java&#45;quote">"Error in request"</span>
-        message &#60;&#60; <span class="java&#45;quote">": $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;"</span>
-        log.info( message.toString() )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+    void afterThrowing( Exception e ) &#123;
+        log.info("Error in request: $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;)
+    &#125;<p class="paragraph"/>&#125;</pre></div>
 There are some annotations that does the magic:
 <ul class="star">
 <li><code>Component</code>. Tells Spring that this class should be considered as Spring bean. It is configured via <code>grails-app/conf/Config.groovy</code> in the <code>grails.spring.bean.packages</code> property (the plugin does it for you).</li>
@@ -540,21 +543,20 @@ Suppose you have a class named <code>mypackage.Person</code>. The class generate
     def crackingService<p class="paragraph"/>    def index() &#123;
         redirect( action:'content', params:params )
     &#125;<p class="paragraph"/>    def content() &#123;
-        <span class="java&#45;keyword">this</span>.renderList( 'content' )
+        renderList( 'content' )
     &#125;<p class="paragraph"/>    def list() &#123;
-        <span class="java&#45;keyword">this</span>.renderList( 'list' )
+        renderList( 'list' )
     &#125;<p class="paragraph"/>    def create() &#123;<p class="paragraph"/>        def model = &#91; personInstance:<span class="java&#45;keyword">new</span> Person( params ) &#93;
         render( template:'form', model:model )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def save() &#123;<p class="paragraph"/>        def person = <span class="java&#45;keyword">new</span> Person( params )
-        <span class="java&#45;keyword">this</span>.saveOnDb( person, 'create',
-            'person.created.message' )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def edit( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        saveOnDb( person, 'create', 'person.created.message' )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def edit( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = get( id )
         <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
         map.edit = <span class="java&#45;keyword">true</span>
-        render( template:'form', model:map )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def update( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        render( template:'form', model:map )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def update( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = get( id )
         <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
         map.personInstance.properties = params
         map.edit = <span class="java&#45;keyword">true</span>
-        <span class="java&#45;keyword">this</span>.saveOnDb( map.personInstance, 'update',
-            'person.updated.message', <span class="java&#45;keyword">true</span> )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def delete( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = <span class="java&#45;keyword">this</span>.get( id )
+        saveOnDb( map.personInstance, 'update',
+            'person.updated.message', <span class="java&#45;keyword">true</span> )<p class="paragraph"/>    &#125;<p class="paragraph"/>    def delete( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        def map = get( id )
         <span class="java&#45;keyword">if</span> ( !map ) <span class="java&#45;keyword">return</span>
         personService.delete( map.personInstance )
         flash.listMessage = message( code:'<span class="java&#45;keyword">default</span>.deleted.message',
@@ -565,12 +567,12 @@ Suppose you have a class named <code>mypackage.Person</code>. The class generate
         model.items = result.items
         model.total = result.total
         render( template:template, model:model )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> Map get( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( !id ) &#123;
-            <span class="java&#45;keyword">this</span>.notifyCrack()
+            notifyCrack()
             <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
         &#125;
         def person = personService.get( id )
         <span class="java&#45;keyword">if</span> ( !person ) &#123;
-            <span class="java&#45;keyword">this</span>.notifyCrack()
+            notifyCrack()
             <span class="java&#45;keyword">return</span> <span class="java&#45;keyword">null</span>
         &#125;
         &#91; personInstance:person &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void saveOnDb( person, method, msg, edit = <span class="java&#45;keyword">false</span> ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">try</span> &#123;
@@ -587,7 +589,7 @@ Suppose you have a class named <code>mypackage.Person</code>. The class generate
         redirect( action:'edit', id:person.id )<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void notifyCrack() &#123;<p class="paragraph"/>        crackingService.notify( request, params )
         redirect( controller:'logout' )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
 As you can see, the controller makes use of the corresponding service to do its job. Therefore, every action performed by the controller is logged. There is another service called <code>CrackingService</code>. This one is automatically generated and it is invoked when the application tries to get an instance that doesn't exists (<code>get</code> method). Generally, this can be reached by cracking the web application, which is always unavoidable but you can handle it. The default implementation of the <code>CrackingService</code> is shown in the following lines:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> javax.servlet.http.HttpServletRequest<p class="paragraph"/>class CrackingService &#123;<p class="paragraph"/>    void notify( HttpServletRequest request, Map params ) &#123;<p class="paragraph"/>        def message = '' &#60;&#60; <span class="java&#45;quote">"Request $&#123;request.requestURL&#125;"</span>
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> javax.servlet.http.HttpServletRequest<p class="paragraph"/>class CrackingService &#123;<p class="paragraph"/>    void notify( HttpServletRequest request, Map params ) &#123;<p class="paragraph"/>        def message = <span class="java&#45;quote">"Request $&#123;request.requestURL&#125;"</span>
         message &#60;&#60; <span class="java&#45;quote">" from $&#123;request.remoteAddr&#125;"</span>
         message &#60;&#60; <span class="java&#45;quote">" and params $&#123;params&#125;"</span>
         message &#60;&#60; <span class="java&#45;quote">" has been detected as unusual activity"</span>
@@ -621,10 +623,10 @@ If we open the <code>test/unit/mypackage/PersonControllerSaveTests.groovy</code>
 @Mock(Person)
 class PersonControllerSaveTests &#123;<p class="paragraph"/>    @Before
     void setUp() &#123;
-        views&#91; '/person/_form.gsp' &#93; = <span class="java&#45;keyword">this</span>.getTemplate()
-    &#125;<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def control = <span class="java&#45;keyword">this</span>.mockPersonService()
+        views&#91; '/person/_form.gsp' &#93; = getTemplate()
+    &#125;<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def control = mockPersonService()
         request.method = 'POST'
-        <span class="java&#45;keyword">this</span>.setUpParams()
+        setUpParams()
         controller.save()
         def expected = '<span class="java&#45;keyword">default</span>.created.message'
         assertEquals <span class="java&#45;quote">"'message' should be '$&#123;expected&#125;'"</span>,
@@ -633,9 +635,9 @@ class PersonControllerSaveTests &#123;<p class="paragraph"/>    @Before
         assertEquals <span class="java&#45;quote">"'redirectedUrl' should be '$&#123;expected&#125;'"</span>,
             expected, response.redirectedUrl
         assertEquals <span class="java&#45;quote">"'status' should be 302"</span>, 302, response.status
-        control.verify()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testParamsInvalid() &#123;<p class="paragraph"/>        def control = <span class="java&#45;keyword">this</span>.mockPersonService( <span class="java&#45;keyword">false</span> )
+        control.verify()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testParamsInvalid() &#123;<p class="paragraph"/>        def control = mockPersonService( <span class="java&#45;keyword">false</span> )
         request.method = 'POST'
-        <span class="java&#45;keyword">this</span>.setUpParams()
+        setUpParams()
         params.name = <span class="java&#45;keyword">null</span>
         controller.save()
         def expected = 'OK'

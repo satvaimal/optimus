@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5 Creating services 0.1</title>
+    <title>5 Creating services 0.1.1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -67,8 +67,7 @@ function addJsClass() {
         
         
     </div>
-    <p>Grails Optimus Plugin
-</p>
+    <p>Grails Optimus Plugin</p>
 </div>
 
 
@@ -93,7 +92,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
-                    <p><strong>Version:</strong> 0.1</p>
+                    <p><strong>Version:</strong> 0.1.1</p>
 
                     
                 </div>
@@ -107,12 +106,12 @@ Almost all the Java Web Applications consider a "service" tier where the applica
 <div class="code"><pre>grails create&#45;service&#45;class &#91;domainClass&#93;</pre></div>
 Suppose you have a class named <code>mypackage.Person</code>. The class generated in <code>grails-app/services/mypackage/PersonService.groovy</code> will look like this:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.gorm.DetachedCriteria
-<span class="java&#45;keyword">import</span> grails.validation.ValidationException<p class="paragraph"/>class PersonService &#123;<p class="paragraph"/>    Map list( Map params ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">this</span>.processParams( params )
+<span class="java&#45;keyword">import</span> grails.validation.ValidationException<p class="paragraph"/>class PersonService &#123;<p class="paragraph"/>    Map list( Map params ) &#123;<p class="paragraph"/>        processParams( params )
         def criteria = <span class="java&#45;keyword">new</span> DetachedCriteria( Person ).build &#123;&#125;
         &#91; items:criteria.list( params ), total:criteria.count() &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void create( Person person ) &#123;
-        <span class="java&#45;keyword">this</span>.save( person )
+        save( person )
     &#125;<p class="paragraph"/>    void update( Person person ) &#123;
-        <span class="java&#45;keyword">this</span>.save( person )
+        save( person )
     &#125;<p class="paragraph"/>    Person get( <span class="java&#45;object">Long</span> id ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( id == <span class="java&#45;keyword">null</span> ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
             <span class="java&#45;quote">"Parameter 'id' is <span class="java&#45;keyword">null</span>"</span> )
         Person.findById( id )<p class="paragraph"/>    &#125;<p class="paragraph"/>    void delete( Person person ) &#123;<p class="paragraph"/>        <span class="java&#45;keyword">if</span> ( person == <span class="java&#45;keyword">null</span> ) <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException(
