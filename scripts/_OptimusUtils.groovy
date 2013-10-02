@@ -141,7 +141,7 @@ getUniqueSettings = { constraints ->
 
 getIdAssigned = { domainClass ->
 
-    def mapping = GrailsDomainBinder.getMapping( domainClass.clazz )
+    def mapping = new GrailsDomainBinder().getMapping( domainClass.clazz )
     if ( !mapping ) return null
     def identity = mapping.identity
     if ( identity instanceof CompositeIdentity ) return null

@@ -96,7 +96,7 @@ String generateAfterThrowingMethod() {
     content << "${TAB*2}pointcut='list(java.util.Map)',\n"
     content << "${TAB*2}throwing='e' )\n"
     content << "${TAB}void afterThrowing( Exception e ) {\n\n"
-    content << "${TAB*2}def message = ''\n"
+    content << "${TAB*2}def message = '' << ''\n"
     content << "${TAB*2}message << \"Error in request\"\n"
     content << "${TAB*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"

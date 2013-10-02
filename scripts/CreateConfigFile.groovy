@@ -20,7 +20,7 @@ void generate( domainClass ) {
     new File(basedir, "grails-app/log/" ).mkdirs()
     def content = new File(optimusPluginDir,
         "grails-app/utils/OptimusConfig.txt"
-        ).text.replaceAll( '%%pckg%%', pckg  )
+        ).text.replaceAll( '%%pckg%%', "${pckg}.aop"  )
     new File(basedir, "grails-app/conf/Config.groovy" ).text = content
 
 }// End of method
