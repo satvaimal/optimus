@@ -1,18 +1,18 @@
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateMock.groovy' )
 
-target( createUnitTestServiceListSortOrder:"Generate unit tests for 'list' service method" ) {
+target( createUnitTestServiceListSortOrderSpock:"Generate unit tests for 'list' service method" ) {
 
     depends( createMock )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     domainClassList.each { generate( it ) }
-    def msg = "Finished generation of 'list-sort-order' service unit tests"
+    def msg = "Finished generation of Spock 'list-sort-order' service unit tests"
     event( 'StatusFinal', [ msg ] )
 
 }// End of closure
 
-setDefaultTarget( createUnitTestServiceListSortOrder )
+setDefaultTarget( createUnitTestServiceListSortOrderSpock )
 
 void generate( domainClass ) {
 
@@ -21,12 +21,12 @@ void generate( domainClass ) {
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
     content << generateOkMethod( domainClass )
-    content << generateMethod( 'Null', "null" )
-    content << generateMethod( 'Blank', "''" )
-    content << generateMethod( 'Invalid', "'A'" )
+    content << generateMethod( 'null', "null" )
+    content << generateMethod( 'blank', "''" )
+    content << generateMethod( 'invalid', "'A'" )
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ServiceListSortOrderTests.groovy"
+    def fileName = "${domainClass.name}ServiceListSortOrderSpec.groovy"
     new File(directory, fileName).text = content.toString()
 
 }// End of method
@@ -34,7 +34,7 @@ void generate( domainClass ) {
 String generateImports() {
 
     def content = '' << "import grails.test.mixin.*\n"
-    content << "import org.junit.*\n\n"
+    content << "import spock.lang.*\n\n"
 
 }// End of method
 
@@ -42,15 +42,15 @@ String generateClassDeclaration( className ) {
 
     def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
-    content << "class ${className}ServiceListSortOrderTests {\n\n"
+    content << "class ${className}ServiceListSortOrderSpec"
+    content << " extends Specification {\n\n"
     content.toString()
 
 }// End of method
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}@Before\n"
-    content << "${TAB}void setUp() {\n\n"
+    def content = '' << "${TAB}def setup() {\n\n"
     content << "${TAB*2}20.times {\n"
     content << "${TAB*3}${className}Mock.mock( it + 1 ).save("
     content << " failOnError:true )\n"
@@ -65,18 +65,14 @@ String generateOkMethod( domainClass ) {
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
     def expected = getId( domainClass, idAssigned )
-    def content = new StringBuilder()
-    content << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def params = [ sort:'${idName}', order:'desc' ]\n"
-    content << "${TAB*2}def result = service.list( params )\n"
-    content << "${TAB*2}def items = result.items\n"
-    content << "${TAB*2}def item = items[ 0 ]\n"
-    content << "${TAB*2}def expected = ${expected}\n"
-    content << "${TAB*2}assertEquals \"'${idName}'"
-    content << " should be '\${expected}'\","
-    content << "\n${TAB*3}expected, item.${idName}\n"
-    content << "\n${TAB}}\n"
-    content << "\n"
+    def content = '' << "${TAB}def \"test ok\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def result = service.list( params )\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}result.items[ 0 ].${idName} == ${expected}\n"
+    content << "${TAB*2}where:\n"
+    content << "${TAB*3}params = [ sort:'${idName}', order:'desc' ]\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method
@@ -102,18 +98,15 @@ String getId( domainClass, idAssigned ) {
 
 String generateMethod( methodSuffix, value ) {
 
-    def content = '' << "${TAB}void test${methodSuffix}() {\n\n"
-    content << "${TAB*2}def params = [ sort:${value}"
-    content << ", order:${value} ]\n"
-    content << "${TAB*2}def result = service.list( params )\n"
-    content << "${TAB*2}assertNotNull \"'result'"
-    content << " should not be null\", result\n"
-    content << "${TAB*2}def items = result.items\n"
-    content << "${TAB*2}assertNotNull \"'items'"
-    content << " should not be null\", items\n"
-    content << "${TAB*2}assertEquals \"'size'"
-    content << " should be 10\", 10, items.size()\n"
-    content << "\n${TAB}}\n\n"
+    def content = '' << "${TAB}def \"test ${methodSuffix}\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def result = service.list( params )\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}result.items.size() == 10\n"
+    content << "${TAB*2}where:\n"
+    content << "${TAB*3}params = [ sort:${value}"
+    content << ", order:${value} ]\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method
