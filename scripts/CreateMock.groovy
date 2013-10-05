@@ -16,6 +16,7 @@ setDefaultTarget( createMock )
 
 void generate( domainClass ) {
 
+    properties.mockException = false
     def content = '' << "package ${domainClass.packageName}\n\n"
     content << "class ${domainClass.name}Mock {\n\n"
     content << generateMockMethod( domainClass )
