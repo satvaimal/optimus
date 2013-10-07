@@ -18,14 +18,14 @@ includeTargets << new File( optimusPluginDir,
 target( createUnitTestController:'Generate unit tests for controller class' ) {
 
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
-        createUnitTestsControllerIndex,
-        createUnitTestsControllerContent,
-        createUnitTestsControllerList,
-        createUnitTestsControllerCreate,
-        createUnitTestsControllerSave,
-        createUnitTestsControllerEdit,
-        createUnitTestsControllerUpdate,
-        createUnitTestsControllerDelete )
+        createUnitTestControllerIndex,
+        createUnitTestControllerContent,
+        createUnitTestControllerList,
+        createUnitTestControllerCreate,
+        createUnitTestControllerSave,
+        createUnitTestControllerEdit,
+        createUnitTestControllerUpdate,
+        createUnitTestControllerDelete )
     def msg = "Finished generation of controller unit tests"
     event( 'StatusFinal', [ msg ] )
 

@@ -3,7 +3,7 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/_OptimusUtils.groovy' )
 
-target( createUnitTestsControllerDelete:"Generate unit tests for 'delete' controller method" ) {
+target( createUnitTestControllerDelete:"Generate unit tests for 'delete' controller method" ) {
 
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
@@ -14,7 +14,7 @@ target( createUnitTestsControllerDelete:"Generate unit tests for 'delete' contro
 
 }// End of closure
 
-setDefaultTarget( createUnitTestsControllerDelete )
+setDefaultTarget( createUnitTestControllerDelete )
 
 void generate( domainClass ) {
 

@@ -3,7 +3,7 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/_OptimusUtils.groovy' )
 
-target( createUnitTestsControllerEdit:"Generate unit tests for 'edit' controller method" ) {
+target( createUnitTestControllerEdit:"Generate unit tests for 'edit' controller method" ) {
 
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
@@ -14,7 +14,7 @@ target( createUnitTestsControllerEdit:"Generate unit tests for 'edit' controller
 
 }// End of closure
 
-setDefaultTarget( createUnitTestsControllerEdit )
+setDefaultTarget( createUnitTestControllerEdit )
 
 void generate( domainClass ) {
 

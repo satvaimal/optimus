@@ -3,7 +3,7 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateMock.groovy' )
 
-target( createUnitTestsServiceCreate:"Generate unit tests for 'create' service method" ) {
+target( createUnitTestServiceCreate:"Generate unit tests for 'create' service method" ) {
 
     depends( createMock )
     def domainClassList = getDomainClassList( args )
@@ -14,7 +14,7 @@ target( createUnitTestsServiceCreate:"Generate unit tests for 'create' service m
 
 }// End of closure
 
-setDefaultTarget( createUnitTestsServiceCreate )
+setDefaultTarget( createUnitTestServiceCreate )
 
 void generate( domainClass ) {
 

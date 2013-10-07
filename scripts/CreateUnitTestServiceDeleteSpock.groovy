@@ -63,6 +63,7 @@ String generateSetUpMethod( className ) {
 
 String generateOkMethod( className, idAssigned ) {
 
+    def idName = idAssigned ? idAssigned.name : 'id'
     def content = '' << ''
     content << "${TAB}def \" test ok\"() {\n\n"
     content << "${TAB*2}when:\n"

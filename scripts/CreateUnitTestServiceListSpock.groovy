@@ -9,7 +9,7 @@ includeTargets << new File( optimusPluginDir,
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateUnitTestServiceListSortOrderSpock.groovy' )
 
-target( createUnitTestsServiceListSpock:"Generate unit tests for 'list' service method" ) {
+target( createUnitTestServiceListSpock:"Generate unit tests for 'list' service method" ) {
 
     depends( createUnitTestServiceListMaxSpock,
         createUnitTestServiceListOffsetSpock,
@@ -22,7 +22,7 @@ target( createUnitTestsServiceListSpock:"Generate unit tests for 'list' service 
 
 }// End of closure
 
-setDefaultTarget( createUnitTestsServiceListSpock )
+setDefaultTarget( createUnitTestServiceListSpock )
 
 void generate( domainClass ) {
 

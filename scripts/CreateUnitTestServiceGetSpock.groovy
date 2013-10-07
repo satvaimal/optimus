@@ -3,7 +3,7 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateMock.groovy' )
 
-target( createUnitTestsServiceGetSpock:
+target( createUnitTestServiceGetSpock:
     "Generate Spock unit tests for 'get' service method" ) {
 
     depends( createMock )
@@ -15,7 +15,7 @@ target( createUnitTestsServiceGetSpock:
 
 }// End of closure
 
-setDefaultTarget( createUnitTestsServiceGetSpock )
+setDefaultTarget( createUnitTestServiceGetSpock )
 
 void generate( domainClass ) {
 
@@ -65,7 +65,7 @@ String generateOkMethod( className, idAssigned ) {
 
     def idName = 'id'
     if ( idAssigned ) idName = idAssigned.name
-    def content = new StringBuilder()
+    def content = '' << ''
     content << "${TAB}def \" test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
     content << "${TAB*3}def result = service.get( ${idName} )\n"
