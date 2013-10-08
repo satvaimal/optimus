@@ -52,7 +52,7 @@ String generateClassDeclaration( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void \"test ok\"() {\n\n"
+    def content = '' << "${TAB}def \"test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
     content << "${TAB*3}request.method = 'GET'\n"
     content << "${TAB*3}controller.index()\n"
@@ -68,7 +68,7 @@ String generateOkMethod( className ) {
 String generateOkWithParamsMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void \"test ok with params\"() {\n\n"
+    def content = '' << "${TAB}def \"test ok with params\"() {\n\n"
     content << "${TAB*2}when:\n"
     content << "${TAB*3}request.method = 'GET'\n"
     content << "${TAB*3}params.name = 'value'\n"
@@ -86,7 +86,7 @@ String generateRequestMethodInvalidMethod() {
 
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
-    content << "${TAB}void \"test request method invalid\"() {\n\n"
+    content << "${TAB}def \"test request method invalid\"() {\n\n"
     content << "${TAB*2}when:\n"
     content << "${TAB*3}request.method = 'POST'\n"
     content << "${TAB*3}controller.index()\n"
