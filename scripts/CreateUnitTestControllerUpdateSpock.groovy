@@ -3,19 +3,20 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateMock.groovy' )
 
-target( createUnitTestControllerUpdate:"Generate unit tests for 'update' controller method" ) {
+target( createUnitTestControllerUpdateSpock:
+    "Generate Spock unit tests for 'update' controller method" ) {
 
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
         createMock )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     domainClassList.each { generate( it ) }
-    def msg = "Finished generation of 'update' controller unit tests"
+    def msg = "Finished generation of Spock 'update' controller unit tests"
     event( 'StatusFinal', [ msg ] )
 
 }// End of closure
 
-setDefaultTarget( createUnitTestControllerUpdate )
+setDefaultTarget( createUnitTestControllerUpdateSpock )
 
 void generate( domainClass ) {
 
@@ -35,7 +36,7 @@ void generate( domainClass ) {
     content << generateSetUpParamsMethod( domainClass.name )
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ControllerUpdateTests.groovy"
+    def fileName = "${domainClass.name}ControllerUpdateSpec.groovy"
     new File(directory, fileName).text = content.toString()
 
 }// End of method
@@ -45,7 +46,7 @@ String generateImports() {
     def content = '' << "import javax.servlet.http.HttpServletRequest\n"
     content << "import grails.test.GrailsMock\n"
     content << "import grails.test.mixin.*\n"
-    content << "import org.junit.*\n"
+    content << "import spock.lang.*\n"
     content << "\n"
     content.toString()
 
@@ -55,7 +56,8 @@ String generateClassDeclaration( className ) {
 
     def content = '' << "@TestFor(${className}Controller)\n"
     content << "@Mock(${className})\n"
-    content << "class ${className}ControllerUpdateTests {\n\n"
+    content << "class ${className}ControllerUpdateSpec"
+    content << " extends Specification {\n\n"
     content.toString()
 
 }// End of method
@@ -63,8 +65,7 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before\n"
-    content << "${TAB}void setUp() {\n\n"
+    def content = '' << "${TAB}def setup() {\n\n"
     content << "${TAB*2}${className}Mock.mock( 1 ).save("
     content << " failOnError:true )\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
@@ -78,21 +79,18 @@ String generateOkMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service()\n"
-    content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}this.setUpParams()\n"
-    content << "${TAB*2}controller.update( ${id} )\n"
-    content << "${TAB*2}def expected = 'default.updated.message'\n"
-    content << "${TAB*2}assertEquals \"'message' should be '\${expected}'\",\n"
-    content << "${TAB*3}expected, flash.formMessage\n"
-    content << "${TAB*2}expected = \"/${classNameLower}/edit/\${${id}}\"\n"
-    content << "${TAB*2}assertEquals \"'redirectedUrl' should be"
-    content << " '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.redirectedUrl\n"
-    content << "${TAB*2}assertEquals \"'status' should be 302\""
-    content << ", 302, response.status\n"
-    content << "${TAB*2}control.verify()\n\n"
+    def content = '' << "${TAB}def \"test ok\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def control = this.mock${className}Service()\n"
+    content << "${TAB*3}request.method = 'POST'\n"
+    content << "${TAB*3}this.setUpParams()\n"
+    content << "${TAB*3}controller.update( ${id} )\n"
+    content << "${TAB*3}control.verify()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}flash.formMessage == 'default.updated.message'\n"
+    content << "${TAB*3}response.redirectedUrl =="
+    content << " \"/${classNameLower}/edit/\${${id}}\"\n"
+    content << "${TAB*3}response.status == 302\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -100,18 +98,16 @@ String generateOkMethod( className, idName ) {
 
 String generateIdNullMethod() {
 
-    def content = '' << "${TAB}void testIdNull() {\n\n"
-    content << "${TAB*2}def control = this.mock"
+    def content = '' << "${TAB}def \"test id null\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def control = this.mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
-    content << "${TAB*2}request.method = 'GET'\n"
-    content << "${TAB*2}controller.update( null )\n"
-    content << "${TAB*2}def expected = '/logout'\n"
-    content << "${TAB*2}assertEquals \"'redirectedUrl' should be"
-    content << " '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.redirectedUrl\n"
-    content << "${TAB*2}assertEquals \"'status' should be 302\""
-    content << ", 302, response.status\n"
-    content << "${TAB*2}control.verify()\n"
+    content << "${TAB*3}request.method = 'GET'\n"
+    content << "${TAB*3}controller.update( null )\n"
+    content << "${TAB*3}control.verify()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.redirectedUrl == '/logout'\n"
+    content << "${TAB*3}response.status == 302\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -121,20 +117,18 @@ String generateNotFoundMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 2 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testNotFound() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service( true, 0 )\n"
-    content << "${TAB*2}def control2 = this.mock"
+    def content = '' << "${TAB}def \"test not found\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def control = this.mock${className}Service( true, 0 )\n"
+    content << "${TAB*3}def control2 = this.mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
-    content << "${TAB*2}request.method = 'GET'\n"
-    content << "${TAB*2}controller.update( ${id} )\n"
-    content << "${TAB*2}def expected = '/logout'\n"
-    content << "${TAB*2}assertEquals \"'redirectedUrl' should be"
-    content << " '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.redirectedUrl\n"
-    content << "${TAB*2}assertEquals \"'status' should be 302\""
-    content << ", 302, response.status\n"
-    content << "${TAB*2}control.verify()\n"
-    content << "${TAB*2}control2.verify()\n\n"
+    content << "${TAB*3}request.method = 'GET'\n"
+    content << "${TAB*3}controller.update( ${id} )\n"
+    content << "${TAB*3}control.verify()\n"
+    content << "${TAB*3}control2.verify()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.redirectedUrl == '/logout'\n"
+    content << "${TAB*3}response.status == 302\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -148,18 +142,17 @@ String generateParamsInvalidMethod( domainClass, idName ) {
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
-    def content = '' << "${TAB}void testParamsInvalid() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service( false )\n"
-    content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}this.setUpParams()\n"
-    content << "${TAB*2}params.${requiredAttributes[0]} = null\n"
-    content << "${TAB*2}controller.update( ${id} )\n"
-    content << "${TAB*2}def expected = 'OK'\n"
-    content << "${TAB*2}assertEquals \"'text' should be '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.text\n"
-    content << "${TAB*2}assertEquals \"'status' should be 400\""
-    content << ", 400, response.status\n"
-    content << "${TAB*2}control.verify()\n\n"
+    def content = '' << "${TAB}def \"test params invalid\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def control = this.mock${className}Service( false )\n"
+    content << "${TAB*3}request.method = 'POST'\n"
+    content << "${TAB*3}this.setUpParams()\n"
+    content << "${TAB*3}params.${requiredAttributes[0]} = null\n"
+    content << "${TAB*3}controller.update( ${id} )\n"
+    content << "${TAB*3}control.verify()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.text == 'OK'\n"
+    content << "${TAB*3}response.status == 400\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -167,14 +160,14 @@ String generateParamsInvalidMethod( domainClass, idName ) {
 
 String generateRequestMethodInvalidMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
-    content << "${TAB}void testRequestMethodInvalid() {\n\n"
-    content << "${TAB*2}request.method = 'GET'\n"
-    content << "${TAB*2}controller.update( ${id} )\n"
-    content << "${TAB*2}assertEquals \"'status' should be 405\""
-    content << ", 405, response.status\n\n"
+    content << "${TAB}def \"test request method invalid\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}request.method = 'GET'\n"
+    content << "${TAB*3}controller.update()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.status == 405\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
