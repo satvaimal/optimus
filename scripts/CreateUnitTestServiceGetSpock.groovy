@@ -20,13 +20,14 @@ setDefaultTarget( createUnitTestServiceGetSpock )
 void generate( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
+    def idName = idAssigned ? idAssigned.name : 'id'
     def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
-    content << generateOkMethod( domainClass.name, idAssigned )
-    content << generateNullMethod( domainClass.name, idAssigned )
-    content << generateNotFoundMethod( domainClass.name, idAssigned )
+    content << generateOkMethod( domainClass.name, idName )
+    content << generateNullMethod( domainClass.name, idName )
+    content << generateNotFoundMethod( domainClass.name, idName )
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceGetSpec.groovy"
@@ -55,16 +56,15 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def content = '' << "${TAB}def setup() {\n"
-    content << "${TAB*2}${className}Mock.mock( 1 ).save( failOnError:true )\n"
+    content << "${TAB*2}${className}Mock.mock( 0 ).save( failOnError:true )\n"
     content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method
 
-String generateOkMethod( className, idAssigned ) {
+String generateOkMethod( className, idName ) {
 
-    def idName = 'id'
-    if ( idAssigned ) idName = idAssigned.name
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = '' << ''
     content << "${TAB}def \" test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
@@ -72,21 +72,15 @@ String generateOkMethod( className, idAssigned ) {
     content << "${TAB*2}then:\n"
     content << "${TAB*3}result != null\n"
     content << "${TAB*2}where:\n"
-    content << "${TAB*3}${idName} ="
-    if ( idAssigned ) {
-        content << " ${className}Mock.mock( 1 ).${idName}\n"
-    } else {
-        content << " 1\n"
-    }// End of else
-    content << "\n${TAB}}\n\n"
+    content << "${TAB*3}${idName} = ${id}\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method
 
-String generateNullMethod( className, idAssigned ) {
+String generateNullMethod( className, idName ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def idName = idAssigned ? idAssigned.name : 'id'
     def content = '' << ''
     content << "${TAB}void \"test ${idName.capitalize()} null\"() {\n\n"
     content << "${TAB*2}when:\n"
@@ -101,10 +95,9 @@ String generateNullMethod( className, idAssigned ) {
 
 }// End of method
 
-String generateNotFoundMethod( className, idAssigned ) {
+String generateNotFoundMethod( className, idName ) {
 
-    def idName = 'id'
-    if ( idAssigned ) idName = idAssigned.name
+    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def content = new StringBuilder()
     content << "${TAB}def \" test not found\"() {\n\n"
     content << "${TAB*2}when:\n"
@@ -112,13 +105,8 @@ String generateNotFoundMethod( className, idAssigned ) {
     content << "${TAB*2}then:\n"
     content << "${TAB*3}result == null\n"
     content << "${TAB*2}where:\n"
-    content << "${TAB*3}${idName} ="
-    if ( idAssigned ) {
-        content << " ${className}Mock.mock( 2 ).${idName}\n"
-    } else {
-        content << " 2\n"
-    }// End of else
-    content << "\n${TAB}}\n\n"
+    content << "${TAB*3}${idName} = ${id}\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method

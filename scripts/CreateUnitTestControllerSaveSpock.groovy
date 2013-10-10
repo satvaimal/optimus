@@ -71,7 +71,7 @@ String generateSetUpMethod( className ) {
 
 String generateOkMethod( className, idName ) {
 
-    def id = idName != 'id' ? "\${${className}Mock.mock(1).${idName}}" : '1'
+    def id = idName != 'id' ? "\${${className}Mock.mock( 0 ).${idName}}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
@@ -141,7 +141,7 @@ String generateGetTemplateMethod( className ) {
 
 String generateMockMethods( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock(1).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}private GrailsMock"
     content << " mock${className}Service( save = true ) {\n\n"
@@ -164,7 +164,7 @@ String generateMockMethods( className, idName ) {
 String generateSetUpParamsMethod( className ) {
 
     def content = '' << "${TAB}private void setUpParams() {\n\n"
-    content << "${TAB*2}def mock = ${className}Mock.mock( 1 )\n"
+    content << "${TAB*2}def mock = ${className}Mock.mock( 0 )\n"
     content << "${TAB*2}mock.properties.each{ params.\"\${it.key}\""
     content << " = it.value }\n\n"
     content << "${TAB}}\n\n"

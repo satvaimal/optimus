@@ -64,7 +64,7 @@ String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def setup() {\n\n"
-    content << "${TAB*2}${className}Mock.mock( 1 ).save("
+    content << "${TAB*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
     content << " = this.getTemplate()\n\n"
@@ -75,7 +75,7 @@ String generateSetUpMethod( className ) {
 
 String generateOkMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
@@ -110,7 +110,7 @@ String generateIdNullMethod() {
 
 String generateNotFoundMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 2 ).${idName}" : '2'
+    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test not found\"() {\n\n"
     content << "${TAB*2}when:\n"
@@ -131,12 +131,13 @@ String generateNotFoundMethod( className, idName ) {
 
 String generateRequestMethodInvalidMethod( className, idName ) {
 
+    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}def \"test request method invalid\"() {\n\n"
     content << "${TAB*2}when:\n"
     content << "${TAB*3}request.method = 'POST'\n"
-    content << "${TAB*3}controller.edit()\n"
+    content << "${TAB*3}controller.edit( ${id} )\n"
     content << "${TAB*2}then:\n"
     content << "${TAB*3}response.status == 405\n\n"
     content << "${TAB}}\n\n"

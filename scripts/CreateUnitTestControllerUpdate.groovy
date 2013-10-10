@@ -65,7 +65,7 @@ String generateSetUpMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
-    content << "${TAB*2}${className}Mock.mock( 1 ).save("
+    content << "${TAB*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
     content << " = this.getTemplate()\n\n"
@@ -76,7 +76,7 @@ String generateSetUpMethod( className ) {
 
 String generateOkMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service()\n"
@@ -119,7 +119,7 @@ String generateIdNullMethod() {
 
 String generateNotFoundMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 2 ).${idName}" : '2'
+    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testNotFound() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( true, 0 )\n"
@@ -147,7 +147,7 @@ String generateParamsInvalidMethod( domainClass, idName ) {
     if ( !requiredAttributes ) return ''
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = '' << "${TAB}void testParamsInvalid() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( false )\n"
     content << "${TAB*2}request.method = 'POST'\n"
@@ -167,7 +167,7 @@ String generateParamsInvalidMethod( domainClass, idName ) {
 
 String generateRequestMethodInvalidMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
@@ -245,7 +245,7 @@ String generateCrackingServiceMethod() {
 String generateSetUpParamsMethod( className ) {
 
     def content = '' << "${TAB}private void setUpParams() {\n\n"
-    content << "${TAB*2}def mock = ${className}Mock.mock( 1 )\n"
+    content << "${TAB*2}def mock = ${className}Mock.mock( 0 )\n"
     content << "${TAB*2}mock.properties.each{ params.\"\${it.key}\""
     content << " = it.value }\n\n"
     content << "${TAB}}\n\n"

@@ -195,7 +195,7 @@ String generateGetMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}private Map get( ${idType} id ) {\n\n"
-    content << "${TAB*2}if ( !id ) {\n"
+    content << "${TAB*2}if ( id == null ) {\n"
     content << "${TAB*3}this.notifyCrack()\n"
     content << "${TAB*3}return null\n"
     content << "${TAB*2}}\n"

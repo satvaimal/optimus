@@ -19,14 +19,15 @@ setDefaultTarget( createUnitTestServiceGet )
 void generate( domainClass ) {
 
     def idAssigned = getIdAssigned( domainClass )
+    def idName = idAssigned ? idAssigned.name : 'id'
     def content = '' << "package ${domainClass.packageName}\n\n"
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateThrownField()
     content << generateSetUpMethod( domainClass.name )
-    content << generateOkMethod( domainClass.name, idAssigned )
-    content << generateNullMethod( domainClass.name, idAssigned )
-    content << generateNotFoundMethod( domainClass.name, idAssigned )
+    content << generateOkMethod( domainClass.name, idName )
+    content << generateNullMethod( domainClass.name, idName )
+    content << generateNotFoundMethod( domainClass.name, idName )
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceGetTests.groovy"
@@ -65,26 +66,20 @@ String generateThrownField() {
 String generateSetUpMethod( className ) {
 
     def content = '' << "${TAB}@Before\n"
-    content << "${TAB}void setUp() {\n\n"
-    content << "${TAB*2}${className}Mock.mock( 1 ).save("
+    content << "${TAB}void setUp() {\n"
+    content << "${TAB*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
-    content << "\n${TAB}}\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method
 
-String generateOkMethod( className, idAssigned ) {
+String generateOkMethod( className, idName ) {
 
-    def idName = 'id'
-    if ( idAssigned ) idName = idAssigned.name
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = new StringBuilder()
     content << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def result = service.get("
-    if ( idAssigned ) {
-        content << " ${className}Mock.mock( 1 ).${idName} )\n"
-    } else {
-        content << " 1 )\n"
-    }// End of else
+    content << "${TAB*2}def result = service.get( ${id} )\n"
     content << "${TAB*2}assertNotNull \"'result'"
     content << " should not be null\", result\n"
     content << "\n${TAB}}\n\n"
@@ -92,10 +87,9 @@ String generateOkMethod( className, idAssigned ) {
 
 }// End of method
 
-String generateNullMethod( className, idAssigned ) {
+String generateNullMethod( className, idName ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def idName = idAssigned ? idAssigned.name : 'id'
     def content = new StringBuilder()
     content << "${TAB}void test${idName.capitalize()}Null() {\n\n"
     content << "${TAB*2}thrown.expect("
@@ -108,17 +102,11 @@ String generateNullMethod( className, idAssigned ) {
 
 }// End of method
 
-String generateNotFoundMethod( className, idAssigned ) {
+String generateNotFoundMethod( className, idName ) {
 
-    def idName = 'id'
-    if ( idAssigned ) idName = idAssigned.name
+    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def content = '' << "${TAB}void testNotFound() {\n\n"
-    content << "${TAB*2}def result = service.get("
-    if ( idAssigned ) {
-        content << " ${className}Mock.mock( 2 ).${idName} )\n"
-    } else {
-        content << " 2 )\n"
-    }// End of else
+    content << "${TAB*2}def result = service.get( ${id} )\n"
     content << "${TAB*2}assertNull \"'result '"
     content << " should be null\", result\n"
     content << "\n${TAB}}\n\n"

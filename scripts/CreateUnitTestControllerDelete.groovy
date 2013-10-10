@@ -61,7 +61,7 @@ String generateSetUpMethod( className ) {
 
     def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n\n"
-    content << "${TAB*2}${className}Mock.mock( 1 ).save("
+    content << "${TAB*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
     content << "\n${TAB}}\n\n"
     content.toString()
@@ -70,7 +70,7 @@ String generateSetUpMethod( className ) {
 
 String generateOkMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testOk() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service()\n"
@@ -112,7 +112,7 @@ String generateIdNullMethod() {
 
 String generateNotFoundMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 2 ).${idName}" : '2'
+    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testNotFound() {\n\n"
     content << "${TAB*2}def control = this.mock${className}Service( false )\n"
@@ -135,7 +135,7 @@ String generateNotFoundMethod( className, idName ) {
 
 String generateRequestMethodInvalidMethod( className, idName ) {
 
-    def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '1'
+    def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
     content << "${TAB}void testRequestMethodInvalid() {\n\n"
