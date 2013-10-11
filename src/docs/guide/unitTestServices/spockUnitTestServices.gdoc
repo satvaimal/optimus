@@ -1,0 +1,76 @@
+Since the 0.2 version, you can generate unit tests for services with the "Spock Framework":https://code.google.com/p/spock/ using the [create-unit-test-service-spock|Scripts] command:
+{code}
+grails create-unit-test-service-spock [domainClass]
+{code}
+Tou will get the following unit test files:
+* @test/unit/mypackage/PersonServiceListSpec.groovy@
+* @test/unit/mypackage/PersonServiceListMaxSpec.groovy@
+* @test/unit/mypackage/PersonServiceListOffsetSpec.groovy@
+* @test/unit/mypackage/PersonServiceListSortOrderSpec.groovy@
+* @test/unit/mypackage/PersonServiceCreateSpec.groovy@
+* @test/unit/mypackage/PersonServiceUpdateSpec.groovy@
+* @test/unit/mypackage/PersonServiceGetSpec.groovy@
+* @test/unit/mypackage/PersonServiceDeleteSpec.groovy@
+You can generate each file with the following commands:
+{table}
+ *File* | *Command*
+ @test/unit/mypackage/PersonServiceListSpec.groovy@ | [create-unit-test-service-list-spock|Scripts]
+ @test/unit/mypackage/PersonServiceListMaxSpec.groovy@ | [create-unit-test-service-list-max-spock|Scripts]
+ @test/unit/mypackage/PersonServiceListOffsetSpec.groovy@ | [create-unit-test-service-list-offset-spock|Scripts]
+ @test/unit/mypackage/PersonServiceListSortOrderSpec.groovy@ | [create-unit-test-service-list-sort-order-spock|Scripts]
+ @test/unit/mypackage/PersonServiceCreateSpec.groovy@ | [create-unit-test-service-create-spock|Scripts]
+ @test/unit/mypackage/PersonServiceUpdateSpec.groovy@ | [create-unit-test-service-update-spock|Scripts]
+ @test/unit/mypackage/PersonServiceGetSpec.groovy@ | [create-unit-test-service-get-spock|Scripts]
+ @test/unit/mypackage/PersonServiceDeleteSpec.groovy@ | [create-unit-test-service-delete-spock|Scripts]
+{table}
+If we open the @test/unit/mypackage/PersonServiceCreateSpec.groovy@ file, we will find something like this:
+{code}
+package mypackage
+
+import grails.test.mixin.*
+import spock.lang.*
+
+@TestFor(PersonService)
+@Mock(Person)
+class PersonServiceCreateSpec extends Specification {
+
+    def "test ok"() {
+
+        when:
+            def instance = PersonMock.mock( 0 )
+            service.create( instance )
+        then:
+            Person.count() == 1
+
+    }
+
+    def "test Person null"() {
+
+        when:
+            def instance = null
+            service.create( instance )
+        then:
+            IllegalArgumentException e = thrown()
+            e.message == "Parameter 'person' is null"
+
+    }
+
+    def "test Person invalid"() {
+
+        when:
+            def instance = PersonMock.mock( 0 )
+            instance.name = name
+            service.create( instance )
+        then:
+            IllegalArgumentException e = thrown()
+            e.message == "Parameter 'person' is invalid"
+        where:
+            name = null
+
+    }
+
+}
+{code}
+{note}
+For versions of Grails prior to 2.3.0, you need to install the "Grails Spock Plugin":http://grails.org/plugin/spock if you want to execute the tests.
+{note}

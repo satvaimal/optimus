@@ -94,7 +94,7 @@ class PersonController {
 
     private Map get( Long id ) {
 
-        if ( !id ) {
+        if ( id == null ) {
             notifyCrack()
             return null
         }

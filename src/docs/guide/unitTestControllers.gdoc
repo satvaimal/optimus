@@ -101,7 +101,7 @@ class PersonControllerSaveTests {
 
     private void setUpParams() {
 
-        def mock = PersonMock.mock( 1 )
+        def mock = PersonMock.mock( 0 )
         mock.properties.each{ params."${it.key}" = it.value }
 
     }

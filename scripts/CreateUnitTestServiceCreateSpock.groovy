@@ -97,7 +97,7 @@ String generateInvalidMethod( domainClass ) {
     content << "${TAB*3}e.message == \"Parameter"
     content << " '${classNameLower}' is invalid\"\n"
     content << "${TAB*2}where:\n"
-    content << "${TAB*3}${attr} = null\n"
+    content << "${TAB*3}${attr} = null\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 

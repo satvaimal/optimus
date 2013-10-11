@@ -1,0 +1,27 @@
+h1. create-unit-test-service-get-spock
+
+h2. Purpose
+
+The @create-unit-test-service-get-spock@ generates all the unit tests for the service @get@ method with the "Spock Framework":https://code.google.com/p/spock/
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-service-get-spock Person
+grails create-unit-test-service-get-spock "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for the service @get@ method with the "Spock Framework":https://code.google.com/p/spock/ . The command will generate the following file:
+* @test/unit/{package}/{domainClass}ServiceGetSpec.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-service-get-spock [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
+

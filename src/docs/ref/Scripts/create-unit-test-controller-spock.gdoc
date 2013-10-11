@@ -1,0 +1,33 @@
+h1. create-unit-test-controller-spock
+
+h2. Purpose
+
+The @create-unit-test-controller-spock@ generates all the unit tests for a controller with the "Spock Framework":https://code.google.com/p/spock/
+
+h2. Examples
+
+{code:java}
+grails create-unit-test-controller-spock Person
+grails create-unit-test-controller-spock "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates unit tests for a controller with the "Spock Framework":https://code.google.com/p/spock/ . The command will generate the following files:
+* @test/unit/{package}/{domainClass}ControllerIndexSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerContentSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerListSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerCreateSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerSaveSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerEditSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerUpdateSpec.groovy@
+* @test/unit/{package}/{domainClass}ControllerDeleteSpec.groovy@
+
+Usage:
+
+{code:java}
+grails create-unit-test-controller-spock [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
