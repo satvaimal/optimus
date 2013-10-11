@@ -241,16 +241,16 @@ String getPropertyValue( constraint, appliedConstraint, suffix ) {
     def constraintName = appliedConstraint.name
     def constraintValue = appliedConstraint.parameter
     if ( [ 'inList', 'range' ].contains( constraintName ) ) {
-        this."get${constraintName.capitalize()}${suffix}Value"(
+        "get${constraintName.capitalize()}${suffix}Value"(
         constraintValue )
     } else if ( [ 'max', 'maxSize', 'min', 'minSize', 'notEqual',
         'size' ].contains( constraintName ) ) {
-        this."get${constraintName.capitalize()}${suffix}Value"(
+        "get${constraintName.capitalize()}${suffix}Value"(
         propertyType, constraintValue )
     } else if ( [ 'unique' ].contains( constraintName ) ) {
-        this."get${constraintName.capitalize()}${suffix}Value"( propertyName )
+        "get${constraintName.capitalize()}${suffix}Value"( propertyName )
     } else {
-        this."get${constraintName.capitalize()}Value"()
+        "get${constraintName.capitalize()}Value"()
     }// End of else
 
 }// End of method

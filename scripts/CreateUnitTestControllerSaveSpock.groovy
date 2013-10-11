@@ -63,7 +63,7 @@ String generateSetUpMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def setup() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
-    content << " = this.getTemplate()\n"
+    content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -75,7 +75,7 @@ String generateOkMethod( className, idName ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = this.mock${className}Service()\n"
+    content << "${TAB*3}def control = mock${className}Service()\n"
     content << "${TAB*3}request.method = 'POST'\n"
     content << "${TAB*3}setUpParams()\n"
     content << "${TAB*3}controller.save()\n"
@@ -99,9 +99,9 @@ String generateParamsInvalidMethod( domainClass ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test params invalid\"() {\n\n"
     content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = this.mock${className}Service( false )\n"
+    content << "${TAB*3}def control = mock${className}Service( false )\n"
     content << "${TAB*3}request.method = 'POST'\n"
-    content << "${TAB*3}this.setUpParams()\n"
+    content << "${TAB*3}setUpParams()\n"
     content << "${TAB*3}params.${requiredAttributes[0]} = null\n"
     content << "${TAB*3}controller.save()\n"
     content << "${TAB*3}control.verify()\n"

@@ -50,7 +50,7 @@ String generateImports() {
 String generateListMethod( name ) {
 
     def content = '' << "${TAB}Map list( Map params ) {\n\n"
-    content << "${TAB*2}this.processParams( params )\n"
+    content << "${TAB*2}processParams( params )\n"
     content << "${TAB*2}def criteria = new DetachedCriteria( ${name}"
     content << " ).build {}\n"
     content << "${TAB*2}[ items:criteria.list( params )"
@@ -66,7 +66,7 @@ String generateSavePublicMethod( name, method ) {
     def content = new StringBuilder()
     content << "${TAB}void ${method}( ${className.capitalize()} "
     content << "${className} ) {\n"
-    content << "${TAB*2}this.save( ${className} )"
+    content << "${TAB*2}save( ${className} )"
     content << "\n${TAB}}\n\n"
     content.toString()
 

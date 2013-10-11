@@ -36,13 +36,13 @@ import spock.lang.*
 class PersonControllerSaveSpec extends Specification {
 
     def setup() {
-        views[ '/person/_form.gsp' ] = this.getTemplate()
+        views[ '/person/_form.gsp' ] = getTemplate()
     }
 
     def "test ok"() {
 
         when:
-            def control = this.mockPersonService()
+            def control = mockPersonService()
             request.method = 'POST'
             setUpParams()
             controller.save()
@@ -57,9 +57,9 @@ class PersonControllerSaveSpec extends Specification {
     def "test params invalid"() {
 
         when:
-            def control = this.mockPersonService( false )
+            def control = mockPersonService( false )
             request.method = 'POST'
-            this.setUpParams()
+            setUpParams()
             params.name = null
             controller.save()
             control.verify()

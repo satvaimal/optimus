@@ -6,7 +6,7 @@ target( createListTemplate:"Generate templates for 'list' view" ) {
     depends( installOptimusTemplates )
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
-    domainClassList.each { this.generate( it ) }
+    domainClassList.each { generate( it ) }
     def msg = "Finished generation of 'list' templates"
     event( 'StatusFinal', [ msg ] )
 

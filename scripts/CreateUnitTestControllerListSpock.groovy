@@ -57,7 +57,7 @@ String generateSetUpMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def setup() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_list.gsp' ]"
-    content << " = this.getTemplate()\n"
+    content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -68,7 +68,7 @@ String generateOkMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = this.mock${className}Service()\n"
+    content << "${TAB*3}def control = mock${className}Service()\n"
     content << "${TAB*3}request.method = 'GET'\n"
     content << "${TAB*3}def model = controller.list()\n"
     content << "${TAB*2}control.verify()\n\n"

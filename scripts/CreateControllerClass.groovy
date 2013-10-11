@@ -92,7 +92,7 @@ String generateIndexMethod() {
 String generateContentMethod() {
 
     def content = '' << "${TAB}def content() {\n"
-    content << "${TAB*2}this.renderList( 'content' )\n"
+    content << "${TAB*2}renderList( 'content' )\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -101,7 +101,7 @@ String generateContentMethod() {
 String generateListMethod() {
 
     def content = '' << "${TAB}def list() {\n"
-    content << "${TAB*2}this.renderList( 'list' )\n"
+    content << "${TAB*2}renderList( 'list' )\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -124,7 +124,7 @@ String generateSaveMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def save() {\n\n"
     content << "${TAB*2}def ${classNameLower} = new ${className}( params )\n"
-    content << "${TAB*2}this.saveOnDb( ${classNameLower}, 'create',\n"
+    content << "${TAB*2}saveOnDb( ${classNameLower}, 'create',\n"
     content << "${TAB*3}'${classNameLower}.created.message' )\n\n"
     content << "${TAB}}\n\n"
     content.toString()
@@ -134,7 +134,7 @@ String generateSaveMethod( className ) {
 String generateEditMethod( idType ) {
 
     def content = '' << "${TAB}def edit( ${idType} id ) {\n\n"
-    content << "${TAB*2}def map = this.get( id )\n"
+    content << "${TAB*2}def map = get( id )\n"
     content << "${TAB*2}if ( !map ) return\n"
     content << "${TAB*2}map.edit = true\n"
     content << "${TAB*2}render( template:'form', model:map )\n\n"
@@ -147,11 +147,11 @@ String generateUpdateMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def update( ${idType} id ) {\n\n"
-    content << "${TAB*2}def map = this.get( id )\n"
+    content << "${TAB*2}def map = get( id )\n"
     content << "${TAB*2}if ( !map ) return\n"
     content << "${TAB*2}map.${classNameLower}Instance.properties = params\n"
     content << "${TAB*2}map.edit = true\n"
-    content << "${TAB*2}this.saveOnDb( map.${classNameLower}Instance,"
+    content << "${TAB*2}saveOnDb( map.${classNameLower}Instance,"
     content << " 'update',\n"
     content << "${TAB*3}'${classNameLower}.updated.message', true )\n\n"
     content << "${TAB}}\n\n"
@@ -163,7 +163,7 @@ String generateDeleteMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def delete( ${idType} id ) {\n\n"
-    content << "${TAB*2}def map = this.get( id )\n"
+    content << "${TAB*2}def map = get( id )\n"
     content << "${TAB*2}if ( !map ) return\n"
     content << "${TAB*2}${classNameLower}Service.delete("
     content << " map.${classNameLower}Instance )\n"
@@ -196,13 +196,13 @@ String generateGetMethod( className, idType ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}private Map get( ${idType} id ) {\n\n"
     content << "${TAB*2}if ( id == null ) {\n"
-    content << "${TAB*3}this.notifyCrack()\n"
+    content << "${TAB*3}notifyCrack()\n"
     content << "${TAB*3}return null\n"
     content << "${TAB*2}}\n"
     content << "${TAB*2}def ${classNameLower} ="
     content << " ${classNameLower}Service.get( id )\n"
     content << "${TAB*2}if ( !${classNameLower} ) {\n"
-    content << "${TAB*3}this.notifyCrack()\n"
+    content << "${TAB*3}notifyCrack()\n"
     content << "${TAB*3}return null\n"
     content << "${TAB*2}}\n"
     content << "${TAB*2}[ ${classNameLower}Instance:${classNameLower} ]\n\n"

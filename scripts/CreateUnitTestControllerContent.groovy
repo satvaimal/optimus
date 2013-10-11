@@ -57,7 +57,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_content.gsp' ]"
-    content << " = this.getTemplate()\n"
+    content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -67,7 +67,7 @@ String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service()\n"
+    content << "${TAB*2}def control = mock${className}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}def model = controller.content()\n"
     content << "${TAB*2}def expected = 'OK'\n"

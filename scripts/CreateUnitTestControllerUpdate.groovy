@@ -68,7 +68,7 @@ String generateSetUpMethod( className ) {
     content << "${TAB*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
-    content << " = this.getTemplate()\n\n"
+    content << " = getTemplate()\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -79,9 +79,9 @@ String generateOkMethod( className, idName ) {
     def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service()\n"
+    content << "${TAB*2}def control = mock${className}Service()\n"
     content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}this.setUpParams()\n"
+    content << "${TAB*2}setUpParams()\n"
     content << "${TAB*2}controller.update( ${id} )\n"
     content << "${TAB*2}def expected = 'default.updated.message'\n"
     content << "${TAB*2}assertEquals \"'message' should be '\${expected}'\",\n"
@@ -101,7 +101,7 @@ String generateOkMethod( className, idName ) {
 String generateIdNullMethod() {
 
     def content = '' << "${TAB}void testIdNull() {\n\n"
-    content << "${TAB*2}def control = this.mock"
+    content << "${TAB*2}def control = mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}controller.update( null )\n"
@@ -122,8 +122,8 @@ String generateNotFoundMethod( className, idName ) {
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testNotFound() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service( true, 0 )\n"
-    content << "${TAB*2}def control2 = this.mock"
+    content << "${TAB*2}def control = mock${className}Service( true, 0 )\n"
+    content << "${TAB*2}def control2 = mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}controller.update( ${id} )\n"
@@ -149,9 +149,9 @@ String generateParamsInvalidMethod( domainClass, idName ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = '' << "${TAB}void testParamsInvalid() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service( false )\n"
+    content << "${TAB*2}def control = mock${className}Service( false )\n"
     content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}this.setUpParams()\n"
+    content << "${TAB*2}setUpParams()\n"
     content << "${TAB*2}params.${requiredAttributes[0]} = null\n"
     content << "${TAB*2}controller.update( ${id} )\n"
     content << "${TAB*2}def expected = 'OK'\n"

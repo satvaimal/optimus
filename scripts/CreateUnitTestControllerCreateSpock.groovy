@@ -55,7 +55,7 @@ String generateSetUpMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def setup() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
-    content << " = this.getTemplate()\n"
+    content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
     content.toString()
 

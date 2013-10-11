@@ -75,7 +75,7 @@ String generateOkMethod( className, idName ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def \"test ok\"() {\n\n"
     content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = this.mock${className}Service()\n"
+    content << "${TAB*3}def control = mock${className}Service()\n"
     content << "${TAB*3}request.method = 'POST'\n"
     content << "${TAB*3}controller.delete( ${id} )\n"
     content << "${TAB*3}control.verify()\n"
@@ -93,7 +93,7 @@ String generateIdNullMethod() {
 
     def content = '' << "${TAB}def \"test id null\"() {\n\n"
     content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = this.mock"
+    content << "${TAB*3}def control = mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*3}request.method = 'POST'\n"
     content << "${TAB*3}controller.delete( null )\n"
@@ -112,8 +112,8 @@ String generateNotFoundMethod( className, idName ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void \"test not found\"() {\n\n"
     content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = this.mock${className}Service( false )\n"
-    content << "${TAB*3}def control2 = this.mock"
+    content << "${TAB*3}def control = mock${className}Service( false )\n"
+    content << "${TAB*3}def control2 = mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*3}request.method = 'POST'\n"
     content << "${TAB*3}controller.delete( ${id} )\n"

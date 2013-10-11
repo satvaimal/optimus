@@ -55,7 +55,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
-    content << " = this.getTemplate()\n"
+    content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
     content.toString()
 

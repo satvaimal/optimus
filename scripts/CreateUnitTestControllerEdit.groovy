@@ -66,7 +66,7 @@ String generateSetUpMethod( className ) {
     content << "${TAB*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
-    content << " = this.getTemplate()\n\n"
+    content << " = getTemplate()\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -77,7 +77,7 @@ String generateOkMethod( className, idName ) {
     def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service()\n"
+    content << "${TAB*2}def control = mock${className}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}def model = controller.edit( ${id} )\n"
     content << "${TAB*2}def expected = 'OK'\n"
@@ -94,7 +94,7 @@ String generateOkMethod( className, idName ) {
 String generateIdNullMethod() {
 
     def content = '' << "${TAB}void testIdNull() {\n\n"
-    content << "${TAB*2}def control = this.mock"
+    content << "${TAB*2}def control = mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}controller.edit( null )\n"
@@ -115,8 +115,8 @@ String generateNotFoundMethod( className, idName ) {
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testNotFound() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service()\n"
-    content << "${TAB*2}def control2 = this.mock"
+    content << "${TAB*2}def control = mock${className}Service()\n"
+    content << "${TAB*2}def control2 = mock"
     content << "${CRACKING_SERVICE.capitalize()}Service()\n"
     content << "${TAB*2}request.method = 'GET'\n"
     content << "${TAB*2}controller.edit( ${id} )\n"

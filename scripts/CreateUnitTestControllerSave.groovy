@@ -63,7 +63,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${TAB}@Before\n"
     content << "${TAB}void setUp() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_form.gsp' ]"
-    content << " = this.getTemplate()\n"
+    content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -74,9 +74,9 @@ String generateOkMethod( className, idName ) {
     def id = idName != 'id' ? "\${${className}Mock.mock( 0 ).${idName}}" : '1'
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service()\n"
+    content << "${TAB*2}def control = mock${className}Service()\n"
     content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}this.setUpParams()\n"
+    content << "${TAB*2}setUpParams()\n"
     content << "${TAB*2}controller.save()\n"
     content << "${TAB*2}def expected = 'default.created.message'\n"
     content << "${TAB*2}assertEquals \"'message' should be '\${expected}'\",\n"
@@ -101,9 +101,9 @@ String generateParamsInvalidMethod( domainClass ) {
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}void testParamsInvalid() {\n\n"
-    content << "${TAB*2}def control = this.mock${className}Service( false )\n"
+    content << "${TAB*2}def control = mock${className}Service( false )\n"
     content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}this.setUpParams()\n"
+    content << "${TAB*2}setUpParams()\n"
     content << "${TAB*2}params.${requiredAttributes[0]} = null\n"
     content << "${TAB*2}controller.save()\n"
     content << "${TAB*2}def expected = 'OK'\n"
