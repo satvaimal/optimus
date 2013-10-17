@@ -1,3 +1,5 @@
+import grails.util.GrailsUtil
+
 includeTargets << new File( optimusPluginDir,
     'scripts/_OptimusUtils.groovy' )
 
@@ -19,8 +21,19 @@ void generate( domainClass ) {
     def pckg = domainClass.packageName
     new File(basedir, "grails-app/log/" ).mkdirs()
     def content = new File(optimusPluginDir,
-        "grails-app/utils/OptimusConfig.txt"
+        "grails-app/utils/Config-${getVersion()}.txt"
         ).text.replaceAll( '%%pckg%%', "${pckg}.aop"  )
     new File(basedir, "grails-app/conf/Config.groovy" ).text = content
+
+}// End of method
+
+def getVersion() {
+
+    def grailsVersion = new BigDecimal( GrailsUtil.grailsVersion[ 0..2 ] )
+    def version = '2.0.0'
+    if ( grailsVersion >= 2.1 && grailsVersion < 2.2 ) version = '2.1.0'
+    else if ( grailsVersion >= 2.2 && grailsVersion < 2.3 ) version = '2.2.0'
+    else if ( grailsVersion >= 2.3 ) version = '2.3.0'
+    version
 
 }// End of method
