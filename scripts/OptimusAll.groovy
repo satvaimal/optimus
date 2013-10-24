@@ -14,6 +14,8 @@ includeTargets << new File( optimusPluginDir,
     'scripts/CreateUnitTestController.groovy' )
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateViews.groovy' )
+includeTargets << new File( optimusPluginDir,
+    'scripts/CreateI18n.groovy' )
 
 target( optimusAll:'Generate all optimus artifacts' ) {
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp,
@@ -24,7 +26,8 @@ target( optimusAll:'Generate all optimus artifacts' ) {
         createLogs,
         createControllerClass, 
         createUnitTestController,
-        createViews )
+        createViews,
+        createI18n )
     def msg = "Finished generation of artifacts"
     event( 'StatusFinal', [ msg ] )
 
