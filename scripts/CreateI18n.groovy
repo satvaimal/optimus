@@ -27,12 +27,12 @@ void generate( domainClass ) {
 def processConstraint( domainClass, constraint ) {
 
     if ( EXCLUDED_ATTRIBUTES.contains( constraint.propertyName ) ||
-        constraint.propertyType.name == 'boolean' ) return
+        constraint.propertyType.name == 'boolean' ) return ''
     def content = new StringBuffer()
     constraint.appliedConstraints.each { ac ->
-        if ( EXCLUDED_CONSTRAINTS.contains( ac.name ) ) return
-        else if ( PRIMITIVE_TYPES.contains( constraint.propertyType ) &&
-        ac.name == 'nullable' ) return
+        if ( EXCLUDED_CONSTRAINTS.contains( ac.name ) ) return ''
+        else if ( PRIMITIVE_TYPES.contains( constraint.propertyType.name ) &&
+        ac.name == 'nullable' ) return ''
         content << getConstraintMessage( domainClass, constraint, ac )
         content << '\n'
     }// End of closure
@@ -58,24 +58,72 @@ def getBlankMessage( prefix ) {
 
 def getCreditCardMessage( prefix ) {
 
-    def msg = '' << "${prefix}.creditCard.invalid=Property [{0}] of class [{1}]"
-    msg << " with value [{2}] is not a valid credit card number"
+    def msg = '' << "${prefix}.creditCard.invalid=${I18N_COMMON_MSG}"
+    msg << "is not a valid credit card number"
     msg.toString()
     
 }// End of method
 
 def getEmailMessage( prefix ) {
 
-    def msg = '' << "${prefix}.email.invalid=Property [{0}] of class [{1}]"
-    msg << " with value [{2}] is not a valid e-mail address"
+    def msg = '' << "${prefix}.email.invalid=${I18N_COMMON_MSG}"
+    msg << "is not a valid e-mail address"
     msg.toString()
     
 }// End of method
 
 def getInListMessage( prefix ) {
 
-    def msg = '' << "${prefix}.not.inList=Property [{0}] of class [{1}]"
-    msg << " with value [{2}] is not contained within the list [{3}]"
+    def msg = '' << "${prefix}.not.inList=${I18N_COMMON_MSG}"
+    msg << "is not contained within the list [{3}]"
+    msg.toString()
+    
+}// End of method
+
+def getMatchesMessage( prefix ) {
+
+    def msg = '' << "${prefix}.matches.invalid=${I18N_COMMON_MSG}"
+    msg << "does not match the required pattern [{3}]"
+    msg.toString()
+    
+}// End of method
+
+def getMaxMessage( prefix ) {
+
+    def msg = '' << "${prefix}.max.exceeded=${I18N_COMMON_MSG}"
+    msg << "exceeds maximum value [{3}]"
+    msg.toString()
+    
+}// End of method
+
+def getMaxSizeMessage( prefix ) {
+
+    def msg = '' << "${prefix}.maxSize.exceeded=${I18N_COMMON_MSG}"
+    msg << "exceeds the maximum size of [{3}]"
+    msg.toString()
+    
+}// End of method
+
+def getMinMessage( prefix ) {
+
+    def msg = '' << "${prefix}.min.exceeded=${I18N_COMMON_MSG}"
+    msg << "exceeds minimum value [{3}]"
+    msg.toString()
+    
+}// End of method
+
+def getMinSizeMessage( prefix ) {
+
+    def msg = '' << "${prefix}.minSize.exceeded=${I18N_COMMON_MSG}"
+    msg << "exceeds the minimum size of [{3}]"
+    msg.toString()
+    
+}// End of method
+
+def getNotEqualMessage( prefix ) {
+
+    def msg = '' << "${prefix}.notEqual=${I18N_COMMON_MSG}"
+    msg << "cannot equal [{3}]"
     msg.toString()
     
 }// End of method
@@ -84,14 +132,46 @@ def getNullableMessage( prefix ) {
     "${prefix}.nullable=Property [{0}] of class [{1}] cannot be null"
 }// End of method
 
+def getRangeMessage( prefix ) {
+
+    def msg = '' << "${prefix}.range.toosmall"
+    msg << "=${I18N_COMMON_MSG}should be greater than [{3}]\n"
+    msg << "${prefix}.range.toobig"
+    msg << "=${I18N_COMMON_MSG}should be less than [{4}]"
+    msg.toString()
+
+}// End of method
+
 def getSizeMessage( prefix ) {
 
     def msg = '' << "${prefix}.size.toosmall"
-    msg << "=Property [{0}] of class [{1}] with value [{2}]"
-    msg << " should be greater than [{3}] characters\n"
+    msg << "=${I18N_COMMON_MSG}should be greater than [{3}] characters\n"
     msg << "${prefix}.size.toobig"
-    msg << "=Property [{0}] of class [{1}] with value [{2}]"
-    msg << " should be less than [{4}] characters"
+    msg << "=${I18N_COMMON_MSG}should be less than [{4}] characters"
     msg.toString()
 
+}// End of method
+
+def getUniqueMessage( prefix ) {
+
+    def msg = '' << "${prefix}.unique=${I18N_COMMON_MSG}"
+    msg << "must be unique"
+    msg.toString()
+    
+}// End of method
+
+def getUrlMessage( prefix ) {
+
+    def msg = '' << "${prefix}.url.invalid=${I18N_COMMON_MSG}"
+    msg << "is not a valid URL"
+    msg.toString()
+    
+}// End of method
+
+def getValidatorMessage( prefix ) {
+
+    def msg = '' << "${prefix}.validator.error=${I18N_COMMON_MSG}"
+    msg << "does not pass custom validation"
+    msg.toString()
+    
 }// End of method

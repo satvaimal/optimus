@@ -30,7 +30,7 @@ void processConstraint( domainClass, constraint ) {
     def testMethods = new StringBuilder()
     constraint.appliedConstraints.each { ac ->
         if ( EXCLUDED_CONSTRAINTS.contains( ac.name ) ) return
-        else if ( PRIMITIVE_TYPES.contains( constraint.propertyType ) &&
+        else if ( PRIMITIVE_TYPES.contains( constraint.propertyType.name ) &&
         ac.name == 'nullable' ) return
         else if ( RANGE_CONSTRAINTS.contains( ac.name ) ) {
             testMethods << generateRangeTestMethods( domainClass.name, constraint, ac )

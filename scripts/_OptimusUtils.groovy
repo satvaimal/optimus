@@ -69,6 +69,8 @@ WRAPPER_TYPES = WRAPPER_NUMERIC_TYPES + [
 
 CRACKING_SERVICE = 'cracking'
 
+I18N_COMMON_MSG = 'Property [{0}] of class [{1}] with value [{2}] '
+
 properties = [:]
 
 getDomainClassList = { args ->
