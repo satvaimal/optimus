@@ -16,11 +16,25 @@ setDefaultTarget( createI18n )
 
 void generate( domainClass ) {
 
-    def content = '' << "\n#${domainClass.name} messages\n"
+    def content = '' << "\n# ${domainClass.name} messages\n"
+    content << getDomainMessages( domainClass )
     def constraints = domainClass.constrainedProperties
     constraints.each { content << processConstraint( domainClass, it.value ) }
     new File( basedir, 'grails-app/i18n/messages.properties' ).append(
         content.toString() )
+
+}// End of method
+
+def getDomainMessages( domainClass ) {
+
+    def content = new StringBuffer()
+    content << "${domainClass.propertyName}.label=${domainClass.naturalName}\n"
+    domainClass.properties.each {
+        if ( [ 'id', 'version' ].contains( it.name ) ) return
+        content << "${domainClass.propertyName}.${it.name}.label"
+        content << "=${it.naturalName}\n"
+    }// End of closure
+    content.toString()
 
 }// End of method
 
