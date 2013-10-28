@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 Getting started 0.2</title>
+    <title>2 Getting started 0.3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -54,6 +54,9 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/views.html"><strong>10</strong><span>Creating views</span></a>
                     </div>
                     
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/i18n.html"><strong>11</strong><span>Creating i18n messages</span></a>
+                    </div>
+                    
                 </div>
             </div>
         </li>
@@ -92,7 +95,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
-                    <p><strong>Version:</strong> 0.2</p>
+                    <p><strong>Version:</strong> 0.3</p>
 
                     
                 </div>
@@ -113,7 +116,7 @@ function addJsClass() {
 To get started, you need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.groovy</code> file:
 <div class="code"><pre>plugins &#123;
     &#8230;
-    compile ':optimus:0.2'
+    compile ':optimus:0.3'
 &#125;</pre></div>
 You must have at least one domain class with some constraints, for example:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
@@ -170,6 +173,7 @@ The command will tell you about what artifacts have been created, such as config
 | Finished generation of 'list' templates
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
+| Finished generation of i18n messages
 | Finished generation of artifacts
 $</pre></div>
 <blockquote class="warning">
@@ -220,6 +224,9 @@ The <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> co
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/create-i18n.html">create-i18n</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-list-template.html">create-list-template</a>

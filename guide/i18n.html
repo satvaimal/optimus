@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>7 Creating logs for services 0.3</title>
+    <title>11 Creating i18n messages 0.3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -80,18 +80,16 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/unitTestServices.html">&lt;&lt; <strong>6</strong><span>Creating unit tests for services</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/views.html">&lt;&lt; <strong>10</strong><span>Creating views</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/controllers.html"><strong>8</strong><span>Creating controllers</span> >></a></div>
-                
 
 
                 <div class="project">
-                    <h1>7 Creating logs for services - Reference Documentation</h1>
+                    <h1>11 Creating i18n messages - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
@@ -104,79 +102,39 @@ function addJsClass() {
 
                 
 
-<h1 id="logsServices">7 Creating logs for services</h1>
-Auditing and logging is one of the most important things you must consider when building web applications. Grails injects the <code>log</code> object for you in every artifact (such as domain classes, controllers and services), but the Spring Aspect Oriented Programming approach tells you that it is not a clean way to manage the logging. We strongly recommend the use of Spring AOP for this task.<p class="paragraph"/>Sometimes, it is difficult to configure AOP in Grails. There are a lot of blog entries suggesting you how to do it, but currently there isn't a standard approach. With this in mind, Optimus plugin lets you generate the corresponding AOP logs for every service method.<p class="paragraph"/>You can achieve this by executing the <a href="../ref/Scripts/create-logs.html" class="Scripts">create-logs</a> command:
-<div class="code"><pre>grails create&#45;logs &#91;domainClass&#93;</pre></div>
-Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-logs.html" class="Scripts">create-logs</a> command, you will get the following log files:
-<ul class="star">
-<li><code>src/groovy/mypackage/aop/PersonServiceList.groovy</code></li>
-<li><code>src/groovy/mypackage/aop/PersonServiceCreate.groovy</code></li>
-<li><code>src/groovy/mypackage/aop/PersonServiceUpdate.groovy</code></li>
-<li><code>src/groovy/mypackage/aop/PersonServiceGet.groovy</code></li>
-<li><code>src/groovy/mypackage/aop/PersonServiceDelete.groovy</code></li>
-</ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceList.groovy</code></td><td><a href="../ref/Scripts/create-service-list-log.html" class="Scripts">create-service-list-log</a></td></tr><tr class="table-even"><td><code>src/groovy/mypackage/aop/PersonServiceCreate.groovy</code></td><td><a href="../ref/Scripts/create-service-create-log.html" class="Scripts">create-service-create-log</a></td></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceUpdate.groovy</code></td><td><a href="../ref/Scripts/create-service-update-log.html" class="Scripts">create-service-update-log</a></td></tr><tr class="table-even"><td><code>src/groovy/mypackage/aop/PersonServiceGet.groovy</code></td><td><a href="../ref/Scripts/create-service-get-log.html" class="Scripts">create-service-get-log</a></td></tr><tr class="table-odd"><td><code>src/groovy/mypackage/aop/PersonServiceDelete.groovy</code></td><td><a href="../ref/Scripts/create-service-delete-log.html" class="Scripts">create-service-delete-log</a></td></tr></table>
-If we open the <code>src/groovy/mypackage/aop/PersonServiceList.groovy</code> file, we will find something like this:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage.aop<p class="paragraph"/><span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.AfterReturning
-<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.AfterThrowing
-<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Aspect
-<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Before
-<span class="java&#45;keyword">import</span> org.aspectj.lang.annotation.Pointcut<p class="paragraph"/><span class="java&#45;keyword">import</span> org.springframework.stereotype.Component<p class="paragraph"/>@Component
-@Aspect
-class PersonServiceList &#123;<p class="paragraph"/>    @Pointcut(
-        value='execution(java.util.Map com.company.app.PersonService.list(..)) &#38;&#38; bean(personService) &#38;&#38; args(params)',
-        argNames='params')
-    <span class="java&#45;keyword">public</span> void list( Map params ) &#123;&#125;<p class="paragraph"/>    @Before('list(params)')
-    void before( Map params ) &#123;
-        log.info( <span class="java&#45;quote">"Begins request: $&#123;params&#125;"</span> )
-    &#125;<p class="paragraph"/>    @AfterReturning(
-        pointcut='list(java.util.Map)',
-        returning='map')
-    void afterReturning( Map map ) &#123;
-        log.info( <span class="java&#45;quote">"End of request: $&#123;map&#125;"</span> )
-    &#125;<p class="paragraph"/>    @AfterThrowing(
-        pointcut='list(java.util.Map)',
-        throwing='e' )
-    void afterThrowing( Exception e ) &#123;
-        log.info("Error in request: $&#123;e.class.simpleName&#125; &#45; $&#123;e.message&#125;)
+<h1 id="i18n">11 Creating i18n messages</h1>
+Grails lets you customize the labels of your domain classes' fields, plus the error messages of their constraints. In most cases, your application doesn't use the default messages provided by Grails, and you have to write every message by hand.<p class="paragraph"/>Optimus Plugin helps you with the generation of the keys for these messages by executing the <a href="../ref/Scripts/create-i18n.html" class="Scripts">create-i18n</a> command:
+<div class="code"><pre>grails create&#45;i18n &#91;domainClass&#93;</pre></div><p class="paragraph"/>This command modifies your <code>grails-app/i18n/messages.properties</code> by appending the corresponding messages. Suppose you have a domain class like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
+    <span class="java&#45;object">String</span> lastName
+    Date birthdate
+    <span class="java&#45;object">Boolean</span> enabled<p class="paragraph"/>    <span class="java&#45;keyword">static</span> constraints = &#123;
+        name blank:<span class="java&#45;keyword">false</span>, size:1..100
+        lastName blank:<span class="java&#45;keyword">false</span>, size:1..100
     &#125;<p class="paragraph"/>&#125;</pre></div>
-There are some annotations that does the magic:
-<ul class="star">
-<li><code>Component</code>. Tells Spring that this class should be considered as Spring bean. It is configured via <code>grails-app/conf/Config.groovy</code> in the <code>grails.spring.bean.packages</code> property (the plugin does it for you).</li>
-<li><code>Aspect</code>. Indicates that the class must be managed as an aspect.</li>
-<li><code>Pointcut</code>. Indicates the method to be logged.</li>
-<li><code>Before</code>. Indicates the method to be executed before the method indicated in the <code>Pointcut</code> annotation is invoked.</li>
-<li><code>AfterReturning</code>. Indicates the method to be executed after the method indicated in the <code>Pointcut</code> annotation returns a value.</li>
-<li><code>AfterThrowing</code>. Indicates the method to be executed if the method indicated in the <code>Pointcut</code> annotation throws an exception.</li>
-</ul><p class="paragraph"/><blockquote class="note">
-We strongly recommend you to read the <a href="http://docs.spring.io/spring/docs/3.2.4.RELEASE/spring-framework-reference/html/aop.html" target="blank">Spring AOP</a> documentation for a further explanation.
-</blockquote>
-When you run the application and execute some actions, the logs will appear in the output console and they will be written in the <code>log/activity</code> file:<p class="paragraph"/>Listing items:
-<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceList  &#45; Begins request: &#91;action:content, controller:person&#93;
-yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceList  &#45; End of request: &#91;items:&#91;&#93;, total:0&#93;</pre></div>
-Creating items:
-<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceCreate  &#45; Begins request: com.company.app.Person : (unsaved)
-yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceCreate  &#45; End of request</pre></div>
-Getting items:
-<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceGet  &#45; Begins request:1
-yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceGet  &#45; End of request: com.company.app.Person : 1</pre></div>
-Updating items:
-<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceUpdate  &#45; Begins request: com.company.app.Person : 1
-yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceUpdate  &#45; End of request</pre></div>
-Deleting items:
-<div class="code"><pre>yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceDelete  &#45; Begins request:com.company.app.Person : 1
-yyyy&#45;MM&#45;dd HH:mm:ss &#91;thread&#93; INFO  aop.PersonServiceDelete  &#45; End of request</pre></div>
-<blockquote class="note">
-The default output is poor friendly (It uses the <code>toString</code> default method). You can edit the log output according to your own needings.
-</blockquote>
+With the <a href="../ref/Scripts/create-i18n.html" class="Scripts">create-i18n</a> command, you will get the following i18n messages:
+<div class="code"><pre>&#35; Person messages
+person.label=Person
+person.birthdate.label=Birthdate
+person.enabled.label=Enabled
+person.lastName.label=Last Name
+person.name.label=Name
+person.name.blank=Property &#91;name&#93; of class &#91;mypackage.Person&#93; cannot be blank
+person.name.size.toosmall=Property &#91;name&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be greater than &#91;&#123;3&#125;&#93; characters
+person.name.size.toobig=Property &#91;name&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be less than &#91;&#123;4&#125;&#93; characters
+person.name.nullable=Property &#91;name&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
+person.lastName.blank=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; cannot be blank
+person.lastName.size.toosmall=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be greater than &#91;&#123;3&#125;&#93; characters
+person.lastName.size.toobig=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be less than &#91;&#123;4&#125;&#93; characters
+person.lastName.nullable=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
+person.birthdate.nullable=Property &#91;birthdate&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
+person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span></pre></div>
 
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/unitTestServices.html">&lt;&lt; <strong>6</strong><span>Creating unit tests for services</span></a></div>
-                
-                    <div class="toc-item next-right"><a href="../guide/controllers.html"><strong>8</strong><span>Creating controllers</span> >></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/views.html">&lt;&lt; <strong>10</strong><span>Creating views</span></a></div>
                 
                 <div style="clear:both"></div>
             </div>

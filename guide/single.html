@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Optimus Plugin 0.2</title>
+        <title>Optimus Plugin 0.3</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -43,6 +43,8 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0"><a href="#views"><strong>10</strong><span>Creating views</span></a></div>
                             
+                            <div class="toc-item" style="margin-left:0"><a href="#i18n"><strong>11</strong><span>Creating i18n messages</span></a></div>
+                            
                         </div>
                     </div>
                 </li>
@@ -70,7 +72,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Optimus Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alejandro García Granados</p>
-                            <p><strong>Version:</strong> 0.2</p>
+                            <p><strong>Version:</strong> 0.3</p>
                             
                         </div>
 
@@ -108,18 +110,26 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#views"><strong>10</strong><span>Creating views</span></a></div>
                             
+                            <div class="toc-item" style="margin-left:0px"><a href="#i18n"><strong>11</strong><span>Creating i18n messages</span></a></div>
+                            
                             <div style="clear:both" ></div>
                         </div>
                         
                         
 
 <h1 id="introduction">1 Introduction</h1>
-Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
+Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, i18n messages, logging and responsive and asynchronous views.
 
 
 
 <h2 id="changes">1.1 Change Log</h2>
 <ul class="star">
+<li>October 28, 2013</li>
+<ul class="star">
+<li>0.3 release.</li>
+<li>Added generation of i18n messages.</li>
+<li><a href="https://github.com/satvaimal/optimus/issues/6" target="blank">Issues</a></li>
+</ul>
 <li>October 10, 2013</li>
 <ul class="star">
 <li>0.2 release.</li>
@@ -145,7 +155,7 @@ Grails Optimus Plugin lets you create some of the most popular artifacts that ar
 To get started, you need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.groovy</code> file:
 <div class="code"><pre>plugins &#123;
     &#8230;
-    compile ':optimus:0.2'
+    compile ':optimus:0.3'
 &#125;</pre></div>
 You must have at least one domain class with some constraints, for example:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
@@ -202,6 +212,7 @@ The command will tell you about what artifacts have been created, such as config
 | Finished generation of 'list' templates
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
+| Finished generation of i18n messages
 | Finished generation of artifacts
 $</pre></div>
 <blockquote class="warning">
@@ -864,6 +875,36 @@ The plugin overrides some important files that could already exist:
 <table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td>Index artifacts (<code>index</code>, <code>_header</code>, <code>_topMenu</code>, <code>_menu</code> and <code>_content</code>)</td><td><a href="../ref/Scripts/create-views-index.html" class="Scripts">create-views-index</a></td></tr><tr class="table-even"><td>Templates (<code>_content</code>, <code>_list</code> and <code>_form</code>)</td><td><a href="../ref/Scripts/install-optimus-templates.html" class="Scripts">install-optimus-templates</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_content.gsp</code></td><td><a href="../ref/Scripts/create-content-template.html" class="Scripts">create-content-template</a></td></tr><tr class="table-even"><td><code>grails-app/views/person/_list.gsp</code></td><td><a href="../ref/Scripts/create-list-template.html" class="Scripts">create-list-template</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_form.gsp</code></td><td><a href="../ref/Scripts/create-form-template.html" class="Scripts">create-form-template</a></td></tr></table><p class="paragraph"/>All these files are designed for working together, simulating a Simple Page Application that looks well in any device that supports a browser.
 
 
+
+<h1 id="i18n">11 Creating i18n messages</h1>
+Grails lets you customize the labels of your domain classes' fields, plus the error messages of their constraints. In most cases, your application doesn't use the default messages provided by Grails, and you have to write every message by hand.<p class="paragraph"/>Optimus Plugin helps you with the generation of the keys for these messages by executing the <a href="../ref/Scripts/create-i18n.html" class="Scripts">create-i18n</a> command:
+<div class="code"><pre>grails create&#45;i18n &#91;domainClass&#93;</pre></div><p class="paragraph"/>This command modifies your <code>grails-app/i18n/messages.properties</code> by appending the corresponding messages. Suppose you have a domain class like this:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
+    <span class="java&#45;object">String</span> lastName
+    Date birthdate
+    <span class="java&#45;object">Boolean</span> enabled<p class="paragraph"/>    <span class="java&#45;keyword">static</span> constraints = &#123;
+        name blank:<span class="java&#45;keyword">false</span>, size:1..100
+        lastName blank:<span class="java&#45;keyword">false</span>, size:1..100
+    &#125;<p class="paragraph"/>&#125;</pre></div>
+With the <a href="../ref/Scripts/create-i18n.html" class="Scripts">create-i18n</a> command, you will get the following i18n messages:
+<div class="code"><pre>&#35; Person messages
+person.label=Person
+person.birthdate.label=Birthdate
+person.enabled.label=Enabled
+person.lastName.label=Last Name
+person.name.label=Name
+person.name.blank=Property &#91;name&#93; of class &#91;mypackage.Person&#93; cannot be blank
+person.name.size.toosmall=Property &#91;name&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be greater than &#91;&#123;3&#125;&#93; characters
+person.name.size.toobig=Property &#91;name&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be less than &#91;&#123;4&#125;&#93; characters
+person.name.nullable=Property &#91;name&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
+person.lastName.blank=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; cannot be blank
+person.lastName.size.toosmall=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be greater than &#91;&#123;3&#125;&#93; characters
+person.lastName.size.toobig=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be less than &#91;&#123;4&#125;&#93; characters
+person.lastName.nullable=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
+person.birthdate.nullable=Property &#91;birthdate&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
+person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span></pre></div>
+
+
                     </div>
                 </td>
                 <td id="col2">
@@ -893,6 +934,9 @@ The plugin overrides some important files that could already exist:
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-i18n.html">create-i18n</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-list-template.html">create-list-template</a>
