@@ -1,14 +1,14 @@
 Grails Optimus Plugin
 =======
 
-Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, logging and responsive and asynchronous views.
+Grails Optimus Plugin lets you create some of the most popular artifacts that are not part of the Grails automation and scaffolding but are important to consider when building a Java Web/Grails application, such as log configuration, unit tests, services, i18n messages, logging and responsive and asynchronous views.
 
 To get started, you need to install the plugin by adding the following line in the <b>grails-app/conf/BuildConfig.groovy</b> file:
 
 ```groovy
 plugins {
     ...
-    compile ':optimus:0.2'
+    compile ':optimus:0.3'
 }
 ```
 
@@ -82,6 +82,7 @@ $ grails optimus-all Person
 | Finished generation of 'list' templates
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
+| Finished generation of i18n messages
 | Finished generation of artifacts
 $
 ```

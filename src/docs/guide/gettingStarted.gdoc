@@ -2,7 +2,7 @@ To get started, you need to install the plugin by adding the following line in t
 {code}
 plugins {
     ...
-    compile ':optimus:0.2'
+    compile ':optimus:0.3'
 }
 {code}
 You must have at least one domain class with some constraints, for example:
@@ -73,6 +73,7 @@ $ grails optimus-all Person
 | Finished generation of 'list' templates
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
+| Finished generation of i18n messages
 | Finished generation of artifacts
 $
 {code}

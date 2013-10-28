@@ -1,0 +1,26 @@
+h1. create-i18n
+
+h2. Purpose
+
+The @create-i18n@ generates all the i18n messages for every domain class.
+
+h2. Examples
+
+{code:java}
+grails create-i18n Person
+grails create-i18n "*"
+{code}
+
+h2. Description
+
+Given at least one domain class, this command creates i18n messages for every domain class. The command will append every new message in the @grails-app/i18n/messages.properties@ file.
+
+Usage:
+
+{code:java}
+grails create-i18n [domainClass]
+{code}
+
+Arguments:
+* @domainClass@ - Either a domain class name (case-sensitive) without its package or a wildcard (*). If you specify the wildcard the artifacts will be generated for all domain classes.
+

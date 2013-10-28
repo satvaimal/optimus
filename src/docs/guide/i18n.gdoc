@@ -1,0 +1,44 @@
+Grails lets you customize the labels of your domain classes' fields, plus the error messages of their constraints. In most cases, your application doesn't use the default messages provided by Grails, and you have to write every message by hand.
+
+Optimus Plugin helps you with the generation of the keys for these messages by executing the [create-i18n|Scripts] command:
+{code}
+grails create-i18n [domainClass]
+{code}
+
+This command modifies your @grails-app/i18n/messages.properties@ by appending the corresponding messages. Suppose you have a domain class like this:
+{code}
+package mypackage
+
+class Person {
+
+    String name
+    String lastName
+    Date birthdate
+    Boolean enabled
+
+    static constraints = {
+        name blank:false, size:1..100
+        lastName blank:false, size:1..100
+    }
+
+}
+{code}
+With the [create-i18n|Scripts] command, you will get the following i18n messages:
+{code}
+# Person messages
+person.label=Person
+person.birthdate.label=Birthdate
+person.enabled.label=Enabled
+person.lastName.label=Last Name
+person.name.label=Name
+person.name.blank=Property [name] of class [mypackage.Person] cannot be blank
+person.name.size.toosmall=Property [name] of class [mypackage.Person] with value [{2}] should be greater than [{3}] characters
+person.name.size.toobig=Property [name] of class [mypackage.Person] with value [{2}] should be less than [{4}] characters
+person.name.nullable=Property [name] of class [mypackage.Person] cannot be null
+person.lastName.blank=Property [lastName] of class [mypackage.Person] cannot be blank
+person.lastName.size.toosmall=Property [lastName] of class [mypackage.Person] with value [{2}] should be greater than [{3}] characters
+person.lastName.size.toobig=Property [lastName] of class [mypackage.Person] with value [{2}] should be less than [{4}] characters
+person.lastName.nullable=Property [lastName] of class [mypackage.Person] cannot be null
+person.birthdate.nullable=Property [birthdate] of class [mypackage.Person] cannot be null
+person.enabled.nullable=Property [enabled] of class [mypackage.Person] cannot be null
+{code}

@@ -18,3 +18,4 @@ unitTestControllers:
   title: Creating unit tests for controllers
   spockUnitTestControllers: Creating unit tests with Spock
 views: Creating views
+i18n: Creating i18n messages
