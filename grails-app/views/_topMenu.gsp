@@ -12,7 +12,13 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="${createLink(uri: '/')}">Home</a></li>
       <g:each var="c" in="${grailsApplication.controllerClasses.sort {it.fullName} }">
-      <li class="controller"><g:remoteLink controller="${c.logicalPropertyName}" method="GET" update="content">${c.name}</g:remoteLink></li>
+      <li class="controller">
+        <g:remoteLink controller="${c.logicalPropertyName}" method="GET" update="content" before="\$(this).find('.loading').show()" onComplete="\$('.loading').hide();">
+          ${c.name}
+          <span class="loading">
+            <span class="glyphicon glyphicon-refresh spinner"/>
+          </span>
+        </g:remoteLink></li>
       </g:each>
     </ul>
   </div>
