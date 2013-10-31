@@ -67,14 +67,17 @@ private renderFieldForProperty(p, owningClass, prefix = "") {
       <g:if test="\${edit}">
       <g:hiddenField name="id" value="\${${propertyName}?.id}" />
       <g:hiddenField name="version" value="\${${propertyName}?.version}" />
-      <g:submitToRemote class="btn btn-primary" url="[action: 'update']" update="[success:'form', failure:'form']" name="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" onSuccess="\${remoteFunction(action:'list', update:'list', method:'GET')}"/>
+      <g:submitToRemote class="btn btn-primary" url="[action: 'update']" update="[success:'form', failure:'form']" name="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" before="\\\$('form').find('.loading').show()" onComplete="\\\$('.loading').hide();" onSuccess="\${remoteFunction(action:'list', update:'list', method:'GET')}"/>
       <g:field class="btn btn-default" type="reset" name="reset" value="\${message(code: 'default.button.reset.label', default: 'Reset')}"/>
-      <g:remoteLink class="btn btn-success" action="create" update="form" method="GET" ><g:message code="default.button.new.label" default="New"/></g:remoteLink>
+      <g:remoteLink class="btn btn-success" action="create" update="form" method="GET" before="\\\$('form').find('.loading').show()" onComplete="\\\$('.loading').hide();"><g:message code="default.button.new.label" default="New"/></g:remoteLink>
       </g:if>
       <g:else>
-      <g:submitToRemote class="btn btn-primary" url="[action: 'save']" update="[success:'form', failure:'form']" name="create" value="\${message(code: 'default.button.create.label', default: 'Create')}" onSuccess="\${remoteFunction(action:'list', update:'list', method:'GET')}"/>
+      <g:submitToRemote class="btn btn-primary" url="[action: 'save']" update="[success:'form', failure:'form']" name="create" value="\${message(code: 'default.button.create.label', default: 'Create')}" before="\\\$('form').find('.loading').show()" onComplete="\\\$('.loading').hide();" onSuccess="\${remoteFunction(action:'list', update:'list', method:'GET')}"/>
       <g:field class="btn btn-default" type="reset" name="reset" value="\${message(code: 'default.button.reset.label', default: 'Reset')}"/>
       </g:else>
+      <span class="loading">
+        <span class="glyphicon glyphicon-refresh spinner"/>
+      </span>
     </form>
   </div>
 </div>

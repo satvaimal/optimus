@@ -38,7 +38,7 @@
             <td>\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</td>
             <%  }   }   } %>
             <td>
-              <g:remoteLink action="edit" id="\${${propertyName}.id}" update="form" method="GET"><span class="label label-success"><span class="glyphicon glyphicon-eye-open"></span></span></g:remoteLink>
+              <g:remoteLink action="edit" id="\${${propertyName}.id}" update="form" method="GET" before="\\\$('form').find('.loading').show()" onComplete="\\\$('.loading').hide();"><span class="label label-success"><span class="glyphicon glyphicon-eye-open"></span></span></g:remoteLink>
               <g:remoteLink action="delete" id="\${${propertyName}.id}" update="content" before="if(confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}') == false) return false"><span class="label label-danger"><span class="glyphicon glyphicon-remove"></span></span></g:remoteLink>
             </td>
           </tr>
