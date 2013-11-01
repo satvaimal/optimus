@@ -1,7 +1,12 @@
 <g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+    <h1>
+      <g:message code="default.list.label" args="[entityName]" />
+      <span class="loading">
+        <small><span class="glyphicon glyphicon-refresh spinner"/></small>
+      </span>
+    </h1>
   </div>
   <div class="panel-body">
     <g:if test="\${flash.listMessage}">
@@ -20,7 +25,7 @@
                         if (p.isAssociation()) { %>
             <th><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></th>
             <%          } else { %>
-            <util:remoteSortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" action="list" update="list" method="GET" params="\${params}"/>
+            <util:remoteSortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" action="list" update="list" method="GET" params="\${params}" before="\\\$('.panel-heading').find('.loading').show()" onComplete="\\\$('.loading').hide();"/>
             <%  }   }   } %>
             <th><g:message code="default.options.label" default="Options" /></th>
           </tr>
@@ -38,7 +43,7 @@
             <td>\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</td>
             <%  }   }   } %>
             <td>
-              <g:remoteLink action="edit" id="\${${propertyName}.id}" update="form" method="GET" before="\\\$('form').find('.loading').show()" onComplete="\\\$('.loading').hide();"><span class="label label-success"><span class="glyphicon glyphicon-eye-open"></span></span></g:remoteLink>
+              <g:remoteLink action="edit" id="\${${propertyName}.id}" update="form" method="GET" before="\\\$('.panel-heading').find('.loading').show()" onComplete="\\\$('.loading').hide();"><span class="label label-success"><span class="glyphicon glyphicon-eye-open"></span></span></g:remoteLink>
               <g:remoteLink action="delete" id="\${${propertyName}.id}" update="content" before="if(confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}') == false) return false"><span class="label label-danger"><span class="glyphicon glyphicon-remove"></span></span></g:remoteLink>
             </td>
           </tr>
