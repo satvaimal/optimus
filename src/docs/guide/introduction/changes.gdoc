@@ -1,3 +1,7 @@
+* November 26, 2013
+** 0.3.1 release.
+** Added spinners for AJAX requests.
+** Minimal controller fixes.
 * October 28, 2013
 ** 0.3 release.
 ** Added generation of i18n messages.

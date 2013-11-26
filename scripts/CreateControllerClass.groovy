@@ -124,8 +124,7 @@ String generateSaveMethod( className ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}def save() {\n\n"
     content << "${TAB*2}def ${classNameLower} = new ${className}( params )\n"
-    content << "${TAB*2}saveOnDb( ${classNameLower}, 'create',\n"
-    content << "${TAB*3}'${classNameLower}.created.message' )\n\n"
+    content << "${TAB*2}saveOnDb( ${classNameLower}, 'create' )\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -152,8 +151,7 @@ String generateUpdateMethod( className, idType ) {
     content << "${TAB*2}map.${classNameLower}Instance.properties = params\n"
     content << "${TAB*2}map.edit = true\n"
     content << "${TAB*2}saveOnDb( map.${classNameLower}Instance,"
-    content << " 'update',\n"
-    content << "${TAB*3}'${classNameLower}.updated.message', true )\n\n"
+    content << " 'update', true )\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -215,7 +213,7 @@ String generateSaveOnDbMethod( className, idName ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << "${TAB}private void saveOnDb( ${classNameLower}"
-    content << ", method, msg, edit = false ) {\n\n"
+    content << ", method, edit = false ) {\n\n"
     content << "${TAB*2}try {\n"
     content << "${TAB*3}${classNameLower}Service.\"\${method}\""
     content << "( ${classNameLower} )\n"

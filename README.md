@@ -8,7 +8,7 @@ To get started, you need to install the plugin by adding the following line in t
 ```groovy
 plugins {
     ...
-    compile ':optimus:0.3'
+    compile ':optimus:0.3.1'
 }
 ```
 
