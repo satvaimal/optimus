@@ -8,7 +8,7 @@ target( createUnitTestConstraints:
     def domainClassList = getDomainClassList( args )
     if ( !domainClassList ) return
     domainClassList.each { generate( it ) }
-    def msg = "Finished generation of  constraints unit tests"
+    def msg = "Finished generation of constraints unit tests"
     event( 'StatusFinal', [ msg ] )
 
 }// End of closure
