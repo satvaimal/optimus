@@ -9,7 +9,8 @@ includeTargets << new File( optimusPluginDir,
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateUnitTestServiceListSortOrder.groovy' )
 
-target( createUnitTestServiceList:"Generate unit tests for 'list' service method" ) {
+target( createUnitTestServiceList:
+    "Generate unit tests for 'list' service method" ) {
 
     depends( createUnitTestServiceListMax,
         createUnitTestServiceListOffset,
@@ -32,7 +33,7 @@ void generate( domainClass ) {
     content << generateOkMethod()
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ServiceListTests.groovy"
+    def fileName = "${domainClass.name}ServiceListSpec.groovy"
     new File(directory, fileName).text = content.toString()
 
 }// End of method
@@ -40,7 +41,7 @@ void generate( domainClass ) {
 String generateImports() {
 
     def content = '' << "import grails.test.mixin.*\n"
-    content << "import org.junit.*\n\n"
+    content << "import spock.lang.*\n\n"
 
 }// End of method
 
@@ -48,25 +49,23 @@ String generateClassDeclaration( className ) {
 
     def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
-    content << "class ${className}ServiceListTests {\n\n"
+    content << "class ${className}ServiceListSpec"
+    content << " extends Specification {\n\n"
     content.toString()
 
 }// End of method
 
 String generateOkMethod() {
 
-    def content = new StringBuilder()
-    content << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def params = [:]\n"
-    content << "${TAB*2}def result = service.list( params )\n"
-    content << "${TAB*2}assertNotNull \"'result'"
-    content << " should not be null\", result\n"
-    [ 'items', 'total' ].each {
-        content << "${TAB*2}def ${it} = result.${it}\n"
-        content << "${TAB*2}assertNotNull \"'${it}'"
-        content << " should not be null\", ${it}\n"
-    }// End of closure
-    content << "\n${TAB}}\n\n"
+    def content = '' << "${TAB}def \"test ok\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def result = service.list( params )\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}result.items != null\n"
+    content << "${TAB*3}result.total != null\n"
+    content << "${TAB*2}where:\n"
+    content << "${TAB*3}params = [:]\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method

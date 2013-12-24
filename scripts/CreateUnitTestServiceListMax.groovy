@@ -1,7 +1,7 @@
 includeTargets << new File( optimusPluginDir,
     'scripts/CreateMock.groovy' )
 
-target( createUnitTestServiceListMax:"Generate unit tests for 'list' service method" ) {
+target( createUnitTestServiceListMax:"Generate  unit tests for 'list' service method" ) {
 
     depends( createMock )
     def domainClassList = getDomainClassList( args )
@@ -20,14 +20,14 @@ void generate( domainClass ) {
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
-    content << generateMethod( 'LowValue', "'9'", 9 )
-    content << generateMethod( 'HighValue', "'11'", 10 )
-    content << generateMethod( 'Null', "null", 10 )
-    content << generateMethod( 'Blank', "''", 10 )
-    content << generateMethod( 'Invalid', "'A'", 10 )
+    content << generateMethod( 'low value', "'9'", 9 )
+    content << generateMethod( 'high value', "'11'", 10 )
+    content << generateMethod( 'null', "null", 10 )
+    content << generateMethod( 'blank', "''", 10 )
+    content << generateMethod( 'invalid', "'A'", 10 )
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ServiceListMaxTests.groovy"
+    def fileName = "${domainClass.name}ServiceListMaxSpec.groovy"
     new File(directory, fileName).text = content.toString()
 
 }// End of method
@@ -35,7 +35,7 @@ void generate( domainClass ) {
 String generateImports() {
 
     def content = '' << "import grails.test.mixin.*\n"
-    content << "import org.junit.*\n\n"
+    content << "import spock.lang.*\n\n"
 
 }// End of method
 
@@ -43,15 +43,15 @@ String generateClassDeclaration( className ) {
 
     def content = '' << "@TestFor(${className}Service)\n"
     content << "@Mock(${className})\n"
-    content << "class ${className}ServiceListMaxTests {\n\n"
+    content << "class ${className}ServiceListMaxSpec"
+    content << " extends Specification {\n\n"
     content.toString()
 
 }// End of method
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}@Before\n"
-    content << "${TAB}void setUp() {\n\n"
+    def content = '' << "${TAB}def setup() {\n\n"
     content << "${TAB*2}20.times {\n"
     content << "${TAB*3}${className}Mock.mock( it ).save("
     content << " failOnError:true )\n"
@@ -63,17 +63,14 @@ String generateSetUpMethod( className ) {
 
 String generateMethod( methodSuffix, maxValue, equalsValue ) {
 
-    def content = '' << "${TAB}void test${methodSuffix}() {\n\n"
-    content << "${TAB*2}def params = [ max:${maxValue} ]\n"
-    content << "${TAB*2}def result = service.list( params )\n"
-    content << "${TAB*2}assertNotNull \"'result'"
-    content << " should not be null\", result\n"
-    content << "${TAB*2}def items = result.items\n"
-    content << "${TAB*2}assertNotNull \"'items'"
-    content << " should not be null\", items\n"
-    content << "${TAB*2}assertEquals \"'size'"
-    content << " should be ${equalsValue}\", ${equalsValue}, items.size()\n"
-    content << "\n${TAB}}\n\n"
+    def content = '' << "${TAB}def \"test ${methodSuffix}\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def result = service.list( params )\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}result.items.size() == ${equalsValue}\n"
+    content << "${TAB*2}where:\n"
+    content << "${TAB*3}params = [ max:${maxValue} ]\n\n"
+    content << "${TAB}}\n\n"
     content.toString()
 
 }// End of method

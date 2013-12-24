@@ -1,6 +1,6 @@
 class OptimusGrailsPlugin {
-    def version = "0.3.1"
-    def grailsVersion = "2.0 > *"
+    def version = "0.4"
+    def grailsVersion = "2.3 > *"
     def title = "Optimus Plugin"
     def author = "Alejandro Garc\u00EDa Granados"
     def authorEmail = "alejandro.garcia.granados@gmail.com"

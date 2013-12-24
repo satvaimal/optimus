@@ -3,7 +3,8 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/_OptimusUtils.groovy' )
 
-target( createUnitTestControllerList:"Generate unit tests for 'list' controller method" ) {
+target( createUnitTestControllerList:
+    "Generate unit tests for 'list' controller method" ) {
 
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
@@ -28,7 +29,7 @@ void generate( domainClass ) {
     content << generateMockMethods( domainClass.name )
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ControllerListTests.groovy"
+    def fileName = "${domainClass.name}ControllerListSpec.groovy"
     new File(directory, fileName).text = content.toString()
 
 }// End of method
@@ -37,8 +38,7 @@ String generateImports() {
 
     def content = '' << "import grails.test.GrailsMock\n"
     content << "import grails.test.mixin.*\n"
-    content << "import org.junit.*\n"
-    content << "\n"
+    content << "import spock.lang.*\n\n"
     content.toString()
 
 }// End of method
@@ -46,7 +46,8 @@ String generateImports() {
 String generateClassDeclaration( className ) {
 
     def content = '' << "@TestFor(${className}Controller)\n"
-    content << "class ${className}ControllerListTests {\n\n"
+    content << "class ${className}ControllerListSpec"
+    content << " extends Specification {\n\n"
     content.toString()
 
 }// End of method
@@ -54,8 +55,7 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before\n"
-    content << "${TAB}void setUp() {\n"
+    def content = '' << "${TAB}def setup() {\n"
     content << "${TAB*2}views[ '/${classNameLower}/_list.gsp' ]"
     content << " = getTemplate()\n"
     content << "${TAB}}\n\n"
@@ -66,16 +66,15 @@ String generateSetUpMethod( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}def control = mock${className}Service()\n"
-    content << "${TAB*2}request.method = 'GET'\n"
-    content << "${TAB*2}def model = controller.list()\n"
-    content << "${TAB*2}def expected = 'OK'\n"
-    content << "${TAB*2}assertEquals \"'text' should be '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.text\n"
-    content << "${TAB*2}assertEquals \"'status' should be 200\""
-    content << ", 200, response.status\n"
+    def content = '' << "${TAB}def \"test ok\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}def control = mock${className}Service()\n"
+    content << "${TAB*3}request.method = 'GET'\n"
+    content << "${TAB*3}def model = controller.list()\n"
     content << "${TAB*2}control.verify()\n\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.text == 'OK'\n"
+    content << "${TAB*3}response.status == 200\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -85,11 +84,12 @@ String generateRequestMethodInvalidMethod() {
 
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
-    content << "${TAB}void testRequestMethodInvalid() {\n\n"
-    content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}controller.list()\n"
-    content << "${TAB*2}assertEquals \"'status' should be 405\""
-    content << ", 405, response.status\n\n"
+    content << "${TAB}def \"test request method invalid\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}request.method = 'POST'\n"
+    content << "${TAB*3}controller.list()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.status == 405\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 

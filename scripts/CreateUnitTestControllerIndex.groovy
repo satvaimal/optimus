@@ -3,7 +3,8 @@ import org.apache.commons.lang.WordUtils
 includeTargets << new File( optimusPluginDir,
     'scripts/_OptimusUtils.groovy' )
 
-target( createUnitTestControllerIndex:"Generate unit tests for 'index' controller method" ) {
+target( createUnitTestControllerIndex:
+    "Generate unit tests for 'index' controller method" ) {
 
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def domainClassList = getDomainClassList( args )
@@ -26,7 +27,7 @@ void generate( domainClass ) {
     content << generateRequestMethodInvalidMethod()
     content << '}'
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ControllerIndexTests.groovy"
+    def fileName = "${domainClass.name}ControllerIndexSpec.groovy"
     new File(directory, fileName).text = content.toString()
 
 }// End of method
@@ -34,8 +35,7 @@ void generate( domainClass ) {
 String generateImports() {
 
     def content = '' << "import grails.test.mixin.*\n"
-    content << "import org.junit.*\n"
-    content << "\n"
+    content << "import spock.lang.*\n\n"
     content.toString()
 
 }// End of method
@@ -43,7 +43,8 @@ String generateImports() {
 String generateClassDeclaration( className ) {
 
     def content = '' << "@TestFor(${className}Controller)\n"
-    content << "class ${className}ControllerIndexTests {\n\n"
+    content << "class ${className}ControllerIndexSpec"
+    content << " extends Specification {\n\n"
     content.toString()
 
 }// End of method
@@ -51,15 +52,14 @@ String generateClassDeclaration( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOk() {\n\n"
-    content << "${TAB*2}request.method = 'GET'\n"
-    content << "${TAB*2}controller.index()\n"
-    content << "${TAB*2}def expected = '/${classNameLower}/content'\n"
-    content << "${TAB*2}assertEquals \"'redirectedUrl' should be"
-    content << " '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.redirectedUrl\n"
-    content << "${TAB*2}assertEquals \"'status' should be 302\""
-    content << ", 302, response.status\n\n"
+    def content = '' << "${TAB}def \"test ok\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}request.method = 'GET'\n"
+    content << "${TAB*3}controller.index()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.redirectedUrl =="
+    content << " '/${classNameLower}/content'\n"
+    content << "${TAB*3}response.status == 302\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -68,17 +68,15 @@ String generateOkMethod( className ) {
 String generateOkWithParamsMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void testOkWithParams() {\n\n"
-    content << "${TAB*2}request.method = 'GET'\n"
-    content << "${TAB*2}params.name = 'value'\n"
-    content << "${TAB*2}controller.index()\n"
-    content << "${TAB*2}def expected = '/${classNameLower}/content"
-    content << "?name=value'\n"
-    content << "${TAB*2}assertEquals \"'redirectedUrl' should be"
-    content << " '\${expected}'\",\n"
-    content << "${TAB*3}expected, response.redirectedUrl\n"
-    content << "${TAB*2}assertEquals \"'status' should be 302\""
-    content << ", 302, response.status\n\n"
+    def content = '' << "${TAB}def \"test ok with params\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}request.method = 'GET'\n"
+    content << "${TAB*3}params.name = 'value'\n"
+    content << "${TAB*3}controller.index()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.redirectedUrl =="
+    content << " '/${classNameLower}/content?name=value'\n"
+    content << "${TAB*3}response.status == 302\n\n"
     content << "${TAB}}\n\n"
     content.toString()
 
@@ -88,12 +86,12 @@ String generateRequestMethodInvalidMethod() {
 
     def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
-    content << "${TAB}void testRequestMethodInvalid() {\n\n"
-    content << "${TAB*2}request.method = 'POST'\n"
-    content << "${TAB*2}controller.index()\n"
-    content << "${TAB*2}assertEquals \"'status' should be 405\""
-    content << ", 405, response.status\n\n"
+    content << "${TAB}def \"test request method invalid\"() {\n\n"
+    content << "${TAB*2}when:\n"
+    content << "${TAB*3}request.method = 'POST'\n"
+    content << "${TAB*3}controller.index()\n"
+    content << "${TAB*2}then:\n"
+    content << "${TAB*3}response.status == 405\n\n"
     content << "${TAB}}\n\n"
-    content.toString()
 
 }// End of method
