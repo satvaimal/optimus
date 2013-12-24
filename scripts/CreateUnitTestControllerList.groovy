@@ -55,10 +55,10 @@ String generateClassDeclaration( className ) {
 String generateSetUpMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def setup() {\n"
-    content << "${TAB*2}views[ '/${classNameLower}/_list.gsp' ]"
+    def content = '' << "${tab()}def setup() {\n"
+    content << "${tab()*2}views[ '/${classNameLower}/_list.gsp' ]"
     content << " = getTemplate()\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -66,41 +66,41 @@ String generateSetUpMethod( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def \"test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def control = mock${className}Service()\n"
-    content << "${TAB*3}request.method = 'GET'\n"
-    content << "${TAB*3}def model = controller.list()\n"
-    content << "${TAB*2}control.verify()\n\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}response.text == 'OK'\n"
-    content << "${TAB*3}response.status == 200\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def \"test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def control = mock${className}Service()\n"
+    content << "${tab()*3}request.method = 'GET'\n"
+    content << "${tab()*3}def model = controller.list()\n"
+    content << "${tab()*2}control.verify()\n\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}response.text == 'OK'\n"
+    content << "${tab()*3}response.status == 200\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateRequestMethodInvalidMethod() {
 
-    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = '' << "${tab()}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
-    content << "${TAB}def \"test request method invalid\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}request.method = 'POST'\n"
-    content << "${TAB*3}controller.list()\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}response.status == 405\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}def \"test request method invalid\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}request.method = 'POST'\n"
+    content << "${tab()*3}controller.list()\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}response.status == 405\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateGetTemplateMethod() {
 
-    def content = '' << "${TAB}private String getTemplate() {\n"
-    content << "${TAB*2}'<g:if test=\"\${items && total}\">OK</g:if>"
+    def content = '' << "${tab()}private String getTemplate() {\n"
+    content << "${tab()*2}'<g:if test=\"\${items && total}\">OK</g:if>"
     content << "<g:else>ERROR</g:else>'\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -108,14 +108,14 @@ String generateGetTemplateMethod() {
 String generateMockMethods( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private GrailsMock mock${className}Service() {\n\n"
-    content << "${TAB*2}def control = mockFor( ${className}Service )\n"
-    content << "${TAB*2}control.demand.list( 1 ) { Map params ->\n"
-    content << "${TAB*3}[ items:[ new ${className}() ], total:1 ] }\n"
-    content << "${TAB*2}controller.${classNameLower}Service ="
+    def content = '' << "${tab()}private GrailsMock mock${className}Service() {\n\n"
+    content << "${tab()*2}def control = mockFor( ${className}Service )\n"
+    content << "${tab()*2}control.demand.list( 1 ) { Map params ->\n"
+    content << "${tab()*3}[ items:[ new ${className}() ], total:1 ] }\n"
+    content << "${tab()*2}controller.${classNameLower}Service ="
     content << " control.createMock()\n"
-    content << "${TAB*2}control\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}control\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

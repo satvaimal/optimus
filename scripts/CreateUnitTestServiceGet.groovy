@@ -55,9 +55,9 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}def setup() {\n"
-    content << "${TAB*2}${className}Mock.mock( 0 ).save( failOnError:true )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def setup() {\n"
+    content << "${tab()*2}${className}Mock.mock( 0 ).save( failOnError:true )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -66,14 +66,14 @@ String generateOkMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 0 ).${idName}" : '1'
     def content = '' << ''
-    content << "${TAB}def \" test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def result = service.get( ${idName} )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}result != null\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}${idName} = ${id}\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}def \" test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def result = service.get( ${idName} )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}result != null\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}${idName} = ${id}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -82,15 +82,15 @@ String generateNullMethod( className, idName ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << ''
-    content << "${TAB}void \"test ${idName.capitalize()} null\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}service.get( ${idName} )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}IllegalArgumentException e = thrown()\n"
-    content << "${TAB*3}e.message == \"Parameter '${idName}' is null\"\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}${idName} = null\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()}void \"test ${idName.capitalize()} null\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}service.get( ${idName} )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}IllegalArgumentException e = thrown()\n"
+    content << "${tab()*3}e.message == \"Parameter '${idName}' is null\"\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}${idName} = null\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -99,14 +99,14 @@ String generateNotFoundMethod( className, idName ) {
 
     def id = idName != 'id' ? "${className}Mock.mock( 1 ).${idName}" : '2'
     def content = new StringBuilder()
-    content << "${TAB}def \" test not found\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def result = service.get( ${idName} )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}result == null\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}${idName} = ${id}\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}def \" test not found\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def result = service.get( ${idName} )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}result == null\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}${idName} = ${id}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

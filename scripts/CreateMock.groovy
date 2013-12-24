@@ -32,20 +32,20 @@ String generateMockMethod( domainClass ) {
 
     def initializedAttributes = initializeAttributes( domainClass )
     def className = domainClass.name
-    def content = '' << "${TAB}static ${className} mock( id ) {\n\n"
+    def content = '' << "${tab()}static ${className} mock( id ) {\n\n"
     if ( properties.mockException ) content << generateException()
-    content << "${TAB*2}def instance = new ${className}(\n"
+    content << "${tab()*2}def instance = new ${className}(\n"
     content << initializedAttributes
-    content << "${TAB*2})\n"
+    content << "${tab()*2})\n"
     content << setUniqueProperties( domainClass.constrainedProperties )
     if ( properties.idAssigned && !properties.idSet ) {
-        content << "${TAB*2}instance.id = id\n"
+        content << "${tab()*2}instance.id = id\n"
     }// End of if
     properties.remove( 'idAssigned' )
     properties.remove( 'idSet' )
-    content << "${TAB*2}instance\n"
+    content << "${tab()*2}instance\n"
     if ( properties.mockException ) content << "*/\n"
-    content << "\n${TAB}}\n\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -54,7 +54,7 @@ String initializeAttributes( domainClass ) {
 
     def content = new StringBuilder()
     domainClass.constrainedProperties.each {
-        content << "${TAB*3}${it.key}:"
+        content << "${tab()*3}${it.key}:"
         def attributeValue = getValue( domainClass, it.key,
             it.value.appliedConstraints, it.value.propertyType )
         content << "${attributeValue},\n"
@@ -178,7 +178,7 @@ String getValueObject( type ) {
 
 String generateException() {
 
-    def content = '' << "${TAB*2}throw new IllegalStateException("
+    def content = '' << "${tab()*2}throw new IllegalStateException("
     content << " 'Please set some values by hand' )\n/*\n"
     content.toString()
 
@@ -191,7 +191,7 @@ String setUniqueProperties( constraints ) {
     def content = new StringBuilder('\n')
     uniqueSettings.each {
         def value = getUniqueValue( it.value )
-        content << "${TAB*2}instance.${it.key} = ${value}\n"
+        content << "${tab()*2}instance.${it.key} = ${value}\n"
     }// End of closure
     content.toString()
 

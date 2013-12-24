@@ -36,16 +36,16 @@ void generate( domainClass ) {
 
 String generateAllowedMethods() {
 
-    def content = '' << "${TAB}static allowedMethods = [\n"
-    content << "${TAB*2}index:'GET',\n"
-    content << "${TAB*2}content:'GET',\n"
-    content << "${TAB*2}list:'GET',\n"
-    content << "${TAB*2}create:'GET',\n"
-    content << "${TAB*2}save:'POST',\n"
-    content << "${TAB*2}edit:'GET',\n"
-    content << "${TAB*2}update:'POST',\n"
-    content << "${TAB*2}delete:'POST'\n"
-    content << "${TAB}]\n\n"
+    def content = '' << "${tab()}static allowedMethods = [\n"
+    content << "${tab()*2}index:'GET',\n"
+    content << "${tab()*2}content:'GET',\n"
+    content << "${tab()*2}list:'GET',\n"
+    content << "${tab()*2}create:'GET',\n"
+    content << "${tab()*2}save:'POST',\n"
+    content << "${tab()*2}edit:'GET',\n"
+    content << "${tab()*2}update:'POST',\n"
+    content << "${tab()*2}delete:'POST'\n"
+    content << "${tab()}]\n\n"
     content.toString()
 
 }// End of method
@@ -53,8 +53,8 @@ String generateAllowedMethods() {
 String generateServiceDependencies( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def ${classNameLower}Service\n"
-    content << "${TAB}def ${CRACKING_SERVICE}Service\n\n"
+    def content = '' << "${tab()}def ${classNameLower}Service\n"
+    content << "${tab()}def ${CRACKING_SERVICE}Service\n\n"
     content.toString()
 
 }// End of method
@@ -82,27 +82,27 @@ String generateMethods( domainClass ) {
 
 String generateIndexMethod() {
 
-    def content = '' << "${TAB}def index() {\n"
-    content << "${TAB*2}redirect( action:'content', params:params )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def index() {\n"
+    content << "${tab()*2}redirect( action:'content', params:params )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateContentMethod() {
 
-    def content = '' << "${TAB}def content() {\n"
-    content << "${TAB*2}renderList( 'content' )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def content() {\n"
+    content << "${tab()*2}renderList( 'content' )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateListMethod() {
 
-    def content = '' << "${TAB}def list() {\n"
-    content << "${TAB*2}renderList( 'list' )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def list() {\n"
+    content << "${tab()*2}renderList( 'list' )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -110,11 +110,11 @@ String generateListMethod() {
 String generateCreateMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def create() {\n\n"
-    content << "${TAB*2}def model = "
+    def content = '' << "${tab()}def create() {\n\n"
+    content << "${tab()*2}def model = "
     content << "[ ${classNameLower}Instance:new ${className}( params ) ]\n"
-    content << "${TAB*2}render( template:'form', model:model )\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}render( template:'form', model:model )\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -122,22 +122,22 @@ String generateCreateMethod( className ) {
 String generateSaveMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def save() {\n\n"
-    content << "${TAB*2}def ${classNameLower} = new ${className}( params )\n"
-    content << "${TAB*2}saveOnDb( ${classNameLower}, 'create' )\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def save() {\n\n"
+    content << "${tab()*2}def ${classNameLower} = new ${className}( params )\n"
+    content << "${tab()*2}saveOnDb( ${classNameLower}, 'create' )\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateEditMethod( idType ) {
 
-    def content = '' << "${TAB}def edit( ${idType} id ) {\n\n"
-    content << "${TAB*2}def map = get( id )\n"
-    content << "${TAB*2}if ( !map ) return\n"
-    content << "${TAB*2}map.edit = true\n"
-    content << "${TAB*2}render( template:'form', model:map )\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def edit( ${idType} id ) {\n\n"
+    content << "${tab()*2}def map = get( id )\n"
+    content << "${tab()*2}if ( !map ) return\n"
+    content << "${tab()*2}map.edit = true\n"
+    content << "${tab()*2}render( template:'form', model:map )\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -145,14 +145,14 @@ String generateEditMethod( idType ) {
 String generateUpdateMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def update( ${idType} id ) {\n\n"
-    content << "${TAB*2}def map = get( id )\n"
-    content << "${TAB*2}if ( !map ) return\n"
-    content << "${TAB*2}map.${classNameLower}Instance.properties = params\n"
-    content << "${TAB*2}map.edit = true\n"
-    content << "${TAB*2}saveOnDb( map.${classNameLower}Instance,"
+    def content = '' << "${tab()}def update( ${idType} id ) {\n\n"
+    content << "${tab()*2}def map = get( id )\n"
+    content << "${tab()*2}if ( !map ) return\n"
+    content << "${tab()*2}map.${classNameLower}Instance.properties = params\n"
+    content << "${tab()*2}map.edit = true\n"
+    content << "${tab()*2}saveOnDb( map.${classNameLower}Instance,"
     content << " 'update', true )\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -160,17 +160,17 @@ String generateUpdateMethod( className, idType ) {
 String generateDeleteMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def delete( ${idType} id ) {\n\n"
-    content << "${TAB*2}def map = get( id )\n"
-    content << "${TAB*2}if ( !map ) return\n"
-    content << "${TAB*2}${classNameLower}Service.delete("
+    def content = '' << "${tab()}def delete( ${idType} id ) {\n\n"
+    content << "${tab()*2}def map = get( id )\n"
+    content << "${tab()*2}if ( !map ) return\n"
+    content << "${tab()*2}${classNameLower}Service.delete("
     content << " map.${classNameLower}Instance )\n"
-    content << "${TAB*2}flash.listMessage = message("
+    content << "${tab()*2}flash.listMessage = message("
     content << " code:'default.deleted.message',\n"
-    content << "${TAB*3}args:[ message( code:'${classNameLower}.label',\n"
-    content << "${TAB*3}default:'${className}' ), id ] )\n"
-    content << "${TAB*2}redirect( action:'content' )\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*3}args:[ message( code:'${classNameLower}.label',\n"
+    content << "${tab()*3}default:'${className}' ), id ] )\n"
+    content << "${tab()*2}redirect( action:'content' )\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -178,13 +178,13 @@ String generateDeleteMethod( className, idType ) {
 String generateRenderListMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private void renderList( template ) {\n\n"
-    content << "${TAB*2}def model = [:]\n"
-    content << "${TAB*2}def result = ${classNameLower}Service.list( params )\n"
-    content << "${TAB*2}model.items = result.items\n"
-    content << "${TAB*2}model.total = result.total\n"
-    content << "${TAB*2}render( template:template, model:model )\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}private void renderList( template ) {\n\n"
+    content << "${tab()*2}def model = [:]\n"
+    content << "${tab()*2}def result = ${classNameLower}Service.list( params )\n"
+    content << "${tab()*2}model.items = result.items\n"
+    content << "${tab()*2}model.total = result.total\n"
+    content << "${tab()*2}render( template:template, model:model )\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -192,19 +192,19 @@ String generateRenderListMethod( className ) {
 String generateGetMethod( className, idType ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private Map get( ${idType} id ) {\n\n"
-    content << "${TAB*2}if ( id == null ) {\n"
-    content << "${TAB*3}notifyCrack()\n"
-    content << "${TAB*3}return null\n"
-    content << "${TAB*2}}\n"
-    content << "${TAB*2}def ${classNameLower} ="
+    def content = '' << "${tab()}private Map get( ${idType} id ) {\n\n"
+    content << "${tab()*2}if ( id == null ) {\n"
+    content << "${tab()*3}notifyCrack()\n"
+    content << "${tab()*3}return null\n"
+    content << "${tab()*2}}\n"
+    content << "${tab()*2}def ${classNameLower} ="
     content << " ${classNameLower}Service.get( id )\n"
-    content << "${TAB*2}if ( !${classNameLower} ) {\n"
-    content << "${TAB*3}notifyCrack()\n"
-    content << "${TAB*3}return null\n"
-    content << "${TAB*2}}\n"
-    content << "${TAB*2}[ ${classNameLower}Instance:${classNameLower} ]\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}if ( !${classNameLower} ) {\n"
+    content << "${tab()*3}notifyCrack()\n"
+    content << "${tab()*3}return null\n"
+    content << "${tab()*2}}\n"
+    content << "${tab()*2}[ ${classNameLower}Instance:${classNameLower} ]\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -212,37 +212,37 @@ String generateGetMethod( className, idType ) {
 String generateSaveOnDbMethod( className, idName ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}private void saveOnDb( ${classNameLower}"
+    def content = '' << "${tab()}private void saveOnDb( ${classNameLower}"
     content << ", method, edit = false ) {\n\n"
-    content << "${TAB*2}try {\n"
-    content << "${TAB*3}${classNameLower}Service.\"\${method}\""
+    content << "${tab()*2}try {\n"
+    content << "${tab()*3}${classNameLower}Service.\"\${method}\""
     content << "( ${classNameLower} )\n"
-    content << "${TAB*2}} catch ( IllegalArgumentException e ) {\n"
-    content << "${TAB*3}response.status = 400\n"
-    content << "${TAB*3}render( template:'form',"
+    content << "${tab()*2}} catch ( IllegalArgumentException e ) {\n"
+    content << "${tab()*3}response.status = 400\n"
+    content << "${tab()*3}render( template:'form',"
     content << " model:[ ${classNameLower}Instance:${classNameLower},\n"
-    content << "${TAB*4}edit:edit ] )\n"
-    content << "${TAB*3}return\n"
-    content << "${TAB*2}}\n"
-    content << "${TAB*2}flash.formMessage = message(\n"
-    content << "${TAB*3}code:\"default.\${edit?'updated'"
+    content << "${tab()*4}edit:edit ] )\n"
+    content << "${tab()*3}return\n"
+    content << "${tab()*2}}\n"
+    content << "${tab()*2}flash.formMessage = message(\n"
+    content << "${tab()*3}code:\"default.\${edit?'updated'"
     content << ":'created'}.message\",\n"
-    content << "${TAB*3}args:[ message( code:'${classNameLower}.label',\n"
-    content << "${TAB*3}default:'${className}' ),"
+    content << "${tab()*3}args:[ message( code:'${classNameLower}.label',\n"
+    content << "${tab()*3}default:'${className}' ),"
     content << " ${classNameLower}.${idName}])\n"
-    content << "${TAB*2}redirect( action:'edit'"
+    content << "${tab()*2}redirect( action:'edit'"
     content << ", id:${classNameLower}.${idName} )\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateNotifyCrackMethod() {
 
-    def content = '' << "${TAB}private void notifyCrack() {\n\n"
-    content << "${TAB*2}crackingService.notify( request, params )\n"
-    content << "${TAB*2}redirect( controller:'logout' )\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}private void notifyCrack() {\n\n"
+    content << "${tab()*2}crackingService.notify( request, params )\n"
+    content << "${tab()*2}redirect( controller:'logout' )\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

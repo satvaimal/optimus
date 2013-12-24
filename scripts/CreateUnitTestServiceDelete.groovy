@@ -53,10 +53,10 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}def setup() {\n"
-    content << "${TAB*2}${className}Mock.mock( 0 ).save("
+    def content = '' << "${tab()}def setup() {\n"
+    content << "${tab()*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -65,20 +65,20 @@ String generateOkMethod( className, idAssigned ) {
 
     def idName = idAssigned ? idAssigned.name : 'id'
     def content = '' << ''
-    content << "${TAB}def \" test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def instance = service.get( ${idName} )\n"
-    content << "${TAB*3}service.delete( instance )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}${className}.count() == 0\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}${idName} ="
+    content << "${tab()}def \" test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def instance = service.get( ${idName} )\n"
+    content << "${tab()*3}service.delete( instance )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}${className}.count() == 0\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}${idName} ="
     if ( idAssigned ) {
         content << " ${className}Mock.mock( 0 ).${idName}\n"
     } else {
         content << " 1\n"
     }// End of else
-    content << "\n${TAB}}\n\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -87,16 +87,16 @@ String generateNullMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
     def content = '' << ''
-    content << "${TAB}void \"test ${className} null\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}service.delete( ${classNameLower} )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}IllegalArgumentException e = thrown()\n"
-    content << "${TAB*3}e.message == \"Parameter '${classNameLower}'"
+    content << "${tab()}void \"test ${className} null\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}service.delete( ${classNameLower} )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}IllegalArgumentException e = thrown()\n"
+    content << "${tab()*3}e.message == \"Parameter '${classNameLower}'"
     content << " is null\"\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}${classNameLower} = null\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}${classNameLower} = null\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -105,13 +105,13 @@ String generateInvalidMethod( className, idAssigned ) {
 
     def idName = idAssigned ? idAssigned.name : 'id'
     def content = '' << ''
-    content << "${TAB}def \" test invalid\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def instance = new ${className}()\n"
-    content << "${TAB*3}service.delete( instance )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}${className}.exists( instance.${idName} ) == false\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()}def \" test invalid\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def instance = new ${className}()\n"
+    content << "${tab()*3}service.delete( instance )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}${className}.exists( instance.${idName} ) == false\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method

@@ -50,12 +50,12 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}def setup() {\n\n"
-    content << "${TAB*2}20.times {\n"
-    content << "${TAB*3}${className}Mock.mock( it + 1 ).save("
+    def content = '' << "${tab()}def setup() {\n\n"
+    content << "${tab()*2}20.times {\n"
+    content << "${tab()*3}${className}Mock.mock( it + 1 ).save("
     content << " failOnError:true )\n"
-    content << "${TAB*2}}\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}}\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -65,14 +65,14 @@ String generateOkMethod( domainClass ) {
     def idAssigned = getIdAssigned( domainClass )
     def idName = idAssigned ? idAssigned.name : 'id'
     def expected = getId( domainClass, idAssigned )
-    def content = '' << "${TAB}def \"test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def result = service.list( params )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}result.items[ 0 ].${idName} == ${expected}\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}params = [ sort:'${idName}', order:'desc' ]\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def \"test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def result = service.list( params )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}result.items[ 0 ].${idName} == ${expected}\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}params = [ sort:'${idName}', order:'desc' ]\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -98,15 +98,15 @@ String getId( domainClass, idAssigned ) {
 
 String generateMethod( methodSuffix, value ) {
 
-    def content = '' << "${TAB}def \"test ${methodSuffix}\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def result = service.list( params )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}result.items.size() == 10\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}params = [ sort:${value}"
+    def content = '' << "${tab()}def \"test ${methodSuffix}\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def result = service.list( params )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}result.items.size() == 10\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}params = [ sort:${value}"
     content << ", order:${value} ]\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

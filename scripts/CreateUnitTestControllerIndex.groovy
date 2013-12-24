@@ -52,15 +52,15 @@ String generateClassDeclaration( className ) {
 String generateOkMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def \"test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}request.method = 'GET'\n"
-    content << "${TAB*3}controller.index()\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}response.redirectedUrl =="
+    def content = '' << "${tab()}def \"test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}request.method = 'GET'\n"
+    content << "${tab()*3}controller.index()\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}response.redirectedUrl =="
     content << " '/${classNameLower}/content'\n"
-    content << "${TAB*3}response.status == 302\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*3}response.status == 302\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -68,30 +68,30 @@ String generateOkMethod( className ) {
 String generateOkWithParamsMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def \"test ok with params\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}request.method = 'GET'\n"
-    content << "${TAB*3}params.name = 'value'\n"
-    content << "${TAB*3}controller.index()\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}response.redirectedUrl =="
+    def content = '' << "${tab()}def \"test ok with params\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}request.method = 'GET'\n"
+    content << "${tab()*3}params.name = 'value'\n"
+    content << "${tab()*3}controller.index()\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}response.redirectedUrl =="
     content << " '/${classNameLower}/content?name=value'\n"
-    content << "${TAB*3}response.status == 302\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*3}response.status == 302\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateRequestMethodInvalidMethod() {
 
-    def content = '' << "${TAB}@Ignore( 'See http://jira.grails.org/browse/"
+    def content = '' << "${tab()}@Ignore( 'See http://jira.grails.org/browse/"
     content << "GRAILS-8426' )\n"
-    content << "${TAB}def \"test request method invalid\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}request.method = 'POST'\n"
-    content << "${TAB*3}controller.index()\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}response.status == 405\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}def \"test request method invalid\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}request.method = 'POST'\n"
+    content << "${tab()*3}controller.index()\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}response.status == 405\n\n"
+    content << "${tab()}}\n\n"
 
 }// End of method

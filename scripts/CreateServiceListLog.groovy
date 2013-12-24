@@ -58,50 +58,50 @@ String generateClassDeclaration( className ) {
 String generatePointcutMethod( packageName, className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Pointcut(\n"
-    content << "${TAB*2}value='execution(java.util.Map "
+    def content = '' << "${tab()}@Pointcut(\n"
+    content << "${tab()*2}value='execution(java.util.Map "
     content << "${packageName}.${className}Service.list(..)) && bean"
     content << "(${classNameLower}Service) && args(params)',\n"
-    content << "${TAB*2}argNames='params')\n"
-    content << "${TAB}public void list( Map params ) {}\n\n"
+    content << "${tab()*2}argNames='params')\n"
+    content << "${tab()}public void list( Map params ) {}\n\n"
     content.toString()
 
 }// End of method
 
 String generateBeforeMethod() {
 
-    def content = '' << "${TAB}@Before('list(params)')\n"
-    content << "${TAB}void before( Map params ) {\n"
-    content << "${TAB*2}log.info( \"Begins request: \${params}\" )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}@Before('list(params)')\n"
+    content << "${tab()}void before( Map params ) {\n"
+    content << "${tab()*2}log.info( \"Begins request: \${params}\" )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateAfterReturningMethod() {
 
-    def content = '' << "${TAB}@AfterReturning(\n"
-    content << "${TAB*2}pointcut='list(java.util.Map)',\n"
-    content << "${TAB*2}returning='map')\n"
-    content << "${TAB}void afterReturning( Map map ) {\n"
-    content << "${TAB*2}log.info( \"End of request: \${map}\" )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}@AfterReturning(\n"
+    content << "${tab()*2}pointcut='list(java.util.Map)',\n"
+    content << "${tab()*2}returning='map')\n"
+    content << "${tab()}void afterReturning( Map map ) {\n"
+    content << "${tab()*2}log.info( \"End of request: \${map}\" )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateAfterThrowingMethod() {
 
-    def content = '' << "${TAB}@AfterThrowing(\n"
-    content << "${TAB*2}pointcut='list(java.util.Map)',\n"
-    content << "${TAB*2}throwing='e' )\n"
-    content << "${TAB}void afterThrowing( Exception e ) {\n\n"
-    content << "${TAB*2}def message = '' << ''\n"
-    content << "${TAB*2}message << \"Error in request\"\n"
-    content << "${TAB*2}message << \":"
+    def content = '' << "${tab()}@AfterThrowing(\n"
+    content << "${tab()*2}pointcut='list(java.util.Map)',\n"
+    content << "${tab()*2}throwing='e' )\n"
+    content << "${tab()}void afterThrowing( Exception e ) {\n\n"
+    content << "${tab()*2}def message = '' << ''\n"
+    content << "${tab()*2}message << \"Error in request\"\n"
+    content << "${tab()*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
-    content << "${TAB*2}log.info( message.toString() )\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}log.info( message.toString() )\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method

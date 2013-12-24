@@ -26,15 +26,15 @@ void generate( domainClass ) {
 
 String generateNotifyMethod() {
 
-    def content = '' << "${TAB}void notify( HttpServletRequest request"
+    def content = '' << "${tab()}void notify( HttpServletRequest request"
     content << ", Map params ) {\n\n"
-    content << "${TAB*2}def message = \"Request"
+    content << "${tab()*2}def message = \"Request"
     content << " \${request.requestURL}\"\n"
-    content << "${TAB*2}message << \" from \${request.remoteAddr}\"\n"
-    content << "${TAB*2}message << \" and params \${params}\"\n"
-    content << "${TAB*2}message << \" has been detected as unusual activity\"\n"
-    content << "${TAB*2}println message.toString()\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}message << \" from \${request.remoteAddr}\"\n"
+    content << "${tab()*2}message << \" and params \${params}\"\n"
+    content << "${tab()*2}message << \" has been detected as unusual activity\"\n"
+    content << "${tab()*2}println message.toString()\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

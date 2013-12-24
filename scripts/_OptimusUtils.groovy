@@ -4,8 +4,6 @@ import org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsDomainBinder
 includeTargets << grailsScript( '_GrailsPackage' )
 includeTargets << grailsScript( '_GrailsBootstrap' )
 
-TAB = ' ' * 4
-
 EXCLUDED_CONSTRAINTS = [
     'attributes',
     'bindable',
@@ -162,4 +160,8 @@ generateDirectory = { rootDir, pckg ->
     if ( !directory.exists() ) directory.mkdirs()
     directoryName
 
+}// End of closure
+
+tab = {
+  ' ' * grailsApp.config.grails.optimus.tab
 }// End of closure

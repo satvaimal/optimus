@@ -62,12 +62,12 @@ String generatePointcutMethod( domainClass, idAssigned ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def idName = idAssigned ? idAssigned.name : 'id'
     def idType = idAssigned ? idAssigned.type : 'Long'
-    def content = '' << "${TAB}@Pointcut(\n"
-    content << "${TAB*2}value='execution(${domainClass.fullName} "
+    def content = '' << "${tab()}@Pointcut(\n"
+    content << "${tab()*2}value='execution(${domainClass.fullName} "
     content << "${domainClass.fullName}Service.get(..)) && bean"
     content << "(${classNameLower}Service) && args(${idName})',\n"
-    content << "${TAB*2}argNames='${idName}')\n"
-    content << "${TAB}public void getMethod( ${idType}"
+    content << "${tab()*2}argNames='${idName}')\n"
+    content << "${tab()}public void getMethod( ${idType}"
     content << " ${idName} ) {}\n\n"
     content.toString()
 
@@ -77,10 +77,10 @@ String generateBeforeMethod( idAssigned ) {
 
     def idName = idAssigned ? idAssigned.name : 'id'
     def idType = idAssigned ? idAssigned.type : 'Long'
-    def content = '' << "${TAB}@Before('getMethod(${idName})')\n"
-    content << "${TAB}void before( ${idType} ${idName} ) {\n"
-    content << "${TAB*2}log.info( \"Begins request:\${${idName}}\" )\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}@Before('getMethod(${idName})')\n"
+    content << "${tab()}void before( ${idType} ${idName} ) {\n"
+    content << "${tab()*2}log.info( \"Begins request:\${${idName}}\" )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -90,13 +90,13 @@ String generateAfterReturningMethod( className, idAssigned ) {
     def classNameLower = WordUtils.uncapitalize( className )
     def idName = idAssigned ? idAssigned.name : 'id'
     def idType = idAssigned ? idAssigned.type : 'Long'
-    def content = '' << "${TAB}@AfterReturning(\n"
-    content << "${TAB*2}pointcut='getMethod(${idType})',\n"
-    content << "${TAB*2}returning='${classNameLower}')\n"
-    content << "${TAB}void afterReturning( "
+    def content = '' << "${tab()}@AfterReturning(\n"
+    content << "${tab()*2}pointcut='getMethod(${idType})',\n"
+    content << "${tab()*2}returning='${classNameLower}')\n"
+    content << "${tab()}void afterReturning( "
     content << "${className} ${classNameLower} ) {\n"
-    content << "${TAB*2}log.info( \"End of request: \${${classNameLower}}\" )\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}log.info( \"End of request: \${${classNameLower}}\" )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -104,16 +104,16 @@ String generateAfterReturningMethod( className, idAssigned ) {
 String generateAfterThrowingMethod( idAssigned ) {
 
     def idType = idAssigned ? idAssigned.type : 'Long'
-    def content = '' << "${TAB}@AfterThrowing(\n"
-    content << "${TAB*2}pointcut='getMethod(${idType})',\n"
-    content << "${TAB*2}throwing='e' )\n"
-    content << "${TAB}void afterThrowing( Exception e ) {\n\n"
-    content << "${TAB*2}def message = '' << ''\n"
-    content << "${TAB*2}message << \"Error in request\"\n"
-    content << "${TAB*2}message << \":"
+    def content = '' << "${tab()}@AfterThrowing(\n"
+    content << "${tab()*2}pointcut='getMethod(${idType})',\n"
+    content << "${tab()*2}throwing='e' )\n"
+    content << "${tab()}void afterThrowing( Exception e ) {\n\n"
+    content << "${tab()*2}def message = '' << ''\n"
+    content << "${tab()*2}message << \"Error in request\"\n"
+    content << "${tab()*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
-    content << "${TAB*2}log.info( message.toString() )\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}log.info( message.toString() )\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method

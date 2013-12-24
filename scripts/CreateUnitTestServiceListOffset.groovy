@@ -50,26 +50,26 @@ String generateClassDeclaration( className ) {
 
 String generateSetUpMethod( className ) {
 
-    def content = '' << "${TAB}def setup() {\n\n"
-    content << "${TAB*2}20.times {\n"
-    content << "${TAB*3}${className}Mock.mock( it ).save("
+    def content = '' << "${tab()}def setup() {\n\n"
+    content << "${tab()*2}20.times {\n"
+    content << "${tab()*3}${className}Mock.mock( it ).save("
     content << " failOnError:true )\n"
-    content << "${TAB*2}}\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}}\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateMethod( methodSuffix, offsetValue, equalsValue ) {
 
-    def content = '' << "${TAB}def \"test ${methodSuffix}\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def result = service.list( params )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}result.items.size() == ${equalsValue}\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}params = [ offset:${offsetValue} ]\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def \"test ${methodSuffix}\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def result = service.list( params )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}result.items.size() == ${equalsValue}\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}params = [ offset:${offsetValue} ]\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

@@ -53,13 +53,13 @@ String generateClassDeclaration( className ) {
 
 String generateOkMethod( className ) {
 
-    def content = '' << "${TAB}def \"test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def instance = ${className}Mock.mock( 0 )\n"
-    content << "${TAB*3}service.update( instance )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}${className}.count() == 1\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def \"test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def instance = ${className}Mock.mock( 0 )\n"
+    content << "${tab()*3}service.update( instance )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}${className}.count() == 1\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -67,15 +67,15 @@ String generateOkMethod( className ) {
 String generateNullMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def \"test ${className} null\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def instance = null\n"
-    content << "${TAB*3}service.update( instance )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}IllegalArgumentException e = thrown()\n"
-    content << "${TAB*3}e.message == \"Parameter"
+    def content = '' << "${tab()}def \"test ${className} null\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def instance = null\n"
+    content << "${tab()*3}service.update( instance )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}IllegalArgumentException e = thrown()\n"
+    content << "${tab()*3}e.message == \"Parameter"
     content << " '${classNameLower}' is null\"\n\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -88,18 +88,18 @@ String generateInvalidMethod( domainClass ) {
     def attr = requiredAttributes[ 0 ]
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}def \"test ${className} invalid\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def instance = ${className}Mock.mock( 0 )\n"
-    content << "${TAB*3}instance.${attr} = ${attr}\n"
-    content << "${TAB*3}service.update( instance )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}IllegalArgumentException e = thrown()\n"
-    content << "${TAB*3}e.message == \"Parameter"
+    def content = '' << "${tab()}def \"test ${className} invalid\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def instance = ${className}Mock.mock( 0 )\n"
+    content << "${tab()*3}instance.${attr} = ${attr}\n"
+    content << "${tab()*3}service.update( instance )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}IllegalArgumentException e = thrown()\n"
+    content << "${tab()*3}e.message == \"Parameter"
     content << " '${classNameLower}' is invalid\"\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}${attr} = null\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}${attr} = null\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method

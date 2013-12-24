@@ -49,13 +49,13 @@ String generateImports() {
 
 String generateListMethod( name ) {
 
-    def content = '' << "${TAB}Map list( Map params ) {\n\n"
-    content << "${TAB*2}processParams( params )\n"
-    content << "${TAB*2}def criteria = new DetachedCriteria( ${name}"
+    def content = '' << "${tab()}Map list( Map params ) {\n\n"
+    content << "${tab()*2}processParams( params )\n"
+    content << "${tab()*2}def criteria = new DetachedCriteria( ${name}"
     content << " ).build {}\n"
-    content << "${TAB*2}[ items:criteria.list( params )"
+    content << "${tab()*2}[ items:criteria.list( params )"
     content << ", total:criteria.count() ]\n"
-    content << "\n${TAB}}\n\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -64,10 +64,10 @@ String generateSavePublicMethod( name, method ) {
 
     def className = WordUtils.uncapitalize( name )
     def content = new StringBuilder()
-    content << "${TAB}void ${method}( ${className.capitalize()} "
+    content << "${tab()}void ${method}( ${className.capitalize()} "
     content << "${className} ) {\n"
-    content << "${TAB*2}save( ${className} )"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}save( ${className} )"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -76,19 +76,19 @@ String generateSaveMethod( name ) {
 
     def className = WordUtils.uncapitalize( name )
     def content = new StringBuilder()
-    content << "${TAB}private void save( ${className.capitalize()} "
+    content << "${tab()}private void save( ${className.capitalize()} "
     content << "${className} ) {\n\n"
-    content << "${TAB*2}if ( !${className} )"
+    content << "${tab()*2}if ( !${className} )"
     content << " throw new IllegalArgumentException(\n"
-    content << "${TAB*3}\"Parameter '${className}' is null\" )\n"
-    content << "${TAB*2}try {\n"
-    content << "${TAB*3}${className}.save( failOnError:true )\n"
-    content << "${TAB*2}} catch ( ValidationException ) {\n"
-    content << "${TAB*3}throw new IllegalArgumentException(\n"
-    content << "${TAB*4}\"Parameter '${className}'"
+    content << "${tab()*3}\"Parameter '${className}' is null\" )\n"
+    content << "${tab()*2}try {\n"
+    content << "${tab()*3}${className}.save( failOnError:true )\n"
+    content << "${tab()*2}} catch ( ValidationException ) {\n"
+    content << "${tab()*3}throw new IllegalArgumentException(\n"
+    content << "${tab()*4}\"Parameter '${className}'"
     content << " is invalid\" )\n"
-    content << "${TAB*2}}\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}}\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -100,13 +100,13 @@ String generateGetMethod( domainClass ) {
     def idName = idAssigned ? idAssigned.name : 'id'
     def idType = idAssigned ? idAssigned.type : 'Long'
     def content = new StringBuilder()
-    content << "${TAB}${className} get( ${idType} ${idName} ) {\n\n"
-    content << "${TAB*2}if ( ${idName} == null )"
+    content << "${tab()}${className} get( ${idType} ${idName} ) {\n\n"
+    content << "${tab()*2}if ( ${idName} == null )"
     content << " throw new IllegalArgumentException(\n"
-    content << "${TAB*3}\"Parameter '${idName}' is null\" )\n"
-    content << "${TAB*2}${className}.findBy"
+    content << "${tab()*3}\"Parameter '${idName}' is null\" )\n"
+    content << "${tab()*2}${className}.findBy"
     content << "${idName.capitalize()}( ${idName} )\n"
-    content << "\n${TAB}}\n\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -114,27 +114,27 @@ String generateGetMethod( domainClass ) {
 String generateDeleteMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}void delete( ${className} "
+    def content = '' << "${tab()}void delete( ${className} "
     content << "${classNameLower} ) {\n\n"
-    content << "${TAB*2}if ( ${classNameLower} == null )"
+    content << "${tab()*2}if ( ${classNameLower} == null )"
     content << " throw new IllegalArgumentException(\n"
-    content << "${TAB*3}\"Parameter '${classNameLower}'"
+    content << "${tab()*3}\"Parameter '${classNameLower}'"
     content << " is null\" )\n"
-    content << "${TAB*2}${classNameLower}.delete()\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}${classNameLower}.delete()\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateProcessParamsMethod( domainClass ) {
 
-    def content = '' << "${TAB}private void processParams( params ) {\n\n"
+    def content = '' << "${tab()}private void processParams( params ) {\n\n"
     [ 'max', 'offset', 'order' ].each {
-        content << "${TAB*2}params.${it} = "
+        content << "${tab()*2}params.${it} = "
         content << "ListUtils.parse${it.capitalize()}( params.${it} )\n"
     }// End of closure
     content << generateParseSort( domainClass )
-    content << "\n${TAB}}\n\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -142,8 +142,8 @@ String generateProcessParamsMethod( domainClass ) {
 String generateParseSort( domainClass ) {
 
     def fields = getSortFields( domainClass )
-    def content = '' << "${TAB*2}def fields = [ ${fields} ]\n"
-    content << "${TAB*2}params.sort = ListUtils.parseSort("
+    def content = '' << "${tab()*2}def fields = [ ${fields} ]\n"
+    content << "${tab()*2}params.sort = ListUtils.parseSort("
     content << " params.sort, fields )\n"
     content.toString()
 

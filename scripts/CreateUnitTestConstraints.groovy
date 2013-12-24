@@ -80,10 +80,10 @@ String generateClassDeclaration( className, propertyName ) {
 String generateSetUpMethod( className, propertyName ) {
 
     def attribute = getInitializedAttribute( propertyName )
-    def content = '' << "${TAB}def setup() {\n"
-    content << "${TAB*2}mockForConstraintsTests("
+    def content = '' << "${tab()}def setup() {\n"
+    content << "${tab()*2}mockForConstraintsTests("
     content << " ${className}, [ new ${className}(${attribute}) ] )\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -133,12 +133,12 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
     def propertyName = constraint.propertyName
     def constraintName = appliedConstraint.name
     def content = '' << generateIgnoreAnnotation( constraintName )
-    content << "${TAB}def \"test '${constraintName}${suffix}'"
+    content << "${tab()}def \"test '${constraintName}${suffix}'"
     content << " constraint\"() {\n\n"
     content << generateWhenBlock( className, propertyName )
     content << generateThenBlock( propertyName, appliedConstraint )
     content << generateWhereBlock( constraint, appliedConstraint, suffix )
-    content << "\n${TAB}}\n\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method
@@ -146,16 +146,16 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
 String generateIgnoreAnnotation( constraintName ) {
 
     if ( constraintName != 'blank' ) return ''
-    "${TAB}@Ignore('See http://jira.grails.org/browse/GRAILS-10474' )\n"
+    "${tab()}@Ignore('See http://jira.grails.org/browse/GRAILS-10474' )\n"
 
 }// End of method
 
 String generateWhenBlock( className, propertyName ) {
 
-    def content = '' << "${TAB*2}when:\n"
-    content << "${TAB*3}def instance = new ${className}("
+    def content = '' << "${tab()*2}when:\n"
+    content << "${tab()*3}def instance = new ${className}("
     content << " ${propertyName}:${propertyName} )\n"
-    content << "${TAB*3}def result = instance.validate()\n"
+    content << "${tab()*3}def result = instance.validate()\n"
     content.toString()
 
 }// End of method
@@ -163,7 +163,7 @@ String generateWhenBlock( className, propertyName ) {
 String generateThenBlock( propertyName, appliedConstraint ) {
 
     def constraintName = appliedConstraint.name
-    def content = '' << "${TAB*2}then:\n"
+    def content = '' << "${tab()*2}then:\n"
     content << generateException( constraintName )
     content << generateValidateAssertion( propertyName, appliedConstraint )
     content << generateNullAssertion( propertyName, appliedConstraint )
@@ -175,8 +175,8 @@ String generateThenBlock( propertyName, appliedConstraint ) {
 String generateException( constraintName ) {
 
     if ( !EXCEPTION_CONSTRAINTS.contains( constraintName ) ) return ''
-    def content = '' << "${TAB*3}throw new IllegalStateException("
-    content << "\n${TAB*4}\"'${constraintName}' constraint found."
+    def content = '' << "${tab()*3}throw new IllegalStateException("
+    content << "\n${tab()*4}\"'${constraintName}' constraint found."
     content << " Please implement it by hand\" )\n"
     content.toString()
 
@@ -186,7 +186,7 @@ String generateValidateAssertion( propertyName, appliedConstraint ) {
 
     def flag = getValidateFlag( propertyName, appliedConstraint )
     properties.flag = flag
-    "${TAB*3}result == ${flag}\n"
+    "${tab()*3}result == ${flag}\n"
 
 }// End of method
 
@@ -210,7 +210,7 @@ String generateNullAssertion( propertyName, appliedConstraint ) {
     def flag = ( constraintName == 'nullable' || constraintName == 'blank' ) &&
         constraintValue == true
     properties.flag = flag
-    content << "${TAB*3}instance.errors[ '${propertyName}' ]"
+    content << "${tab()*3}instance.errors[ '${propertyName}' ]"
     content << " ${flag? '=' : '!'}= null\n"
     content.toString()
 
@@ -219,7 +219,7 @@ String generateNullAssertion( propertyName, appliedConstraint ) {
 String generateEqualsAssertion( propertyName, constraintName ) {
 
     if ( properties.flag ) return ''
-    def content = '' << "${TAB*3}instance.errors[ '${propertyName}' ]"
+    def content = '' << "${tab()*3}instance.errors[ '${propertyName}' ]"
     content << " == '${constraintName}'\n"
     content.toString()
 
@@ -229,8 +229,8 @@ String generateWhereBlock( constraint, appliedConstraint, suffix ) {
 
     def propertyValue = getPropertyValue( constraint, appliedConstraint,
         suffix )
-    def content = '' << "${TAB*2}where:\n"
-    content << "${TAB*3}${constraint.propertyName} = ${propertyValue}\n"
+    def content = '' << "${tab()*2}where:\n"
+    content << "${tab()*3}${constraint.propertyName} = ${propertyValue}\n"
     content.toString()
 
 }// End of method

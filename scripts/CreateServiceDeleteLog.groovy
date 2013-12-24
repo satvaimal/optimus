@@ -59,12 +59,12 @@ String generatePointcutMethod( domainClass ) {
 
     def className = domainClass.name
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Pointcut(\n"
-    content << "${TAB*2}value='execution(void "
+    def content = '' << "${tab()}@Pointcut(\n"
+    content << "${tab()*2}value='execution(void "
     content << "${domainClass.fullName}Service.delete(..)) && bean"
     content << "(${classNameLower}Service) && args(${classNameLower})',\n"
-    content << "${TAB*2}argNames='${classNameLower}')\n"
-    content << "${TAB}public void delete( "
+    content << "${tab()*2}argNames='${classNameLower}')\n"
+    content << "${tab()}public void delete( "
     content << "${className} ${classNameLower} ) {}\n\n"
     content.toString()
 
@@ -73,41 +73,41 @@ String generatePointcutMethod( domainClass ) {
 String generateBeforeMethod( className ) {
 
     def classNameLower = WordUtils.uncapitalize( className )
-    def content = '' << "${TAB}@Before('delete("
+    def content = '' << "${tab()}@Before('delete("
     content << "${classNameLower})')\n"
-    content << "${TAB}void before( ${className} "
+    content << "${tab()}void before( ${className} "
     content << "${classNameLower} ) {\n"
-    content << "${TAB*2}log.info( \"Begins request:\${${classNameLower}}\" )\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()*2}log.info( \"Begins request:\${${classNameLower}}\" )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateAfterReturningMethod( domainClass ) {
 
-    def content = '' << "${TAB}@AfterReturning(\n"
-    content << "${TAB*2}pointcut='delete("
+    def content = '' << "${tab()}@AfterReturning(\n"
+    content << "${tab()*2}pointcut='delete("
     content << "${domainClass.fullName})')\n"
-    content << "${TAB}void afterReturning() {\n"
-    content << "${TAB*2}log.info( \"End of request\" )\n"
-    content << "${TAB}}\n\n"
+    content << "${tab()}void afterReturning() {\n"
+    content << "${tab()*2}log.info( \"End of request\" )\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
 
 String generateAfterThrowingMethod( domainClass ) {
 
-    def content = '' << "${TAB}@AfterThrowing(\n"
-    content << "${TAB*2}pointcut='delete("
+    def content = '' << "${tab()}@AfterThrowing(\n"
+    content << "${tab()*2}pointcut='delete("
     content << "${domainClass.fullName})',\n"
-    content << "${TAB*2}throwing='e' )\n"
-    content << "${TAB}void afterThrowing( Exception e ) {\n\n"
-    content << "${TAB*2}def message = '' << ''\n"
-    content << "${TAB*2}message << \"Error in request\"\n"
-    content << "${TAB*2}message << \":"
+    content << "${tab()*2}throwing='e' )\n"
+    content << "${tab()}void afterThrowing( Exception e ) {\n\n"
+    content << "${tab()*2}def message = '' << ''\n"
+    content << "${tab()*2}message << \"Error in request\"\n"
+    content << "${tab()*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
-    content << "${TAB*2}log.info( message.toString() )\n"
-    content << "\n${TAB}}\n\n"
+    content << "${tab()*2}log.info( message.toString() )\n"
+    content << "\n${tab()}}\n\n"
     content.toString()
 
 }// End of method

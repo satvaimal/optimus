@@ -57,15 +57,15 @@ String generateClassDeclaration( className ) {
 
 String generateOkMethod() {
 
-    def content = '' << "${TAB}def \"test ok\"() {\n\n"
-    content << "${TAB*2}when:\n"
-    content << "${TAB*3}def result = service.list( params )\n"
-    content << "${TAB*2}then:\n"
-    content << "${TAB*3}result.items != null\n"
-    content << "${TAB*3}result.total != null\n"
-    content << "${TAB*2}where:\n"
-    content << "${TAB*3}params = [:]\n\n"
-    content << "${TAB}}\n\n"
+    def content = '' << "${tab()}def \"test ok\"() {\n\n"
+    content << "${tab()*2}when:\n"
+    content << "${tab()*3}def result = service.list( params )\n"
+    content << "${tab()*2}then:\n"
+    content << "${tab()*3}result.items != null\n"
+    content << "${tab()*3}result.total != null\n"
+    content << "${tab()*2}where:\n"
+    content << "${tab()*3}params = [:]\n\n"
+    content << "${tab()}}\n\n"
     content.toString()
 
 }// End of method
