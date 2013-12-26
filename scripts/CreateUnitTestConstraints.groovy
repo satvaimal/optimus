@@ -53,7 +53,7 @@ void generateFile( domainClass, propertyName, testMethods ) {
     content << generateClassDeclaration( className, propertyName )
     content << generateSetUpMethod( className, propertyName )
     content << testMethods
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     new File( directory, getFilename( className, propertyName ) ).text =
         content.toString()
@@ -83,7 +83,7 @@ String generateSetUpMethod( className, propertyName ) {
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}mockForConstraintsTests("
     content << " ${className}, [ new ${className}(${attribute}) ] )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -138,7 +138,7 @@ String generateTestMethod( className, constraint, appliedConstraint, suffix ) {
     content << generateWhenBlock( className, propertyName )
     content << generateThenBlock( propertyName, appliedConstraint )
     content << generateWhereBlock( constraint, appliedConstraint, suffix )
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

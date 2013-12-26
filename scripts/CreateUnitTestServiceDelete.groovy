@@ -27,7 +27,7 @@ void generate( domainClass ) {
     content << generateOkMethod( domainClass.name, idAssigned )
     content << generateNullMethod( domainClass.name )
     content << generateInvalidMethod( domainClass.name, idAssigned )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceDeleteSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -56,7 +56,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -78,7 +78,7 @@ String generateOkMethod( className, idAssigned ) {
     } else {
         content << " 1\n"
     }// End of else
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -96,7 +96,7 @@ String generateNullMethod( className ) {
     content << " is null\"\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}${classNameLower} = null\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -111,7 +111,7 @@ String generateInvalidMethod( className, idAssigned ) {
     content << "${tab()*3}service.delete( instance )\n"
     content << "${tab()*2}then:\n"
     content << "${tab()*3}${className}.exists( instance.${idName} ) == false\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

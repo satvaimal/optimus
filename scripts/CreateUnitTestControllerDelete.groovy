@@ -31,7 +31,7 @@ void generate( domainClass ) {
     content << generateNotFoundMethod( domainClass.name, idName )
     content << generateRequestMethodInvalidMethod( domainClass.name, idName )
     content << generateMockMethods( domainClass.name, idAssigned )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerDeleteSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -64,7 +64,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}${className}Mock.mock( 0 ).save("
     content << " failOnError:true )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -84,7 +84,7 @@ String generateOkMethod( className, idName ) {
     content << "${tab()*3}response.redirectedUrl =="
     content << " '/${classNameLower}/content'\n"
     content << "${tab()*3}response.status == 302\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -101,7 +101,7 @@ String generateIdNullMethod() {
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.redirectedUrl == '/logout'\n"
     content << "${tab()*3}response.status == 302\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -122,7 +122,7 @@ String generateNotFoundMethod( className, idName ) {
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.redirectedUrl == '/logout'\n"
     content << "${tab()*3}response.status == 302\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -138,7 +138,7 @@ String generateRequestMethodInvalidMethod( className, idName ) {
     content << "${tab()*3}controller.delete( ${id} )\n"
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.status == 405\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -162,16 +162,16 @@ String generateMockServiceMethod( className, idAssigned ) {
     content << "${tab()*2}def control = mockFor( ${className}Service )\n"
     content << "${tab()*2}control.demand.get( 1 ) { ${idType} id ->\n"
     content << "${tab()*3}${className}.findBy${idName.capitalize()}( id )\n"
-    content << "${tab()*2}}\n"
+    content << "${tab()*2}}${comment('closure')}\n"
     content << "${tab()*2}if ( delete ) {\n"
     content << "${tab()*3}control.demand.delete( 1 ) { ${className} instance ->\n"
     content << "${tab()*4}instance.delete()\n"
-    content << "${tab()*3}}\n"
-    content << "${tab()*2}}\n"
+    content << "${tab()*3}}${comment('closure')}\n"
+    content << "${tab()*2}}${comment('if')}\n"
     content << "${tab()*2}controller.${classNameLower}Service = "
     content << "control.createMock()\n"
     content << "${tab()*2}control\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -187,7 +187,7 @@ String generateCrackingServiceMethod() {
     content << "${tab()*2}controller.${CRACKING_SERVICE}Service = "
     content << "control.createMock()\n"
     content << "${tab()*2}control\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

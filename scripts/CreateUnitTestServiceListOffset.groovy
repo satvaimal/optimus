@@ -24,7 +24,7 @@ void generate( domainClass ) {
     content << generateMethod( 'null', "null", 10 )
     content << generateMethod( 'blank', "''", 10 )
     content << generateMethod( 'invalid', "'A'", 10 )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceListOffsetSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -54,8 +54,8 @@ String generateSetUpMethod( className ) {
     content << "${tab()*2}20.times {\n"
     content << "${tab()*3}${className}Mock.mock( it ).save("
     content << " failOnError:true )\n"
-    content << "${tab()*2}}\n"
-    content << "\n${tab()}}\n\n"
+    content << "${tab()*2}}${comment('closure')}\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -69,7 +69,7 @@ String generateMethod( methodSuffix, offsetValue, equalsValue ) {
     content << "${tab()*3}result.items.size() == ${equalsValue}\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}params = [ offset:${offsetValue} ]\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

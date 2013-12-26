@@ -25,7 +25,7 @@ void generate( domainClass ) {
     content << generateOkMethod( domainClass.name )
     content << generateOkWithParamsMethod( domainClass.name )
     content << generateRequestMethodInvalidMethod()
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerIndexSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -60,7 +60,7 @@ String generateOkMethod( className ) {
     content << "${tab()*3}response.redirectedUrl =="
     content << " '/${classNameLower}/content'\n"
     content << "${tab()*3}response.status == 302\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -77,7 +77,7 @@ String generateOkWithParamsMethod( className ) {
     content << "${tab()*3}response.redirectedUrl =="
     content << " '/${classNameLower}/content?name=value'\n"
     content << "${tab()*3}response.status == 302\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -92,6 +92,6 @@ String generateRequestMethodInvalidMethod() {
     content << "${tab()*3}controller.index()\n"
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.status == 405\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
 
 }// End of method

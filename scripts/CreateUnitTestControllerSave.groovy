@@ -32,7 +32,7 @@ void generate( domainClass ) {
     content << generateGetTemplateMethod( domainClass.name )
     content << generateMockMethods( domainClass.name, idName )
     content << generateSetUpParamsMethod( domainClass.name )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerSaveSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -64,7 +64,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}views[ '/${classNameLower}/_form.gsp' ]"
     content << " = getTemplate()\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -85,7 +85,7 @@ String generateOkMethod( className, idName ) {
     content << "${tab()*3}response.redirectedUrl =="
     content << " \"/${classNameLower}/edit/${id}\"\n"
     content << "${tab()*3}response.status == 302\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -108,7 +108,7 @@ String generateParamsInvalidMethod( domainClass ) {
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.text == 'OK'\n"
     content << "${tab()*3}response.status == 400\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -123,7 +123,7 @@ String generateRequestMethodInvalidMethod() {
     content << "${tab()*3}controller.save()\n"
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.status == 405\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -134,7 +134,7 @@ String generateGetTemplateMethod( className ) {
     def content = '' << "${tab()}private String getTemplate() {\n"
     content << "${tab()*2}'<g:if test=\"\${${classNameLower}Instance}\">OK</g:if>"
     content << "<g:else>ERROR</g:else>'\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -152,11 +152,11 @@ String generateMockMethods( className, idName ) {
     content << "${tab()*4}instance.${idName} = ${id}\n"
     content << "${tab()*4}instance.save( failOnError:true )\n"
     content << "${tab()*3}} else throw new IllegalArgumentException( 'error' )\n"
-    content << "${tab()*2}}\n"
+    content << "${tab()*2}}${comment('closure')}\n"
     content << "${tab()*2}controller.${classNameLower}Service = "
     content << "control.createMock()\n"
     content << "${tab()*2}control\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -167,7 +167,7 @@ String generateSetUpParamsMethod( className ) {
     content << "${tab()*2}def mock = ${className}Mock.mock( 0 )\n"
     content << "${tab()*2}mock.properties.each{ params.\"\${it.key}\""
     content << " = it.value }\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

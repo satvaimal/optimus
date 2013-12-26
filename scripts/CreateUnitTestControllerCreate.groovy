@@ -26,7 +26,7 @@ void generate( domainClass ) {
     content << generateOkMethod( domainClass.name )
     content << generateRequestMethodInvalidMethod()
     content << generateGetTemplateMethod( domainClass.name )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerCreateSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -56,7 +56,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}views[ '/${classNameLower}/_form.gsp' ]"
     content << " = getTemplate()\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -71,7 +71,7 @@ String generateOkMethod( className ) {
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.text == 'OK'\n"
     content << "${tab()*3}response.status == 200\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -86,7 +86,7 @@ String generateRequestMethodInvalidMethod() {
     content << "${tab()*3}controller.create()\n"
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.status == 405\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -97,7 +97,7 @@ String generateGetTemplateMethod( className ) {
     def content = '' << "${tab()}private String getTemplate() {\n"
     content << "${tab()*2}'<g:if test=\"\${${classNameLower}Instance}\">OK</g:if>"
     content << "<g:else>ERROR</g:else>'\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

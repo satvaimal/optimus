@@ -28,7 +28,7 @@ void generate( domainClass ) {
     content << generateOkMethod( domainClass.name, idName )
     content << generateNullMethod( domainClass.name, idName )
     content << generateNotFoundMethod( domainClass.name, idName )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceGetSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -57,7 +57,7 @@ String generateSetUpMethod( className ) {
 
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}${className}Mock.mock( 0 ).save( failOnError:true )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -73,7 +73,7 @@ String generateOkMethod( className, idName ) {
     content << "${tab()*3}result != null\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}${idName} = ${id}\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -90,7 +90,7 @@ String generateNullMethod( className, idName ) {
     content << "${tab()*3}e.message == \"Parameter '${idName}' is null\"\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}${idName} = null\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -106,7 +106,7 @@ String generateNotFoundMethod( className, idName ) {
     content << "${tab()*3}result == null\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}${idName} = ${id}\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

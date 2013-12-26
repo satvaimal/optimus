@@ -165,3 +165,7 @@ generateDirectory = { rootDir, pckg ->
 tab = {
   ' ' * grailsApp.config.grails.optimus.tab
 }// End of closure
+
+comment = { suffix ->
+  grailsApp.config.grails.optimus.blockComments ? "// End of ${suffix}" : ''
+}// End of closure

@@ -27,7 +27,7 @@ void generate( domainClass ) {
     content << generateRequestMethodInvalidMethod()
     content << generateGetTemplateMethod()
     content << generateMockMethods( domainClass.name )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ControllerListSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -58,7 +58,7 @@ String generateSetUpMethod( className ) {
     def content = '' << "${tab()}def setup() {\n"
     content << "${tab()*2}views[ '/${classNameLower}/_list.gsp' ]"
     content << " = getTemplate()\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -75,7 +75,7 @@ String generateOkMethod( className ) {
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.text == 'OK'\n"
     content << "${tab()*3}response.status == 200\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -90,7 +90,7 @@ String generateRequestMethodInvalidMethod() {
     content << "${tab()*3}controller.list()\n"
     content << "${tab()*2}then:\n"
     content << "${tab()*3}response.status == 405\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -100,7 +100,7 @@ String generateGetTemplateMethod() {
     def content = '' << "${tab()}private String getTemplate() {\n"
     content << "${tab()*2}'<g:if test=\"\${items && total}\">OK</g:if>"
     content << "<g:else>ERROR</g:else>'\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -115,7 +115,7 @@ String generateMockMethods( className ) {
     content << "${tab()*2}controller.${classNameLower}Service ="
     content << " control.createMock()\n"
     content << "${tab()*2}control\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

@@ -31,7 +31,7 @@ void generate( domainClass ) {
     content << generateDeleteMethod( domainClass.name )
     content << generateProcessParamsMethod( domainClass )
     content << generateSaveMethod( domainClass.name )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "grails-app/services", domainClass.packageName )
     def fileName = "${domainClass.name}Service.groovy"
     new File(directory, fileName).text = content.toString()
@@ -55,7 +55,7 @@ String generateListMethod( name ) {
     content << " ).build {}\n"
     content << "${tab()*2}[ items:criteria.list( params )"
     content << ", total:criteria.count() ]\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -67,7 +67,7 @@ String generateSavePublicMethod( name, method ) {
     content << "${tab()}void ${method}( ${className.capitalize()} "
     content << "${className} ) {\n"
     content << "${tab()*2}save( ${className} )"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -87,8 +87,8 @@ String generateSaveMethod( name ) {
     content << "${tab()*3}throw new IllegalArgumentException(\n"
     content << "${tab()*4}\"Parameter '${className}'"
     content << " is invalid\" )\n"
-    content << "${tab()*2}}\n"
-    content << "\n${tab()}}\n\n"
+    content << "${tab()*2}}${comment('catch')}\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -106,7 +106,7 @@ String generateGetMethod( domainClass ) {
     content << "${tab()*3}\"Parameter '${idName}' is null\" )\n"
     content << "${tab()*2}${className}.findBy"
     content << "${idName.capitalize()}( ${idName} )\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -121,7 +121,7 @@ String generateDeleteMethod( className ) {
     content << "${tab()*3}\"Parameter '${classNameLower}'"
     content << " is null\" )\n"
     content << "${tab()*2}${classNameLower}.delete()\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -134,7 +134,7 @@ String generateProcessParamsMethod( domainClass ) {
         content << "ListUtils.parse${it.capitalize()}( params.${it} )\n"
     }// End of closure
     content << generateParseSort( domainClass )
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

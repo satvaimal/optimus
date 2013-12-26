@@ -31,7 +31,7 @@ void generate( domainClass ) {
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateOkMethod()
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceListSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -65,7 +65,7 @@ String generateOkMethod() {
     content << "${tab()*3}result.total != null\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}params = [:]\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

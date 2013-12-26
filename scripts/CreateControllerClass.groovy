@@ -27,7 +27,7 @@ void generate( domainClass ) {
     content << generateAllowedMethods()
     content << generateServiceDependencies( domainClass.name )
     content << generateMethods( domainClass )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "grails-app/controllers", domainClass.packageName )
     def fileName = "${domainClass.name}Controller.groovy"
     new File(directory, fileName).text = content.toString()
@@ -84,7 +84,7 @@ String generateIndexMethod() {
 
     def content = '' << "${tab()}def index() {\n"
     content << "${tab()*2}redirect( action:'content', params:params )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -93,7 +93,7 @@ String generateContentMethod() {
 
     def content = '' << "${tab()}def content() {\n"
     content << "${tab()*2}renderList( 'content' )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -102,7 +102,7 @@ String generateListMethod() {
 
     def content = '' << "${tab()}def list() {\n"
     content << "${tab()*2}renderList( 'list' )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -114,7 +114,7 @@ String generateCreateMethod( className ) {
     content << "${tab()*2}def model = "
     content << "[ ${classNameLower}Instance:new ${className}( params ) ]\n"
     content << "${tab()*2}render( template:'form', model:model )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -125,7 +125,7 @@ String generateSaveMethod( className ) {
     def content = '' << "${tab()}def save() {\n\n"
     content << "${tab()*2}def ${classNameLower} = new ${className}( params )\n"
     content << "${tab()*2}saveOnDb( ${classNameLower}, 'create' )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -137,7 +137,7 @@ String generateEditMethod( idType ) {
     content << "${tab()*2}if ( !map ) return\n"
     content << "${tab()*2}map.edit = true\n"
     content << "${tab()*2}render( template:'form', model:map )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -152,7 +152,7 @@ String generateUpdateMethod( className, idType ) {
     content << "${tab()*2}map.edit = true\n"
     content << "${tab()*2}saveOnDb( map.${classNameLower}Instance,"
     content << " 'update', true )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -170,7 +170,7 @@ String generateDeleteMethod( className, idType ) {
     content << "${tab()*3}args:[ message( code:'${classNameLower}.label',\n"
     content << "${tab()*3}default:'${className}' ), id ] )\n"
     content << "${tab()*2}redirect( action:'content' )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -184,7 +184,7 @@ String generateRenderListMethod( className ) {
     content << "${tab()*2}model.items = result.items\n"
     content << "${tab()*2}model.total = result.total\n"
     content << "${tab()*2}render( template:template, model:model )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -196,15 +196,15 @@ String generateGetMethod( className, idType ) {
     content << "${tab()*2}if ( id == null ) {\n"
     content << "${tab()*3}notifyCrack()\n"
     content << "${tab()*3}return null\n"
-    content << "${tab()*2}}\n"
+    content << "${tab()*2}}${comment('if')}\n"
     content << "${tab()*2}def ${classNameLower} ="
     content << " ${classNameLower}Service.get( id )\n"
     content << "${tab()*2}if ( !${classNameLower} ) {\n"
     content << "${tab()*3}notifyCrack()\n"
     content << "${tab()*3}return null\n"
-    content << "${tab()*2}}\n"
+    content << "${tab()*2}}${comment('if')}\n"
     content << "${tab()*2}[ ${classNameLower}Instance:${classNameLower} ]\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -223,7 +223,7 @@ String generateSaveOnDbMethod( className, idName ) {
     content << " model:[ ${classNameLower}Instance:${classNameLower},\n"
     content << "${tab()*4}edit:edit ] )\n"
     content << "${tab()*3}return\n"
-    content << "${tab()*2}}\n"
+    content << "${tab()*2}}${comment('catch')}\n"
     content << "${tab()*2}flash.formMessage = message(\n"
     content << "${tab()*3}code:\"default.\${edit?'updated'"
     content << ":'created'}.message\",\n"
@@ -232,7 +232,7 @@ String generateSaveOnDbMethod( className, idName ) {
     content << " ${classNameLower}.${idName}])\n"
     content << "${tab()*2}redirect( action:'edit'"
     content << ", id:${classNameLower}.${idName} )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -242,7 +242,7 @@ String generateNotifyCrackMethod() {
     def content = '' << "${tab()}private void notifyCrack() {\n\n"
     content << "${tab()*2}crackingService.notify( request, params )\n"
     content << "${tab()*2}redirect( controller:'logout' )\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

@@ -24,7 +24,7 @@ void generate( domainClass ) {
     content << generateMethod( 'null', "null" )
     content << generateMethod( 'blank', "''" )
     content << generateMethod( 'invalid', "'A'" )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def fileName = "${domainClass.name}ServiceListSortOrderSpec.groovy"
     new File(directory, fileName).text = content.toString()
@@ -54,8 +54,8 @@ String generateSetUpMethod( className ) {
     content << "${tab()*2}20.times {\n"
     content << "${tab()*3}${className}Mock.mock( it + 1 ).save("
     content << " failOnError:true )\n"
-    content << "${tab()*2}}\n"
-    content << "\n${tab()}}\n\n"
+    content << "${tab()*2}}${comment('closure')}\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -72,7 +72,7 @@ String generateOkMethod( domainClass ) {
     content << "${tab()*3}result.items[ 0 ].${idName} == ${expected}\n"
     content << "${tab()*2}where:\n"
     content << "${tab()*3}params = [ sort:'${idName}', order:'desc' ]\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -106,7 +106,7 @@ String generateMethod( methodSuffix, value ) {
     content << "${tab()*2}where:\n"
     content << "${tab()*3}params = [ sort:${value}"
     content << ", order:${value} ]\n\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
