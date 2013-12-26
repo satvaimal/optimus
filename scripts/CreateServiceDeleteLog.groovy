@@ -25,7 +25,7 @@ void generate( domainClass ) {
     content << generateBeforeMethod( domainClass.name )
     content << generateAfterReturningMethod( domainClass )
     content << generateAfterThrowingMethod( domainClass )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "src/groovy",
         "${domainClass.packageName}.aop" )
     def fileName = "${domainClass.name}ServiceDelete.groovy"
@@ -78,7 +78,7 @@ String generateBeforeMethod( className ) {
     content << "${tab()}void before( ${className} "
     content << "${classNameLower} ) {\n"
     content << "${tab()*2}log.info( \"Begins request:\${${classNameLower}}\" )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -90,7 +90,7 @@ String generateAfterReturningMethod( domainClass ) {
     content << "${domainClass.fullName})')\n"
     content << "${tab()}void afterReturning() {\n"
     content << "${tab()*2}log.info( \"End of request\" )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -107,7 +107,7 @@ String generateAfterThrowingMethod( domainClass ) {
     content << "${tab()*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
     content << "${tab()*2}log.info( message.toString() )\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

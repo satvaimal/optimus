@@ -26,7 +26,7 @@ void generate( domainClass ) {
     content << generateBeforeMethod( idAssigned )
     content << generateAfterReturningMethod( domainClass.name, idAssigned )
     content << generateAfterThrowingMethod( idAssigned )
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "src/groovy",
         "${domainClass.packageName}.aop" )
     def fileName = "${domainClass.name}ServiceGet.groovy"
@@ -80,7 +80,7 @@ String generateBeforeMethod( idAssigned ) {
     def content = '' << "${tab()}@Before('getMethod(${idName})')\n"
     content << "${tab()}void before( ${idType} ${idName} ) {\n"
     content << "${tab()*2}log.info( \"Begins request:\${${idName}}\" )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -96,7 +96,7 @@ String generateAfterReturningMethod( className, idAssigned ) {
     content << "${tab()}void afterReturning( "
     content << "${className} ${classNameLower} ) {\n"
     content << "${tab()*2}log.info( \"End of request: \${${classNameLower}}\" )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -113,7 +113,7 @@ String generateAfterThrowingMethod( idAssigned ) {
     content << "${tab()*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
     content << "${tab()*2}log.info( message.toString() )\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method

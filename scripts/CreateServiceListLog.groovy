@@ -25,7 +25,7 @@ void generate( domainClass ) {
     content << generateBeforeMethod()
     content << generateAfterReturningMethod()
     content << generateAfterThrowingMethod()
-    content << '}'
+    content << "}${comment('class')}"
     def directory = generateDirectory( "src/groovy",
         "${domainClass.packageName}.aop" )
     def fileName = "${domainClass.name}ServiceList.groovy"
@@ -73,7 +73,7 @@ String generateBeforeMethod() {
     def content = '' << "${tab()}@Before('list(params)')\n"
     content << "${tab()}void before( Map params ) {\n"
     content << "${tab()*2}log.info( \"Begins request: \${params}\" )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -85,7 +85,7 @@ String generateAfterReturningMethod() {
     content << "${tab()*2}returning='map')\n"
     content << "${tab()}void afterReturning( Map map ) {\n"
     content << "${tab()*2}log.info( \"End of request: \${map}\" )\n"
-    content << "${tab()}}\n\n"
+    content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
@@ -101,7 +101,7 @@ String generateAfterThrowingMethod() {
     content << "${tab()*2}message << \":"
     content << " \${e.class.simpleName} - \${e.message}\"\n"
     content << "${tab()*2}log.info( message.toString() )\n"
-    content << "\n${tab()}}\n\n"
+    content << "\n${tab()}}${comment('method')}\n\n"
     content.toString()
 
 }// End of method
