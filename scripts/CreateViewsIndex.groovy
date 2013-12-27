@@ -6,12 +6,11 @@ target( createViewsIndex:"Generate 'index.gsp' file" ) {
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def commonDir = '/grails-app/views'
     def targetDir = "${basedir}${commonDir}"
-    [ 'header', 'topMenu', 'menu', 'content' ].each {
-        ant.copy( file:"${optimusPluginDir}${commonDir}/_${it}.gsp",
-             todir:"${targetDir}/" )
+    [ '_header', '_topMenu', '_menu', '_content', 'index' ].each {
+        def content = new File(
+            "${optimusPluginDir}${commonDir}/${it}.gsp" ).text
+        createFile( targetDir, "${it}.gsp", content )
     }// End of closure
-    ant.copy( file:"${optimusPluginDir}${commonDir}/index.gsp",
-         todir:"${targetDir}/" )
     def msg = "Finished generation of 'index' files"
     event( 'StatusFinal', [ msg ] )
 

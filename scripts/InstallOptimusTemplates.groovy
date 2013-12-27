@@ -10,8 +10,9 @@ target( installOptimusTemplates:'Generate templates for Optimus views' ) {
         ant.mkdir( dir:targetDir )
     }// End of if
     [ '_content.gsp', '_list.gsp', '_form.gsp', 'renderEditor.template' ].each {
-        ant.copy( file:"${optimusPluginDir}${commonDir}/${it}",
-             todir:"${targetDir}/" )
+        def content = new File(
+            "${optimusPluginDir}${commonDir}/${it}" ).text
+        createFile( targetDir, it, content )
     }// End of closure
     def msg = "Finished installation of Optimus templates"
     event( 'StatusFinal', [ msg ] )

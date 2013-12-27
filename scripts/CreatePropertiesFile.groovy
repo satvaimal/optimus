@@ -8,7 +8,7 @@ target( createPropertiesFile:"Generate 'config.properties' file" ) {
     def targetDir = "${basedir}${commonDir}"
     def filename = 'config.properties'
     def content = new File(
-        "${optimusPluginDir}${commonDir}/${filename}" ) .text
+        "${optimusPluginDir}${commonDir}/${filename}" ).text
     createFile( targetDir, filename, content )
     def msg = "Finished generation of '${filename}' file"
     event( 'StatusFinal', [ msg ] )
