@@ -169,3 +169,15 @@ tab = {
 comment = { suffix ->
   grailsApp.config.grails.optimus.blockComments ? "// End of ${suffix}" : ''
 }// End of closure
+
+createFile = { directory, filename, content ->
+
+  def file = new File( directory, filename )
+  if ( file.exists() ) {
+    if ( !confirmInput( "${filename} already exists. Overwrite?" ) ) {
+      return
+    }// End of if
+  }// End of if
+  file.text = content
+
+}// End of closure

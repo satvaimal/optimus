@@ -27,8 +27,8 @@ void generate( domainClass ) {
     content << generateInvalidMethod( domainClass )
     content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ServiceUpdateSpec.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${domainClass.name}ServiceUpdateSpec.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 

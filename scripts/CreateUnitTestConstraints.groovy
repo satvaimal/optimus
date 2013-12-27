@@ -55,8 +55,8 @@ void generateFile( domainClass, propertyName, testMethods ) {
     content << testMethods
     content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    new File( directory, getFilename( className, propertyName ) ).text =
-        content.toString()
+    def filename = getFilename( className, propertyName )
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 
@@ -388,4 +388,3 @@ String getFilename( className, propertyName ) {
     fileName.toString()
 
 }// End of method
-

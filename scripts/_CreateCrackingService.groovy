@@ -19,8 +19,8 @@ void generate( domainClass ) {
     content << '}'
     def directory = generateDirectory( "grails-app/services",
         domainClass.packageName )
-    def fileName = "${CRACKING_SERVICE.capitalize()}Service.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${CRACKING_SERVICE.capitalize()}Service.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 

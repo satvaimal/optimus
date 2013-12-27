@@ -23,8 +23,8 @@ void generate( domainClass ) {
     content << '}'
     def directory = generateDirectory( "src/groovy",
         domainClass.packageName )
-    def fileName = "${domainClass.name}Mock.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${domainClass.name}Mock.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 

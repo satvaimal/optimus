@@ -30,8 +30,8 @@ void generate( domainClass ) {
     content << generateNotFoundMethod( domainClass.name, idName )
     content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ServiceGetSpec.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${domainClass.name}ServiceGetSpec.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 

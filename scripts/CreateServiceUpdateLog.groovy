@@ -28,8 +28,8 @@ void generate( domainClass ) {
     content << "}${comment('class')}"
     def directory = generateDirectory( "src/groovy",
         "${domainClass.packageName}.aop" )
-    def fileName = "${domainClass.name}ServiceUpdate.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${domainClass.name}ServiceUpdate.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 

@@ -33,8 +33,8 @@ void generate( domainClass ) {
     content << generateMockMethods( domainClass.name, idAssigned )
     content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
-    def fileName = "${domainClass.name}ControllerDeleteSpec.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${domainClass.name}ControllerDeleteSpec.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 

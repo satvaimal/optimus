@@ -20,7 +20,7 @@ void generate( domainClass ) {
     content << generateParseSortMethod()
     content << '}'
     def directory = generateDirectory( "src/groovy", domainClass.packageName )
-    new File(directory, "ListUtils.groovy").text = content.toString()
+    createFile( directory, 'ListUtils.groovy', content.toString() )
 
 }// End of method
 

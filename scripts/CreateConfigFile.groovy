@@ -19,11 +19,11 @@ setDefaultTarget( createConfigFile )
 void generate( domainClass ) {
 
     def pckg = domainClass.packageName
-    new File(basedir, "grails-app/log/" ).mkdirs()
+    new File( basedir, 'grails-app/log/' ).mkdirs()
     def content = new File(optimusPluginDir,
         "grails-app/utils/Config-${getVersion()}.txt"
         ).text.replaceAll( '%%pckg%%', "${pckg}.aop"  )
-    new File(basedir, "grails-app/conf/Config.groovy" ).text = content
+    createFile( "${basedir}/grails-app/conf", 'Config.groovy', content )
 
 }// End of method
 

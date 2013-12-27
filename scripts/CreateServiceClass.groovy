@@ -33,8 +33,8 @@ void generate( domainClass ) {
     content << generateSaveMethod( domainClass.name )
     content << "}${comment('class')}"
     def directory = generateDirectory( "grails-app/services", domainClass.packageName )
-    def fileName = "${domainClass.name}Service.groovy"
-    new File(directory, fileName).text = content.toString()
+    def filename = "${domainClass.name}Service.groovy"
+    createFile( directory, filename, content.toString() )
 
 }// End of method
 
