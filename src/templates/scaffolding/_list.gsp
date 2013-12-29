@@ -51,6 +51,6 @@
         </tbody>
       </table>
     </div>
-    <util:remotePaginate total="\${total}" action="list" update="list" method="GET"/>
+    <util:remotePaginate total="\${total}" action="list" update="list" method="GET" before="\\\$('.panel-heading').find('.loading').show()" onComplete="\\\$('.loading').hide();"/>
   </div>
 </div>
