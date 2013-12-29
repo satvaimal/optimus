@@ -21,7 +21,7 @@
       <g:render template="/menu"/>
     </div>
     <div id="content" class="col-sm-9 col-lg-10">
-      <g:render template="/content"/>
+      <g:render template="/home/index"/>
     </div>
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="${resource(dir: 'js', file: 'bootstrap.min.js')}"></script>

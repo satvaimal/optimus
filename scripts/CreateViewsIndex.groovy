@@ -6,7 +6,7 @@ target( createViewsIndex:"Generate 'index.gsp' file" ) {
     depends( checkVersion, configureProxy, packageApp, loadApp, configureApp )
     def commonDir = '/grails-app/views'
     def targetDir = "${basedir}${commonDir}"
-    [ '_header', '_topMenu', '_menu', '_content', 'index' ].each {
+    [ '_header', '_topMenu', '_menu', 'index' ].each {
         def content = new File(
             "${optimusPluginDir}${commonDir}/${it}.gsp" ).text
         createFile( targetDir, "${it}.gsp", content )

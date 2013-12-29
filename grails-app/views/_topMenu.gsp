@@ -10,7 +10,6 @@
   </div>
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav">
-      <li class="active"><a href="${createLink(uri: '/')}">Home</a></li>
       <g:each var="c" in="${grailsApplication.controllerClasses.sort {it.fullName} }">
       <li class="controller">
         <g:remoteLink controller="${c.logicalPropertyName}" method="GET" update="content" before="\$(this).find('.loading').show()" onComplete="\$('.loading').hide();">

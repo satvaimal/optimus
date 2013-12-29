@@ -1,4 +1,6 @@
 includeTargets << new File( optimusPluginDir,
+    'scripts/CreateHome.groovy' )
+includeTargets << new File( optimusPluginDir,
     'scripts/CreateViewsIndex.groovy' )
 includeTargets << new File( optimusPluginDir,
     'scripts/InstallOptimusTemplates.groovy' )
@@ -11,6 +13,7 @@ includeTargets << new File( optimusPluginDir,
 
 target( createViews:'Generate all views artifacts' ) {
     depends(
+        createHome,
         createViewsIndex,
         installOptimusTemplates,
         createContentTemplate,
