@@ -76,6 +76,7 @@ $ grails optimus-all Person
 | Finished generation of 'update' controller unit tests
 | Finished generation of 'delete' controller unit tests
 | Finished generation of controller unit tests
+| Finished generation of 'Home' artifacts
 | Finished generation of 'index' files
 | Finished installation of Optimus templates
 | Finished generation of 'content' templates
@@ -83,6 +84,7 @@ $ grails optimus-all Person
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
 | Finished generation of i18n messages
+| Finished generation of domain artifacts
 | Finished generation of artifacts
 $
 ```
