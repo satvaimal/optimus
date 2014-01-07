@@ -5,17 +5,12 @@ gettingStarted:
   title: Getting started
   customGeneration: Artifacts custom generation
 config: Setting up the configuration
-unitTestDomainClasses:
-  title: Creating unit tests for domain classes
-  spockUnitTestDomainClasses: Creating unit tests with Spock
+unitTestDomainClasses: Creating unit tests for domain classes
 services: Creating services
-unitTestServices:
-  title: Creating unit tests for services
-  spockUnitTestServices: Creating unit tests with Spock
+unitTestServices: Creating unit tests for services
 logsServices: Creating logs for services
 controllers: Creating controllers
-unitTestControllers:
-  title: Creating unit tests for controllers
-  spockUnitTestControllers: Creating unit tests with Spock
+unitTestControllers: Creating unit tests for controllers
 views: Creating views
 i18n: Creating i18n messages
+properties: Miscellaneous properties

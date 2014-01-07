@@ -1,0 +1,6 @@
+Some properties have been added to the plugin for code customization.
+{table}
+ *Property* | *Default* | *Usage*
+ @grails.optimus.tab@  | @4@ | Spaces per tab
+ @grails.optimus.blockComments@  | @false@ | Add comments to each code block
+{table}

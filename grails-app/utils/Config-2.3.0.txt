@@ -125,3 +125,10 @@ log4j = {
 }// End of closure
 
 grails.plugins.remotepagination.enableBootstrap=true
+
+grails {
+  optimus {
+    tab = 4
+    blockComments = false
+  }
+}

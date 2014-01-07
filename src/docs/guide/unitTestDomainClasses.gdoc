@@ -23,64 +23,73 @@ class Person {
 }
 {code}
 With the [create-unit-test-constraints|Scripts] command, you will get the following unit test files:
-* @test/unit/mypackage/PersonNameConstraintsTests.groovy@
-* @test/unit/mypackage/PersonLastNameConstraintsTests.groovy@
-* @test/unit/mypackage/PersonBirthdateConstraintsTests.groovy@
-* @test/unit/mypackage/PersonEnabledConstraintsTests.groovy@
-If we open the @test/unit/mypackage/PersonNameConstraintsTests.groovy@ file, we will find something like this:
+* @test/unit/mypackage/PersonNameConstraintsSpec.groovy@
+* @test/unit/mypackage/PersonLastNameConstraintsSpec.groovy@
+* @test/unit/mypackage/PersonBirthdateConstraintsSpec.groovy@
+* @test/unit/mypackage/PersonEnabledConstraintsSpec.groovy@
+If we open the @test/unit/mypackage/PersonNameConstraintsSpec.groovy@ file, we will find something like this:
 {code}
 package mypackage
 
 import grails.test.mixin.*
-import org.junit.*
+import spock.lang.*
 
 @TestFor(Person)
-class PersonNameConstraintsTests {
+class PersonNameConstraintsSpec extends Specification {
 
-    @Before
-    void setUp() {
+    def setup() {
         mockForConstraintsTests( Person, [ new Person() ] )
     }
 
-    void testBlank() {
+    @Ignore('See http://jira.grails.org/browse/GRAILS-10474' )
+    def "test 'blank' constraint"() {
 
-        def instance = new Person()
-        instance.name = ''
-        assertFalse "'validate' should be false", instance.validate()
-        assertNotNull "'errors[ 'name' ]' should not be null",
-            instance.errors[ 'name' ]
-        assertEquals "'errors[ 'name' ]' should be 'blank'",
-            'blank', instance.errors[ 'name' ]
-
-    }
-
-    void testSizeTooLong() {
-
-        def instance = new Person()
-        instance.name = 'A' * 101
-        assertFalse "'validate' should be false", instance.validate()
-        assertNotNull "'errors[ 'name' ]' should not be null",
-            instance.errors[ 'name' ]
-        assertEquals "'errors[ 'name' ]' should be 'size'",
-            'size', instance.errors[ 'name' ]
+        when:
+            def instance = new Person( name:name )
+            def result = instance.validate()
+        then:
+            result == false
+            instance.errors[ 'name' ] != null
+            instance.errors[ 'name' ] == 'blank'
+        where:
+            name = ''
 
     }
 
-    void testNullable() {
+    def "test 'sizeTooLong' constraint"() {
 
-        def instance = new Person()
-        instance.name = null
-        assertFalse "'validate' should be false", instance.validate()
-        assertNotNull "'errors[ 'name' ]' should not be null",
-            instance.errors[ 'name' ]
-        assertEquals "'errors[ 'name' ]' should be 'nullable'",
-            'nullable', instance.errors[ 'name' ]
+        when:
+            def instance = new Person( name:name )
+            def result = instance.validate()
+        then:
+            result == false
+            instance.errors[ 'name' ] != null
+            instance.errors[ 'name' ] == 'size'
+        where:
+            name = 'A' * 101
+
+    }
+
+    def "test 'nullable' constraint"() {
+
+        when:
+            def instance = new Person( name:name )
+            def result = instance.validate()
+        then:
+            result == false
+            instance.errors[ 'name' ] != null
+            instance.errors[ 'name' ] == 'nullable'
+        where:
+            name = null
 
     }
 
 }
 {code}
 As you can see, the plugin generates unit tests for all the constraints contained in the @name@ property.
+{note}
+For versions of Grails prior to 2.3.0, you need to install the "Grails Spock Plugin":http://grails.org/plugin/spock if you want to execute the tests.
+{note}
 {note}
 The plugin can manage all the constraints but @matches@ and @validator@, due to their complexity. The plugin will generate the unit test method but you must set some values by hand. If you forget this, the method will throw an exception every time you run the test.
 {note}

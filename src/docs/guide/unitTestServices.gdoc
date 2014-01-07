@@ -3,72 +3,78 @@ When you create a service class with the [create-service-class|Scripts] command,
 grails create-unit-test-service [domainClass]
 {code}
 Suppose you have a class named @mypackage.Person@. With the [create-unit-test-service|Scripts] command, you will get the following unit test files:
-* @test/unit/mypackage/PersonServiceListTests.groovy@
-* @test/unit/mypackage/PersonServiceListMaxTests.groovy@
-* @test/unit/mypackage/PersonServiceListOffsetTests.groovy@
-* @test/unit/mypackage/PersonServiceListSortOrderTests.groovy@
-* @test/unit/mypackage/PersonServiceCreateTests.groovy@
-* @test/unit/mypackage/PersonServiceUpdateTests.groovy@
-* @test/unit/mypackage/PersonServiceGetTests.groovy@
-* @test/unit/mypackage/PersonServiceDeleteTests.groovy@
+* @test/unit/mypackage/PersonServiceListSpec.groovy@
+* @test/unit/mypackage/PersonServiceListMaxSpec.groovy@
+* @test/unit/mypackage/PersonServiceListOffsetSpec.groovy@
+* @test/unit/mypackage/PersonServiceListSortOrderSpec.groovy@
+* @test/unit/mypackage/PersonServiceCreateSpec.groovy@
+* @test/unit/mypackage/PersonServiceUpdateSpec.groovy@
+* @test/unit/mypackage/PersonServiceGetSpec.groovy@
+* @test/unit/mypackage/PersonServiceDeleteSpec.groovy@
 You can generate each file with the following commands:
 {table}
  *File* | *Command*
- @test/unit/mypackage/PersonServiceListTests.groovy@ | [create-unit-test-service-list|Scripts]
- @test/unit/mypackage/PersonServiceListMaxTests.groovy@ | [create-unit-test-service-list-max|Scripts]
- @test/unit/mypackage/PersonServiceListOffsetTests.groovy@ | [create-unit-test-service-list-offset|Scripts]
- @test/unit/mypackage/PersonServiceListSortOrderTests.groovy@ | [create-unit-test-service-list-sort-order|Scripts]
- @test/unit/mypackage/PersonServiceCreateTests.groovy@ | [create-unit-test-service-create|Scripts]
- @test/unit/mypackage/PersonServiceUpdateTests.groovy@ | [create-unit-test-service-update|Scripts]
- @test/unit/mypackage/PersonServiceGetTests.groovy@ | [create-unit-test-service-get|Scripts]
- @test/unit/mypackage/PersonServiceDeleteTests.groovy@ | [create-unit-test-service-delete|Scripts]
+ @test/unit/mypackage/PersonServiceListSpec.groovy@ | [create-unit-test-service-list|Scripts]
+ @test/unit/mypackage/PersonServiceListMaxSpec.groovy@ | [create-unit-test-service-list-max|Scripts]
+ @test/unit/mypackage/PersonServiceListOffsetSpec.groovy@ | [create-unit-test-service-list-offset|Scripts]
+ @test/unit/mypackage/PersonServiceListSortOrderSpec.groovy@ | [create-unit-test-service-list-sort-order|Scripts]
+ @test/unit/mypackage/PersonServiceCreateSpec.groovy@ | [create-unit-test-service-create|Scripts]
+ @test/unit/mypackage/PersonServiceUpdateSpec.groovy@ | [create-unit-test-service-update|Scripts]
+ @test/unit/mypackage/PersonServiceGetSpec.groovy@ | [create-unit-test-service-get|Scripts]
+ @test/unit/mypackage/PersonServiceDeleteSpec.groovy@ | [create-unit-test-service-delete|Scripts]
 {table}
-If we open the @test/unit/mypackage/PersonServiceCreateTests.groovy@ file, we will find something like this:
+If we open the @test/unit/mypackage/PersonServiceCreateSpec.groovy@ file, we will find something like this:
 {code}
 package mypackage
 
 import grails.test.mixin.*
-import org.junit.*
-import org.junit.rules.*
+import spock.lang.*
 
 @TestFor(PersonService)
 @Mock(Person)
-class PersonServiceCreateTests {
+class PersonServiceCreateSpec extends Specification {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none()
+    def "test ok"() {
 
-    void testOk() {
-
-        def instance = PersonMock.mock( 0 )
-        assertEquals "'count' should be 0", 0, Person.count()
-        service.create( instance )
-        assertEquals "'count' should be 1", 1, Person.count()
+        when:
+            def instance = PersonMock.mock( 0 )
+            service.create( instance )
+        then:
+            Person.count() == 1
 
     }
 
-    void testPersonNull() {
+    def "test Person null"() {
 
-        def instance = null
-        thrown.expect( IllegalArgumentException )
-        thrown.expectMessage( "Parameter 'person' is null" )
-        service.create( instance )
+        when:
+            def instance = null
+            service.create( instance )
+        then:
+            IllegalArgumentException e = thrown()
+            e.message == "Parameter 'person' is null"
 
     }
 
-    void testPersonInvalid() {
+    def "test Person invalid"() {
 
-        def instance = PersonMock.mock( 0 )
-        instance.name = null
-        thrown.expect( IllegalArgumentException )
-        thrown.expectMessage( "Parameter 'person' is invalid" )
-        service.create( instance )
+        when:
+            def instance = PersonMock.mock( 0 )
+            instance.name = name
+            service.create( instance )
+        then:
+            IllegalArgumentException e = thrown()
+            e.message == "Parameter 'person' is invalid"
+        where:
+            name = null
 
     }
 
 }
 {code}
-The plugin generates a unit test that makes use of the @ExpectedException@ JUnit class for managing the tests exceptions. You can notice the presence of the @PersonMock@ class.  This class is automatically generated and placed in the @src/groovy/mypackage/PersonMock.groovy@ file, and it contains utility methods for mocking a @Person@ valid domain class:
+{note}
+For versions of Grails prior to 2.3.0, you need to install the "Grails Spock Plugin":http://grails.org/plugin/spock if you want to execute the tests.
+{note}
+You can notice the presence of the @PersonMock@ class.  This class is automatically generated and placed in the @src/groovy/mypackage/PersonMock.groovy@ file, and it contains utility methods for mocking a @Person@ valid domain class:
 {code}
 package mypackage
 

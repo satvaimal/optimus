@@ -1,3 +1,13 @@
+* January 7, 2014
+** 0.4 release.
+** Upgrade to Grails 2.3.x.
+** Spock unit tests as default, jUnit deleted.
+** 'create-all' command for domain classes.
+** 'grails.optimus.tab' property.
+** 'grails.optimus.blockComments' property.
+** Avoid file overwriting.
+** 'Home' controller.
+** Menu animation update.
 * November 26, 2013
 ** 0.3.1 release.
 ** Added spinners for AJAX requests.

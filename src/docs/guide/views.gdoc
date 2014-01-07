@@ -5,11 +5,12 @@ You can generate all the GSP files by executing the [create-views|Scripts] comma
 grails create-views [domainClass]
 {code}
 The plugin will generate the following files:
+* @grails-app/controllers/HomeController.groovy@
+* @grails-app/views/home/_index.gsp@
 * @grails-app/views/index.gsp@
 * @grails-app/views/_header.gsp@
 * @grails-app/views/_topMenu.gsp@
 * @grails-app/views/_menu.gsp@
-* @grails-app/views/_content.gsp@
 Besides, the plugin will install the following templates:
 * @src/templates/scaffolding/_content.gsp@
 * @src/templates/scaffolding/_list.gsp@
@@ -30,11 +31,12 @@ For this reason, use the [create-views|Scripts] command carefully if you are wor
 You can generate each artifact with the following commands:
 {table}
  *File* | *Command*
- Index artifacts (@index@, @_header@, @_topMenu@, @_menu@ and @_content@) | [create-views-index|Scripts]
+ Home controller | [create-home|Scripts]
+ Index artifacts (@index@, @_header@, @_topMenu@ and @_menu@) | [create-views-index|Scripts]
  Templates (@_content@, @_list@ and @_form@) | [install-optimus-templates|Scripts]
-  @grails-app/views/person/_content.gsp@ | [create-content-template|Scripts]
-  @grails-app/views/person/_list.gsp@ | [create-list-template|Scripts]
-  @grails-app/views/person/_form.gsp@ | [create-form-template|Scripts]
+ @grails-app/views/person/_content.gsp@ | [create-content-template|Scripts]
+ @grails-app/views/person/_list.gsp@ | [create-list-template|Scripts]
+ @grails-app/views/person/_form.gsp@ | [create-form-template|Scripts]
 {table}
 
 All these files are designed for working together, simulating a Simple Page Application that looks well in any device that supports a browser.

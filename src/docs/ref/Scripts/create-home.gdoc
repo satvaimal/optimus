@@ -1,0 +1,21 @@
+h1. create-home
+
+h2. Purpose
+
+The @create-home@ generates a controller and a template for the application Main page.
+
+h2. Examples
+
+{code:java}
+grails create-home
+{code}
+
+h2. Description
+
+Generates a controller and a template for the application Main page.
+
+Usage:
+
+{code:java}
+grails create-home
+{code}

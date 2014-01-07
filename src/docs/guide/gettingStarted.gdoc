@@ -2,9 +2,12 @@ To get started, you need to install the plugin by adding the following line in t
 {code}
 plugins {
     ...
-    compile ':optimus:0.3.1'
+    compile ':optimus:0.4'
 }
 {code}
+{warning}
+If you are using a Grails version prior to 2.3.x, you must add the "Spock Plugin":http://grails.org/plugin/spock
+{warning}
 You must have at least one domain class with some constraints, for example:
 {code}
 package mypackage
@@ -67,6 +70,7 @@ $ grails optimus-all Person
 | Finished generation of 'update' controller unit tests
 | Finished generation of 'delete' controller unit tests
 | Finished generation of controller unit tests
+| Finished generation of 'Home' artifacts
 | Finished generation of 'index' files
 | Finished installation of Optimus templates
 | Finished generation of 'content' templates
@@ -74,6 +78,7 @@ $ grails optimus-all Person
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
 | Finished generation of i18n messages
+| Finished generation of domain artifacts
 | Finished generation of artifacts
 $
 {code}

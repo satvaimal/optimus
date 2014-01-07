@@ -100,6 +100,16 @@ log4j = {
 }// End of closure
 {code}
 With this configuration, you can see the logs in the @log@ directory and in the console output at the same time. You can also notice that the logs are zipped and stored every day.
+
+Finally, some properties have been added:
+{code}
+grails {
+  optimus {
+    tab = 4
+    blockComments = false
+  }
+}
+{code}
 h3. grails-app/conf/DataSource.groovy
 The data connection has been removed completely from this file and now it appears in the @src/java/config.properties@ file:
 {code}

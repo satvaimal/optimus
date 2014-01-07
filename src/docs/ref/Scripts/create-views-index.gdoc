@@ -17,7 +17,6 @@ This command creates the base views of the application. The command will generat
 * @grails-app/views/_header.gsp@
 * @grails-app/views/_topMenu.gsp@
 * @grails-app/views/_menu.gsp@
-* @grails-app/views/_content.gsp@
 {warning}
 The command overrides some important files that could already exist:
 * @grails-app/views/index.gsp@

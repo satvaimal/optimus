@@ -18,7 +18,6 @@ Given at least one domain class, this command creates the views for it. The comm
 * @grails-app/views/_header.gsp@
 * @grails-app/views/_topMenu.gsp@
 * @grails-app/views/_menu.gsp@
-* @grails-app/views/_content.gsp@
 Besides, the plugin will install the following templates:
 * @src/templates/scaffolding/_content.gsp@
 * @src/templates/scaffolding/_list.gsp@
@@ -47,7 +46,6 @@ If you don't specify a domain class, the command only generate the following fil
 * @grails-app/views/_header.gsp@
 * @grails-app/views/_topMenu.gsp@
 * @grails-app/views/_menu.gsp@
-* @grails-app/views/_content.gsp@
 * @src/templates/scaffolding/_content.gsp@
 * @src/templates/scaffolding/_list.gsp@
 * @src/templates/scaffolding/_form.gsp@
