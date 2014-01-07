@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>6 Creating unit tests for services 0.3.1</title>
+    <title>6 Creating unit tests for services 0.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -57,6 +57,9 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/i18n.html"><strong>11</strong><span>Creating i18n messages</span></a>
                     </div>
                     
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/properties.html"><strong>12</strong><span>Miscellaneous properties</span></a>
+                    </div>
+                    
                 </div>
             </div>
         </li>
@@ -95,19 +98,11 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
-                    <p><strong>Version:</strong> 0.3.1</p>
+                    <p><strong>Version:</strong> 0.4</p>
 
                     
                 </div>
 
-                
-                <div id="table-of-content">
-                    <h2>Table of Contents</h2>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="#spockUnitTestServices"><strong>6.1</strong><span>Creating unit tests with Spock</span></a>
-                    </div>
-                    
-                </div>
                 
 
                 
@@ -116,50 +111,6 @@ function addJsClass() {
 When you create a service class with the <a href="../ref/Scripts/create-service-class.html" class="Scripts">create-service-class</a> command, it is highly recommended that you also create the corresponding unit tests. You can achieve this by executing the <a href="../ref/Scripts/create-unit-test-service.html" class="Scripts">create-unit-test-service</a> command:
 <div class="code"><pre>grails create&#45;unit&#45;test&#45;service &#91;domainClass&#93;</pre></div>
 Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-unit-test-service.html" class="Scripts">create-unit-test-service</a> command, you will get the following unit test files:
-<ul class="star">
-<li><code>test/unit/mypackage/PersonServiceListTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceListMaxTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceListOffsetTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceListSortOrderTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceCreateTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceUpdateTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceGetTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceDeleteTests.groovy</code></li>
-</ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list.html" class="Scripts">create-unit-test-service-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max.html" class="Scripts">create-unit-test-service-list-max</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset.html" class="Scripts">create-unit-test-service-list-offset</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html" class="Scripts">create-unit-test-service-list-sort-order</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create.html" class="Scripts">create-unit-test-service-create</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update.html" class="Scripts">create-unit-test-service-update</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get.html" class="Scripts">create-unit-test-service-get</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete.html" class="Scripts">create-unit-test-service-delete</a></td></tr></table>
-If we open the <code>test/unit/mypackage/PersonServiceCreateTests.groovy</code> file, we will find something like this:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
-<span class="java&#45;keyword">import</span> org.junit.&#42;
-<span class="java&#45;keyword">import</span> org.junit.rules.&#42;<p class="paragraph"/>@TestFor(PersonService)
-@Mock(Person)
-class PersonServiceCreateTests &#123;<p class="paragraph"/>    @Rule
-    <span class="java&#45;keyword">public</span> ExpectedException thrown = ExpectedException.none()<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def instance = PersonMock.mock( 0 )
-        assertEquals <span class="java&#45;quote">"'count' should be 0"</span>, 0, Person.count()
-        service.create( instance )
-        assertEquals <span class="java&#45;quote">"'count' should be 1"</span>, 1, Person.count()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testPersonNull() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">null</span>
-        thrown.expect( IllegalArgumentException )
-        thrown.expectMessage( <span class="java&#45;quote">"Parameter 'person' is <span class="java&#45;keyword">null</span>"</span> )
-        service.create( instance )<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testPersonInvalid() &#123;<p class="paragraph"/>        def instance = PersonMock.mock( 0 )
-        instance.name = <span class="java&#45;keyword">null</span>
-        thrown.expect( IllegalArgumentException )
-        thrown.expectMessage( <span class="java&#45;quote">"Parameter 'person' is invalid"</span> )
-        service.create( instance )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
-The plugin generates a unit test that makes use of the <code>ExpectedException</code> JUnit class for managing the tests exceptions. You can notice the presence of the <code>PersonMock</code> class.  This class is automatically generated and placed in the <code>src/groovy/mypackage/PersonMock.groovy</code> file, and it contains utility methods for mocking a <code>Person</code> valid domain class:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class PersonMock &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> Person mock( id ) &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person(
-            name:'A' &#42; 1,
-            lastName:'A' &#42; 1,
-            birthdate:<span class="java&#45;keyword">new</span> Date(),
-            enabled:<span class="java&#45;keyword">true</span>,
-        )
-        instance<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
-If you change the id of this class (to <code>assigned</code>, for example), this class already consider it, allowing you to set the id by hand.<p class="paragraph"/>You can generate the mock class separately by executing the <a href="../ref/Scripts/create-mock.html" class="Scripts">create-mock</a> command.
-
-
-
-<h2 id="spockUnitTestServices">6.1 Creating unit tests with Spock</h2>
-Since the 0.2 version, you can generate unit tests for services with the <a href="https://code.google.com/p/spock/" target="blank">Spock Framework</a> using the <a href="../ref/Scripts/create-unit-test-service-spock.html" class="Scripts">create-unit-test-service-spock</a> command:
-<div class="code"><pre>grails create&#45;unit&#45;test&#45;service&#45;spock &#91;domainClass&#93;</pre></div>
-Tou will get the following unit test files:
 <ul class="star">
 <li><code>test/unit/mypackage/PersonServiceListSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonServiceListMaxSpec.groovy</code></li>
@@ -170,7 +121,7 @@ Tou will get the following unit test files:
 <li><code>test/unit/mypackage/PersonServiceGetSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonServiceDeleteSpec.groovy</code></li>
 </ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-spock.html" class="Scripts">create-unit-test-service-list-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max-spock.html" class="Scripts">create-unit-test-service-list-max-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset-spock.html" class="Scripts">create-unit-test-service-list-offset-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order-spock.html" class="Scripts">create-unit-test-service-list-sort-order-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create-spock.html" class="Scripts">create-unit-test-service-create-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update-spock.html" class="Scripts">create-unit-test-service-update-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get-spock.html" class="Scripts">create-unit-test-service-get-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete-spock.html" class="Scripts">create-unit-test-service-delete-spock</a></td></tr></table>
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list.html" class="Scripts">create-unit-test-service-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max.html" class="Scripts">create-unit-test-service-list-max</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset.html" class="Scripts">create-unit-test-service-list-offset</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html" class="Scripts">create-unit-test-service-list-sort-order</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create.html" class="Scripts">create-unit-test-service-create</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update.html" class="Scripts">create-unit-test-service-update</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get.html" class="Scripts">create-unit-test-service-get</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete.html" class="Scripts">create-unit-test-service-delete</a></td></tr></table>
 If we open the <code>test/unit/mypackage/PersonServiceCreateSpec.groovy</code> file, we will find something like this:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
 <span class="java&#45;keyword">import</span> spock.lang.&#42;<p class="paragraph"/>@TestFor(PersonService)
@@ -196,6 +147,15 @@ class PersonServiceCreateSpec <span class="java&#45;keyword">extends</span> Spec
 <blockquote class="note">
 For versions of Grails prior to 2.3.0, you need to install the <a href="http://grails.org/plugin/spock" target="blank">Grails Spock Plugin</a> if you want to execute the tests.
 </blockquote>
+You can notice the presence of the <code>PersonMock</code> class.  This class is automatically generated and placed in the <code>src/groovy/mypackage/PersonMock.groovy</code> file, and it contains utility methods for mocking a <code>Person</code> valid domain class:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class PersonMock &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> Person mock( id ) &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person(
+            name:'A' &#42; 1,
+            lastName:'A' &#42; 1,
+            birthdate:<span class="java&#45;keyword">new</span> Date(),
+            enabled:<span class="java&#45;keyword">true</span>,
+        )
+        instance<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+If you change the id of this class (to <code>assigned</code>, for example), this class already consider it, allowing you to set the id by hand.<p class="paragraph"/>You can generate the mock class separately by executing the <a href="../ref/Scripts/create-mock.html" class="Scripts">create-mock</a> command.
 
 
 
@@ -237,6 +197,9 @@ For versions of Grails prior to 2.3.0, you need to install the <a href="http://g
                             <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
                             </div>
                             
+                            <div class="menu-item"><a href="../ref/Scripts/create-home.html">create-home</a>
+                            </div>
+                            
                             <div class="menu-item"><a href="../ref/Scripts/create-i18n.html">create-i18n</a>
                             </div>
                             
@@ -270,58 +233,28 @@ For versions of Grails prior to 2.3.0, you need to install the <a href="http://g
                             <div class="menu-item"><a href="../ref/Scripts/create-service-update-log.html">create-service-update-log</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints-spock.html">create-unit-test-constraints-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints.html">create-unit-test-constraints</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content-spock.html">create-unit-test-controller-content-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content.html">create-unit-test-controller-content</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create-spock.html">create-unit-test-controller-create-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create.html">create-unit-test-controller-create</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete-spock.html">create-unit-test-controller-delete-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete.html">create-unit-test-controller-delete</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit-spock.html">create-unit-test-controller-edit-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit.html">create-unit-test-controller-edit</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index-spock.html">create-unit-test-controller-index-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index.html">create-unit-test-controller-index</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list-spock.html">create-unit-test-controller-list-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list.html">create-unit-test-controller-list</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save-spock.html">create-unit-test-controller-save-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save.html">create-unit-test-controller-save</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-spock.html">create-unit-test-controller-spock</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update-spock.html">create-unit-test-controller-update-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update.html">create-unit-test-controller-update</a>
@@ -330,52 +263,25 @@ For versions of Grails prior to 2.3.0, you need to install the <a href="http://g
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller.html">create-unit-test-controller</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create-spock.html">create-unit-test-service-create-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create.html">create-unit-test-service-create</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete-spock.html">create-unit-test-service-delete-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete.html">create-unit-test-service-delete</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get-spock.html">create-unit-test-service-get-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get.html">create-unit-test-service-get</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max-spock.html">create-unit-test-service-list-max-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max.html">create-unit-test-service-list-max</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset-spock.html">create-unit-test-service-list-offset-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset.html">create-unit-test-service-list-offset</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order-spock.html">create-unit-test-service-list-sort-order-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html">create-unit-test-service-list-sort-order</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-spock.html">create-unit-test-service-list-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list.html">create-unit-test-service-list</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-spock.html">create-unit-test-service-spock</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update-spock.html">create-unit-test-service-update-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update.html">create-unit-test-service-update</a>

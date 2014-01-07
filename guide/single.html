@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Optimus Plugin 0.3.1</title>
+        <title>Optimus Plugin 0.4</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -45,6 +45,8 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0"><a href="#i18n"><strong>11</strong><span>Creating i18n messages</span></a></div>
                             
+                            <div class="toc-item" style="margin-left:0"><a href="#properties"><strong>12</strong><span>Miscellaneous properties</span></a></div>
+                            
                         </div>
                     </div>
                 </li>
@@ -72,7 +74,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>Optimus Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Alejandro García Granados</p>
-                            <p><strong>Version:</strong> 0.3.1</p>
+                            <p><strong>Version:</strong> 0.4</p>
                             
                         </div>
 
@@ -92,13 +94,9 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#unitTestDomainClasses"><strong>4</strong><span>Creating unit tests for domain classes</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#spockUnitTestDomainClasses"><strong>4.1</strong><span>Creating unit tests with Spock</span></a></div>
-                            
                             <div class="toc-item" style="margin-left:0px"><a href="#services"><strong>5</strong><span>Creating services</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#unitTestServices"><strong>6</strong><span>Creating unit tests for services</span></a></div>
-                            
-                            <div class="toc-item" style="margin-left:10px"><a href="#spockUnitTestServices"><strong>6.1</strong><span>Creating unit tests with Spock</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#logsServices"><strong>7</strong><span>Creating logs for services</span></a></div>
                             
@@ -106,11 +104,11 @@ function addJsClass(el) {
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#unitTestControllers"><strong>9</strong><span>Creating unit tests for controllers</span></a></div>
                             
-                            <div class="toc-item" style="margin-left:10px"><a href="#spockUnitTestControllers"><strong>9.1</strong><span>Creating unit tests with Spock</span></a></div>
-                            
                             <div class="toc-item" style="margin-left:0px"><a href="#views"><strong>10</strong><span>Creating views</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#i18n"><strong>11</strong><span>Creating i18n messages</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#properties"><strong>12</strong><span>Miscellaneous properties</span></a></div>
                             
                             <div style="clear:both" ></div>
                         </div>
@@ -124,6 +122,18 @@ Grails Optimus Plugin lets you create some of the most popular artifacts that ar
 
 <h2 id="changes">1.1 Change Log</h2>
 <ul class="star">
+<li>January 7, 2014</li>
+<ul class="star">
+<li>0.4 release.</li>
+<li>Upgrade to Grails 2.3.x.</li>
+<li>Spock unit tests as default, jUnit deleted.</li>
+<li>'create-all' command for domain classes.</li>
+<li>'grails.optimus.tab' property.</li>
+<li>'grails.optimus.blockComments' property.</li>
+<li>Avoid file overwriting.</li>
+<li>'Home' controller.</li>
+<li>Menu animation update.</li>
+</ul>
 <li>November 26, 2013</li>
 <ul class="star">
 <li>0.3.1 release.</li>
@@ -161,8 +171,11 @@ Grails Optimus Plugin lets you create some of the most popular artifacts that ar
 To get started, you need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.groovy</code> file:
 <div class="code"><pre>plugins &#123;
     &#8230;
-    compile ':optimus:0.3.1'
+    compile ':optimus:0.4'
 &#125;</pre></div>
+<blockquote class="warning">
+If you are using a Grails version prior to 2.3.x, you must add the <a href="http://grails.org/plugin/spock" target="blank">Spock Plugin</a>
+</blockquote>
 You must have at least one domain class with some constraints, for example:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
     <span class="java&#45;object">String</span> lastName
@@ -212,6 +225,7 @@ The command will tell you about what artifacts have been created, such as config
 | Finished generation of 'update' controller unit tests
 | Finished generation of 'delete' controller unit tests
 | Finished generation of controller unit tests
+| Finished generation of 'Home' artifacts
 | Finished generation of 'index' files
 | Finished installation of Optimus templates
 | Finished generation of 'content' templates
@@ -219,6 +233,7 @@ The command will tell you about what artifacts have been created, such as config
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
 | Finished generation of i18n messages
+| Finished generation of domain artifacts
 | Finished generation of artifacts
 $</pre></div>
 <blockquote class="warning">
@@ -307,7 +322,13 @@ log4j = &#123;<p class="paragraph"/>    def layout = <span class="java&#45;keywo
     &#93;<p class="paragraph"/>    info rollingFileAppender:&#91;
         'mypackage.aop'
     &#93;<p class="paragraph"/>&#125;// End of closure</pre></div>
-With this configuration, you can see the logs in the <code>log</code> directory and in the console output at the same time. You can also notice that the logs are zipped and stored every day.
+With this configuration, you can see the logs in the <code>log</code> directory and in the console output at the same time. You can also notice that the logs are zipped and stored every day.<p class="paragraph"/>Finally, some properties have been added:
+<div class="code"><pre>grails &#123;
+  optimus &#123;
+    tab = 4
+    blockComments = <span class="java&#45;keyword">false</span>
+  &#125;
+&#125;</pre></div>
 <h3>grails-app/conf/DataSource.groovy</h3>
 The data connection has been removed completely from this file and now it appears in the <code>src/java/config.properties</code> file:
 <div class="code"><pre>dataSource &#123;
@@ -366,47 +387,6 @@ Suppose you have a domain class like this:
     &#125;<p class="paragraph"/>&#125;</pre></div>
 With the <a href="../ref/Scripts/create-unit-test-constraints.html" class="Scripts">create-unit-test-constraints</a> command, you will get the following unit test files:
 <ul class="star">
-<li><code>test/unit/mypackage/PersonNameConstraintsTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonLastNameConstraintsTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonBirthdateConstraintsTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonEnabledConstraintsTests.groovy</code></li>
-</ul><p class="paragraph"/>If we open the <code>test/unit/mypackage/PersonNameConstraintsTests.groovy</code> file, we will find something like this:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
-<span class="java&#45;keyword">import</span> org.junit.&#42;<p class="paragraph"/>@TestFor(Person)
-class PersonNameConstraintsTests &#123;<p class="paragraph"/>    @Before
-    void setUp() &#123;
-        mockForConstraintsTests( Person, &#91; <span class="java&#45;keyword">new</span> Person() &#93; )
-    &#125;<p class="paragraph"/>    void testBlank() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person()
-        instance.name = ''
-        assertFalse <span class="java&#45;quote">"'validate' should be <span class="java&#45;keyword">false</span>"</span>, instance.validate()
-        assertNotNull <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should not be <span class="java&#45;keyword">null</span>"</span>,
-            instance.errors&#91; 'name' &#93;
-        assertEquals <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should be 'blank'"</span>,
-            'blank', instance.errors&#91; 'name' &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testSizeTooLong() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person()
-        instance.name = 'A' &#42; 101
-        assertFalse <span class="java&#45;quote">"'validate' should be <span class="java&#45;keyword">false</span>"</span>, instance.validate()
-        assertNotNull <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should not be <span class="java&#45;keyword">null</span>"</span>,
-            instance.errors&#91; 'name' &#93;
-        assertEquals <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should be 'size'"</span>,
-            'size', instance.errors&#91; 'name' &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testNullable() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person()
-        instance.name = <span class="java&#45;keyword">null</span>
-        assertFalse <span class="java&#45;quote">"'validate' should be <span class="java&#45;keyword">false</span>"</span>, instance.validate()
-        assertNotNull <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should not be <span class="java&#45;keyword">null</span>"</span>,
-            instance.errors&#91; 'name' &#93;
-        assertEquals <span class="java&#45;quote">"'errors&#91; 'name' &#93;' should be 'nullable'"</span>,
-            'nullable', instance.errors&#91; 'name' &#93;<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
-As you can see, the plugin generates unit tests for all the constraints contained in the <code>name</code> property.
-<blockquote class="note">
-The plugin can manage all the constraints but <code>matches</code> and <code>validator</code>, due to their complexity. The plugin will generate the unit test method but you must set some values by hand. If you forget this, the method will throw an exception every time you run the test.
-</blockquote>
-
-
-
-<h2 id="spockUnitTestDomainClasses">4.1 Creating unit tests with Spock</h2>
-Since the 0.2 version, you can generate unit tests for domain class constraints with the <a href="https://code.google.com/p/spock/" target="blank">Spock Framework</a> using the <a href="../ref/Scripts/create-unit-test-constraints-spock.html" class="Scripts">create-unit-test-constraints-spock</a> command:
-<div class="code"><pre>grails create&#45;unit&#45;test&#45;constraints&#45;spock &#91;domainClass&#93;</pre></div>
-You will get the following unit test files:
-<ul class="star">
 <li><code>test/unit/mypackage/PersonNameConstraintsSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonLastNameConstraintsSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonBirthdateConstraintsSpec.groovy</code></li>
@@ -442,8 +422,12 @@ class PersonNameConstraintsSpec <span class="java&#45;keyword">extends</span> Sp
             instance.errors&#91; 'name' &#93; == 'nullable'
         where:
             name = <span class="java&#45;keyword">null</span><p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+As you can see, the plugin generates unit tests for all the constraints contained in the <code>name</code> property.
 <blockquote class="note">
 For versions of Grails prior to 2.3.0, you need to install the <a href="http://grails.org/plugin/spock" target="blank">Grails Spock Plugin</a> if you want to execute the tests.
+</blockquote>
+<blockquote class="note">
+The plugin can manage all the constraints but <code>matches</code> and <code>validator</code>, due to their complexity. The plugin will generate the unit test method but you must set some values by hand. If you forget this, the method will throw an exception every time you run the test.
 </blockquote>
 
 
@@ -498,50 +482,6 @@ When you create a service class with the <a href="../ref/Scripts/create-service-
 <div class="code"><pre>grails create&#45;unit&#45;test&#45;service &#91;domainClass&#93;</pre></div>
 Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-unit-test-service.html" class="Scripts">create-unit-test-service</a> command, you will get the following unit test files:
 <ul class="star">
-<li><code>test/unit/mypackage/PersonServiceListTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceListMaxTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceListOffsetTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceListSortOrderTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceCreateTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceUpdateTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceGetTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonServiceDeleteTests.groovy</code></li>
-</ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list.html" class="Scripts">create-unit-test-service-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max.html" class="Scripts">create-unit-test-service-list-max</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset.html" class="Scripts">create-unit-test-service-list-offset</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html" class="Scripts">create-unit-test-service-list-sort-order</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create.html" class="Scripts">create-unit-test-service-create</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update.html" class="Scripts">create-unit-test-service-update</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get.html" class="Scripts">create-unit-test-service-get</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete.html" class="Scripts">create-unit-test-service-delete</a></td></tr></table>
-If we open the <code>test/unit/mypackage/PersonServiceCreateTests.groovy</code> file, we will find something like this:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
-<span class="java&#45;keyword">import</span> org.junit.&#42;
-<span class="java&#45;keyword">import</span> org.junit.rules.&#42;<p class="paragraph"/>@TestFor(PersonService)
-@Mock(Person)
-class PersonServiceCreateTests &#123;<p class="paragraph"/>    @Rule
-    <span class="java&#45;keyword">public</span> ExpectedException thrown = ExpectedException.none()<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def instance = PersonMock.mock( 0 )
-        assertEquals <span class="java&#45;quote">"'count' should be 0"</span>, 0, Person.count()
-        service.create( instance )
-        assertEquals <span class="java&#45;quote">"'count' should be 1"</span>, 1, Person.count()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testPersonNull() &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">null</span>
-        thrown.expect( IllegalArgumentException )
-        thrown.expectMessage( <span class="java&#45;quote">"Parameter 'person' is <span class="java&#45;keyword">null</span>"</span> )
-        service.create( instance )<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testPersonInvalid() &#123;<p class="paragraph"/>        def instance = PersonMock.mock( 0 )
-        instance.name = <span class="java&#45;keyword">null</span>
-        thrown.expect( IllegalArgumentException )
-        thrown.expectMessage( <span class="java&#45;quote">"Parameter 'person' is invalid"</span> )
-        service.create( instance )<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
-The plugin generates a unit test that makes use of the <code>ExpectedException</code> JUnit class for managing the tests exceptions. You can notice the presence of the <code>PersonMock</code> class.  This class is automatically generated and placed in the <code>src/groovy/mypackage/PersonMock.groovy</code> file, and it contains utility methods for mocking a <code>Person</code> valid domain class:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class PersonMock &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> Person mock( id ) &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person(
-            name:'A' &#42; 1,
-            lastName:'A' &#42; 1,
-            birthdate:<span class="java&#45;keyword">new</span> Date(),
-            enabled:<span class="java&#45;keyword">true</span>,
-        )
-        instance<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
-If you change the id of this class (to <code>assigned</code>, for example), this class already consider it, allowing you to set the id by hand.<p class="paragraph"/>You can generate the mock class separately by executing the <a href="../ref/Scripts/create-mock.html" class="Scripts">create-mock</a> command.
-
-
-
-<h2 id="spockUnitTestServices">6.1 Creating unit tests with Spock</h2>
-Since the 0.2 version, you can generate unit tests for services with the <a href="https://code.google.com/p/spock/" target="blank">Spock Framework</a> using the <a href="../ref/Scripts/create-unit-test-service-spock.html" class="Scripts">create-unit-test-service-spock</a> command:
-<div class="code"><pre>grails create&#45;unit&#45;test&#45;service&#45;spock &#91;domainClass&#93;</pre></div>
-Tou will get the following unit test files:
-<ul class="star">
 <li><code>test/unit/mypackage/PersonServiceListSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonServiceListMaxSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonServiceListOffsetSpec.groovy</code></li>
@@ -551,7 +491,7 @@ Tou will get the following unit test files:
 <li><code>test/unit/mypackage/PersonServiceGetSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonServiceDeleteSpec.groovy</code></li>
 </ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-spock.html" class="Scripts">create-unit-test-service-list-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max-spock.html" class="Scripts">create-unit-test-service-list-max-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset-spock.html" class="Scripts">create-unit-test-service-list-offset-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order-spock.html" class="Scripts">create-unit-test-service-list-sort-order-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create-spock.html" class="Scripts">create-unit-test-service-create-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update-spock.html" class="Scripts">create-unit-test-service-update-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get-spock.html" class="Scripts">create-unit-test-service-get-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete-spock.html" class="Scripts">create-unit-test-service-delete-spock</a></td></tr></table>
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list.html" class="Scripts">create-unit-test-service-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListMaxSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-max.html" class="Scripts">create-unit-test-service-list-max</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceListOffsetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-offset.html" class="Scripts">create-unit-test-service-list-offset</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceListSortOrderSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html" class="Scripts">create-unit-test-service-list-sort-order</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceCreateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-create.html" class="Scripts">create-unit-test-service-create</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceUpdateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-update.html" class="Scripts">create-unit-test-service-update</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonServiceGetSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-get.html" class="Scripts">create-unit-test-service-get</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonServiceDeleteSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-service-delete.html" class="Scripts">create-unit-test-service-delete</a></td></tr></table>
 If we open the <code>test/unit/mypackage/PersonServiceCreateSpec.groovy</code> file, we will find something like this:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
 <span class="java&#45;keyword">import</span> spock.lang.&#42;<p class="paragraph"/>@TestFor(PersonService)
@@ -577,6 +517,15 @@ class PersonServiceCreateSpec <span class="java&#45;keyword">extends</span> Spec
 <blockquote class="note">
 For versions of Grails prior to 2.3.0, you need to install the <a href="http://grails.org/plugin/spock" target="blank">Grails Spock Plugin</a> if you want to execute the tests.
 </blockquote>
+You can notice the presence of the <code>PersonMock</code> class.  This class is automatically generated and placed in the <code>src/groovy/mypackage/PersonMock.groovy</code> file, and it contains utility methods for mocking a <code>Person</code> valid domain class:
+<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class PersonMock &#123;<p class="paragraph"/>    <span class="java&#45;keyword">static</span> Person mock( id ) &#123;<p class="paragraph"/>        def instance = <span class="java&#45;keyword">new</span> Person(
+            name:'A' &#42; 1,
+            lastName:'A' &#42; 1,
+            birthdate:<span class="java&#45;keyword">new</span> Date(),
+            enabled:<span class="java&#45;keyword">true</span>,
+        )
+        instance<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
+If you change the id of this class (to <code>assigned</code>, for example), this class already consider it, allowing you to set the id by hand.<p class="paragraph"/>You can generate the mock class separately by executing the <a href="../ref/Scripts/create-mock.html" class="Scripts">create-mock</a> command.
 
 
 
@@ -728,68 +677,6 @@ When you create a controller class with the <a href="../ref/Scripts/create-contr
 <div class="code"><pre>grails create&#45;unit&#45;test&#45;controller &#91;domainClass&#93;</pre></div>
 Suppose you have a class named <code>mypackage.Person</code>. With the <a href="../ref/Scripts/create-unit-test-controller.html" class="Scripts">create-unit-test-controller</a> command, you will get the following unit test files:
 <ul class="star">
-<li><code>test/unit/mypackage/PersonControllerIndexTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerContentTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerListTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerCreateTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerSaveTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerEditTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerUpdateTests.groovy</code></li>
-<li><code>test/unit/mypackage/PersonControllerDeleteTests.groovy</code></li>
-</ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerIndexTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-index.html" class="Scripts">create-unit-test-controller-index</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerContentTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-content.html" class="Scripts">create-unit-test-controller-content</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerListTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-list.html" class="Scripts">create-unit-test-controller-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerCreateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-create.html" class="Scripts">create-unit-test-controller-create</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerSaveTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-save.html" class="Scripts">create-unit-test-controller-save</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerEditTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-edit.html" class="Scripts">create-unit-test-controller-edit</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerUpdateTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-update.html" class="Scripts">create-unit-test-controller-update</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerDeleteTests.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-delete.html" class="Scripts">create-unit-test-controller-delete</a></td></tr></table>
-If we open the <code>test/unit/mypackage/PersonControllerSaveTests.groovy</code> file, we will find something like this:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.GrailsMock
-<span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
-<span class="java&#45;keyword">import</span> org.junit.&#42;<p class="paragraph"/>@TestFor(PersonController)
-@Mock(Person)
-class PersonControllerSaveTests &#123;<p class="paragraph"/>    @Before
-    void setUp() &#123;
-        views&#91; '/person/_form.gsp' &#93; = getTemplate()
-    &#125;<p class="paragraph"/>    void testOk() &#123;<p class="paragraph"/>        def control = mockPersonService()
-        request.method = 'POST'
-        setUpParams()
-        controller.save()
-        def expected = '<span class="java&#45;keyword">default</span>.created.message'
-        assertEquals <span class="java&#45;quote">"'message' should be '$&#123;expected&#125;'"</span>,
-            expected, flash.formMessage
-        expected = <span class="java&#45;quote">"/person/edit/1"</span>
-        assertEquals <span class="java&#45;quote">"'redirectedUrl' should be '$&#123;expected&#125;'"</span>,
-            expected, response.redirectedUrl
-        assertEquals <span class="java&#45;quote">"'status' should be 302"</span>, 302, response.status
-        control.verify()<p class="paragraph"/>    &#125;<p class="paragraph"/>    void testParamsInvalid() &#123;<p class="paragraph"/>        def control = mockPersonService( <span class="java&#45;keyword">false</span> )
-        request.method = 'POST'
-        setUpParams()
-        params.name = <span class="java&#45;keyword">null</span>
-        controller.save()
-        def expected = 'OK'
-        assertEquals <span class="java&#45;quote">"'text' should be '$&#123;expected&#125;'"</span>,
-            expected, response.text
-        assertEquals <span class="java&#45;quote">"'status' should be 200"</span>, 200, response.status
-        control.verify()<p class="paragraph"/>    &#125;<p class="paragraph"/>    @Ignore( 'See http://jira.grails.org/browse/GRAILS&#45;8426' )
-    void testRequestMethodInvalid() &#123;<p class="paragraph"/>        request.method = 'GET'
-        controller.save()
-        assertEquals <span class="java&#45;quote">"'status' should be 405"</span>, 405, response.status<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> <span class="java&#45;object">String</span> getTemplate() &#123;
-        '&#60;g:<span class="java&#45;keyword">if</span> test=<span class="java&#45;quote">"$&#123;personInstance&#125;"</span>&#62;OK&#60;/g:<span class="java&#45;keyword">if</span>&#62;&#60;g:<span class="java&#45;keyword">else</span>&#62;ERROR&#60;/g:<span class="java&#45;keyword">else</span>&#62;'
-    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> GrailsMock mockPersonService( save = <span class="java&#45;keyword">true</span> ) &#123;<p class="paragraph"/>        def control = mockFor( PersonService )
-        control.demand.create( 1 ) &#123; Person instance &#45;&#62;
-            <span class="java&#45;keyword">if</span> ( save ) &#123;
-                instance.id = 1
-                instance.save( failOnError:<span class="java&#45;keyword">true</span> )
-            &#125; <span class="java&#45;keyword">else</span> <span class="java&#45;keyword">throw</span> <span class="java&#45;keyword">new</span> IllegalArgumentException( 'error' )
-        &#125;
-        controller.personService = control.createMock()
-        control<p class="paragraph"/>    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">private</span> void setUpParams() &#123;<p class="paragraph"/>        def mock = PersonMock.mock( 0 )
-        mock.properties.each&#123; params.<span class="java&#45;quote">"$&#123;it.key&#125;"</span> = it.value &#125;<p class="paragraph"/>    &#125;<p class="paragraph"/>&#125;</pre></div>
-The unit tests make use of the Grails Testing and JUnit API. We strongly recommend you to read the <a href="http://grails.org/doc/latest/guide/testing.html" target="blank">Grails Testing</a> chapter for a further reference.
-
-
-
-<h2 id="spockUnitTestControllers">9.1 Creating unit tests with Spock</h2>
-Since the 0.2 version, you can generate unit tests for controllers with the <a href="https://code.google.com/p/spock/" target="blank">Spock Framework</a> using the <a href="../ref/Scripts/create-unit-test-controller-spock.html" class="Scripts">create-unit-test-controller-spock</a> command:
-<div class="code"><pre>grails create&#45;unit&#45;test&#45;controller&#45;spock &#91;domainClass&#93;</pre></div>
-Tou will get the following unit test files:
-<ul class="star">
 <li><code>test/unit/mypackage/PersonControllerIndexSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonControllerContentSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonControllerListSpec.groovy</code></li>
@@ -799,7 +686,7 @@ Tou will get the following unit test files:
 <li><code>test/unit/mypackage/PersonControllerUpdateSpec.groovy</code></li>
 <li><code>test/unit/mypackage/PersonControllerDeleteSpec.groovy</code></li>
 </ul><p class="paragraph"/>You can generate each file with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerIndexSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-index-spock.html" class="Scripts">create-unit-test-controller-index-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerContentSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-content-spock.html" class="Scripts">create-unit-test-controller-content-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerListSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-list-spock.html" class="Scripts">create-unit-test-controller-list-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerCreateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-create-spock.html" class="Scripts">create-unit-test-controller-create-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerSaveSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-save-spock.html" class="Scripts">create-unit-test-controller-save-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerEditSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-edit-spock.html" class="Scripts">create-unit-test-controller-edit-spock</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerUpdateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-update-spock.html" class="Scripts">create-unit-test-controller-update-spock</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerDeleteSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-delete-spock.html" class="Scripts">create-unit-test-controller-delete-spock</a></td></tr></table>
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerIndexSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-index.html" class="Scripts">create-unit-test-controller-index</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerContentSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-content.html" class="Scripts">create-unit-test-controller-content</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerListSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-list.html" class="Scripts">create-unit-test-controller-list</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerCreateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-create.html" class="Scripts">create-unit-test-controller-create</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerSaveSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-save.html" class="Scripts">create-unit-test-controller-save</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerEditSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-edit.html" class="Scripts">create-unit-test-controller-edit</a></td></tr><tr class="table-odd"><td><code>test/unit/mypackage/PersonControllerUpdateSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-update.html" class="Scripts">create-unit-test-controller-update</a></td></tr><tr class="table-even"><td><code>test/unit/mypackage/PersonControllerDeleteSpec.groovy</code></td><td><a href="../ref/Scripts/create-unit-test-controller-delete.html" class="Scripts">create-unit-test-controller-delete</a></td></tr></table>
 If we open the <code>test/unit/mypackage/PersonControllerSaveSpec.groovy</code> file, we will find something like this:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/><span class="java&#45;keyword">import</span> grails.test.GrailsMock
 <span class="java&#45;keyword">import</span> grails.test.mixin.&#42;
@@ -845,7 +732,7 @@ class PersonControllerSaveSpec <span class="java&#45;keyword">extends</span> Spe
 &#125;</pre></div>
 <blockquote class="note">
 For versions of Grails prior to 2.3.0, you need to install the <a href="http://grails.org/plugin/spock" target="blank">Grails Spock Plugin</a> if you want to execute the tests.
-</blockquote>
+</blockquote><p class="paragraph"/>The unit tests make use of the Grails Testing API. We strongly recommend you to read the <a href="http://grails.org/doc/latest/guide/testing.html" target="blank">Grails Testing</a> chapter for a further reference.
 
 
 
@@ -854,11 +741,12 @@ Today, most modern web applications make strong use of AJAX and Responsive Web D
 <div class="code"><pre>grails create&#45;views &#91;domainClass&#93;</pre></div>
 The plugin will generate the following files:
 <ul class="star">
+<li><code>grails-app/controllers/HomeController.groovy</code></li>
+<li><code>grails-app/views/home/_index.gsp</code></li>
 <li><code>grails-app/views/index.gsp</code></li>
 <li><code>grails-app/views/_header.gsp</code></li>
 <li><code>grails-app/views/_topMenu.gsp</code></li>
 <li><code>grails-app/views/_menu.gsp</code></li>
-<li><code>grails-app/views/_content.gsp</code></li>
 </ul><p class="paragraph"/>Besides, the plugin will install the following templates:
 <ul class="star">
 <li><code>src/templates/scaffolding/_content.gsp</code></li>
@@ -878,7 +766,7 @@ The plugin overrides some important files that could already exist:
 <li><code>src/templates/scaffolding/renderEditor.template</code>.</li>
 </ul><p class="paragraph"/>For this reason, use the <a href="../ref/Scripts/create-views.html" class="Scripts">create-views</a> command carefully if you are working on an existing application.
 </blockquote><p class="paragraph"/>You can generate each artifact with the following commands:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td>Index artifacts (<code>index</code>, <code>_header</code>, <code>_topMenu</code>, <code>_menu</code> and <code>_content</code>)</td><td><a href="../ref/Scripts/create-views-index.html" class="Scripts">create-views-index</a></td></tr><tr class="table-even"><td>Templates (<code>_content</code>, <code>_list</code> and <code>_form</code>)</td><td><a href="../ref/Scripts/install-optimus-templates.html" class="Scripts">install-optimus-templates</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_content.gsp</code></td><td><a href="../ref/Scripts/create-content-template.html" class="Scripts">create-content-template</a></td></tr><tr class="table-even"><td><code>grails-app/views/person/_list.gsp</code></td><td><a href="../ref/Scripts/create-list-template.html" class="Scripts">create-list-template</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_form.gsp</code></td><td><a href="../ref/Scripts/create-form-template.html" class="Scripts">create-form-template</a></td></tr></table><p class="paragraph"/>All these files are designed for working together, simulating a Simple Page Application that looks well in any device that supports a browser.
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">File</strong></th><th><strong class="bold">Command</strong></th></tr><tr class="table-odd"><td>Home controller</td><td><a href="../ref/Scripts/create-home.html" class="Scripts">create-home</a></td></tr><tr class="table-even"><td>Index artifacts (<code>index</code>, <code>_header</code>, <code>_topMenu</code> and <code>_menu</code>)</td><td><a href="../ref/Scripts/create-views-index.html" class="Scripts">create-views-index</a></td></tr><tr class="table-odd"><td>Templates (<code>_content</code>, <code>_list</code> and <code>_form</code>)</td><td><a href="../ref/Scripts/install-optimus-templates.html" class="Scripts">install-optimus-templates</a></td></tr><tr class="table-even"><td><code>grails-app/views/person/_content.gsp</code></td><td><a href="../ref/Scripts/create-content-template.html" class="Scripts">create-content-template</a></td></tr><tr class="table-odd"><td><code>grails-app/views/person/_list.gsp</code></td><td><a href="../ref/Scripts/create-list-template.html" class="Scripts">create-list-template</a></td></tr><tr class="table-even"><td><code>grails-app/views/person/_form.gsp</code></td><td><a href="../ref/Scripts/create-form-template.html" class="Scripts">create-form-template</a></td></tr></table><p class="paragraph"/>All these files are designed for working together, simulating a Simple Page Application that looks well in any device that supports a browser.
 
 
 
@@ -911,6 +799,12 @@ person.birthdate.nullable=Property &#91;birthdate&#93; of class &#91;mypackage.P
 person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span></pre></div>
 
 
+
+<h1 id="properties">12 Miscellaneous properties</h1>
+Some properties have been added to the plugin for code customization.
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Usage</strong></th></tr><tr class="table-odd"><td><code>grails.optimus.tab</code></td><td><code>4</code></td><td>Spaces per tab</td></tr><tr class="table-even"><td><code>grails.optimus.blockComments</code></td><td><code>false</code></td><td>Add comments to each code block</td></tr></table>
+
+
                     </div>
                 </td>
                 <td id="col2">
@@ -940,6 +834,9 @@ person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Perso
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Scripts/create-home.html">create-home</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-i18n.html">create-i18n</a>
@@ -975,58 +872,28 @@ person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Perso
                         <div class="menu-item"><a href="../ref/Scripts/create-service-update-log.html">create-service-update-log</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints-spock.html">create-unit-test-constraints-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints.html">create-unit-test-constraints</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content-spock.html">create-unit-test-controller-content-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content.html">create-unit-test-controller-content</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create-spock.html">create-unit-test-controller-create-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create.html">create-unit-test-controller-create</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete-spock.html">create-unit-test-controller-delete-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete.html">create-unit-test-controller-delete</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit-spock.html">create-unit-test-controller-edit-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit.html">create-unit-test-controller-edit</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index-spock.html">create-unit-test-controller-index-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index.html">create-unit-test-controller-index</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list-spock.html">create-unit-test-controller-list-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list.html">create-unit-test-controller-list</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save-spock.html">create-unit-test-controller-save-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save.html">create-unit-test-controller-save</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-spock.html">create-unit-test-controller-spock</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update-spock.html">create-unit-test-controller-update-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update.html">create-unit-test-controller-update</a>
@@ -1035,52 +902,25 @@ person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Perso
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller.html">create-unit-test-controller</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create-spock.html">create-unit-test-service-create-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create.html">create-unit-test-service-create</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete-spock.html">create-unit-test-service-delete-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete.html">create-unit-test-service-delete</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get-spock.html">create-unit-test-service-get-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get.html">create-unit-test-service-get</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max-spock.html">create-unit-test-service-list-max-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max.html">create-unit-test-service-list-max</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset-spock.html">create-unit-test-service-list-offset-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset.html">create-unit-test-service-list-offset</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order-spock.html">create-unit-test-service-list-sort-order-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html">create-unit-test-service-list-sort-order</a>
                         </div>
                         
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-spock.html">create-unit-test-service-list-spock</a>
-                        </div>
-                        
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list.html">create-unit-test-service-list</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-spock.html">create-unit-test-service-spock</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update-spock.html">create-unit-test-service-update-spock</a>
                         </div>
                         
                         <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update.html">create-unit-test-service-update</a>

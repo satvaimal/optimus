@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>2 Getting started 0.3.1</title>
+    <title>2 Getting started 0.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -57,6 +57,9 @@ function addJsClass() {
                     <div class="toc-item" style="margin-left:0"><a href="../guide/i18n.html"><strong>11</strong><span>Creating i18n messages</span></a>
                     </div>
                     
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/properties.html"><strong>12</strong><span>Miscellaneous properties</span></a>
+                    </div>
+                    
                 </div>
             </div>
         </li>
@@ -95,7 +98,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
-                    <p><strong>Version:</strong> 0.3.1</p>
+                    <p><strong>Version:</strong> 0.4</p>
 
                     
                 </div>
@@ -116,8 +119,11 @@ function addJsClass() {
 To get started, you need to install the plugin by adding the following line in the <code>grails-app/conf/BuildConfig.groovy</code> file:
 <div class="code"><pre>plugins &#123;
     &#8230;
-    compile ':optimus:0.3.1'
+    compile ':optimus:0.4'
 &#125;</pre></div>
+<blockquote class="warning">
+If you are using a Grails version prior to 2.3.x, you must add the <a href="http://grails.org/plugin/spock" target="blank">Spock Plugin</a>
+</blockquote>
 You must have at least one domain class with some constraints, for example:
 <div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
     <span class="java&#45;object">String</span> lastName
@@ -167,6 +173,7 @@ The command will tell you about what artifacts have been created, such as config
 | Finished generation of 'update' controller unit tests
 | Finished generation of 'delete' controller unit tests
 | Finished generation of controller unit tests
+| Finished generation of 'Home' artifacts
 | Finished generation of 'index' files
 | Finished installation of Optimus templates
 | Finished generation of 'content' templates
@@ -174,6 +181,7 @@ The command will tell you about what artifacts have been created, such as config
 | Finished generation of 'form' templates
 | Finished generation of views artifacts
 | Finished generation of i18n messages
+| Finished generation of domain artifacts
 | Finished generation of artifacts
 $</pre></div>
 <blockquote class="warning">
@@ -226,6 +234,9 @@ The <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> co
                             <div class="menu-item"><a href="../ref/Scripts/create-form-template.html">create-form-template</a>
                             </div>
                             
+                            <div class="menu-item"><a href="../ref/Scripts/create-home.html">create-home</a>
+                            </div>
+                            
                             <div class="menu-item"><a href="../ref/Scripts/create-i18n.html">create-i18n</a>
                             </div>
                             
@@ -259,58 +270,28 @@ The <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> co
                             <div class="menu-item"><a href="../ref/Scripts/create-service-update-log.html">create-service-update-log</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints-spock.html">create-unit-test-constraints-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-constraints.html">create-unit-test-constraints</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content-spock.html">create-unit-test-controller-content-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-content.html">create-unit-test-controller-content</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create-spock.html">create-unit-test-controller-create-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-create.html">create-unit-test-controller-create</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete-spock.html">create-unit-test-controller-delete-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-delete.html">create-unit-test-controller-delete</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit-spock.html">create-unit-test-controller-edit-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-edit.html">create-unit-test-controller-edit</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index-spock.html">create-unit-test-controller-index-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-index.html">create-unit-test-controller-index</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list-spock.html">create-unit-test-controller-list-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-list.html">create-unit-test-controller-list</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save-spock.html">create-unit-test-controller-save-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-save.html">create-unit-test-controller-save</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-spock.html">create-unit-test-controller-spock</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update-spock.html">create-unit-test-controller-update-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller-update.html">create-unit-test-controller-update</a>
@@ -319,52 +300,25 @@ The <a href="../ref/Scripts/optimus-all.html" class="Scripts">optimus-all</a> co
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-controller.html">create-unit-test-controller</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create-spock.html">create-unit-test-service-create-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-create.html">create-unit-test-service-create</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete-spock.html">create-unit-test-service-delete-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-delete.html">create-unit-test-service-delete</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get-spock.html">create-unit-test-service-get-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-get.html">create-unit-test-service-get</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max-spock.html">create-unit-test-service-list-max-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-max.html">create-unit-test-service-list-max</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset-spock.html">create-unit-test-service-list-offset-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-offset.html">create-unit-test-service-list-offset</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order-spock.html">create-unit-test-service-list-sort-order-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-sort-order.html">create-unit-test-service-list-sort-order</a>
                             </div>
                             
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list-spock.html">create-unit-test-service-list-spock</a>
-                            </div>
-                            
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-list.html">create-unit-test-service-list</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-spock.html">create-unit-test-service-spock</a>
-                            </div>
-                            
-                            <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update-spock.html">create-unit-test-service-update-spock</a>
                             </div>
                             
                             <div class="menu-item"><a href="../ref/Scripts/create-unit-test-service-update.html">create-unit-test-service-update</a>

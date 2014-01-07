@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>11 Creating i18n messages 0.4</title>
+    <title>12 Miscellaneous properties 0.4</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -83,18 +83,16 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/views.html">&lt;&lt; <strong>10</strong><span>Creating views</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/i18n.html">&lt;&lt; <strong>11</strong><span>Creating i18n messages</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/properties.html"><strong>12</strong><span>Miscellaneous properties</span> >></a></div>
-                
 
 
                 <div class="project">
-                    <h1>11 Creating i18n messages - Reference Documentation</h1>
+                    <h1>12 Miscellaneous properties - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Alejandro García Granados</p>
 
@@ -107,41 +105,15 @@ function addJsClass() {
 
                 
 
-<h1 id="i18n">11 Creating i18n messages</h1>
-Grails lets you customize the labels of your domain classes' fields, plus the error messages of their constraints. In most cases, your application doesn't use the default messages provided by Grails, and you have to write every message by hand.<p class="paragraph"/>Optimus Plugin helps you with the generation of the keys for these messages by executing the <a href="../ref/Scripts/create-i18n.html" class="Scripts">create-i18n</a> command:
-<div class="code"><pre>grails create&#45;i18n &#91;domainClass&#93;</pre></div><p class="paragraph"/>This command modifies your <code>grails-app/i18n/messages.properties</code> by appending the corresponding messages. Suppose you have a domain class like this:
-<div class="code"><pre><span class="java&#45;keyword">package</span> mypackage<p class="paragraph"/>class Person &#123;<p class="paragraph"/>    <span class="java&#45;object">String</span> name
-    <span class="java&#45;object">String</span> lastName
-    Date birthdate
-    <span class="java&#45;object">Boolean</span> enabled<p class="paragraph"/>    <span class="java&#45;keyword">static</span> constraints = &#123;
-        name blank:<span class="java&#45;keyword">false</span>, size:1..100
-        lastName blank:<span class="java&#45;keyword">false</span>, size:1..100
-    &#125;<p class="paragraph"/>&#125;</pre></div>
-With the <a href="../ref/Scripts/create-i18n.html" class="Scripts">create-i18n</a> command, you will get the following i18n messages:
-<div class="code"><pre>&#35; Person messages
-person.label=Person
-person.birthdate.label=Birthdate
-person.enabled.label=Enabled
-person.lastName.label=Last Name
-person.name.label=Name
-person.name.blank=Property &#91;name&#93; of class &#91;mypackage.Person&#93; cannot be blank
-person.name.size.toosmall=Property &#91;name&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be greater than &#91;&#123;3&#125;&#93; characters
-person.name.size.toobig=Property &#91;name&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be less than &#91;&#123;4&#125;&#93; characters
-person.name.nullable=Property &#91;name&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
-person.lastName.blank=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; cannot be blank
-person.lastName.size.toosmall=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be greater than &#91;&#123;3&#125;&#93; characters
-person.lastName.size.toobig=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; with value &#91;&#123;2&#125;&#93; should be less than &#91;&#123;4&#125;&#93; characters
-person.lastName.nullable=Property &#91;lastName&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
-person.birthdate.nullable=Property &#91;birthdate&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span>
-person.enabled.nullable=Property &#91;enabled&#93; of class &#91;mypackage.Person&#93; cannot be <span class="java&#45;keyword">null</span></pre></div>
+<h1 id="properties">12 Miscellaneous properties</h1>
+Some properties have been added to the plugin for code customization.
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Property</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Usage</strong></th></tr><tr class="table-odd"><td><code>grails.optimus.tab</code></td><td><code>4</code></td><td>Spaces per tab</td></tr><tr class="table-even"><td><code>grails.optimus.blockComments</code></td><td><code>false</code></td><td>Add comments to each code block</td></tr></table>
 
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/views.html">&lt;&lt; <strong>10</strong><span>Creating views</span></a></div>
-                
-                    <div class="toc-item next-right"><a href="../guide/properties.html"><strong>12</strong><span>Miscellaneous properties</span> >></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/i18n.html">&lt;&lt; <strong>11</strong><span>Creating i18n messages</span></a></div>
                 
                 <div style="clear:both"></div>
             </div>
