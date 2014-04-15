@@ -28,10 +28,5 @@ void generate( domainClass ) {
 }// End of method
 
 def getVersion() {
-
-  def grailsVersion = new BigDecimal( GrailsUtil.grailsVersion[ 0..2 ] )
-  else if ( grailsVersion >= 2.3 ) version = '2.3.0'
-  else if ( grailsVersion == 2.3.7 ) version = '2.3.7'
-  version
-
+  '2.3.7'
 }// End of method
