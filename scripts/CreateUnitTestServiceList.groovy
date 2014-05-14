@@ -40,8 +40,9 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
-    content << "import spock.lang.*\n\n"
+    def content = '' << "import grails.test.mixin.Mock\n"
+    content << "import grails.test.mixin.TestFor\n"
+    content << "import spock.lang.Specification\n\n"
 
 }// End of method
 
@@ -57,7 +58,7 @@ String generateClassDeclaration( className ) {
 
 String generateOkMethod() {
 
-    def content = '' << "${tab()}def \"test ok\"() {\n\n"
+    def content = '' << "${tab()}def \"Listing items successfully\"() {\n\n"
     content << "${tab()*2}when:\n"
     content << "${tab()*3}def result = service.list( params )\n"
     content << "${tab()*2}then:\n"

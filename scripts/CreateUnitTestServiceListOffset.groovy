@@ -20,10 +20,12 @@ void generate( domainClass ) {
     content << generateImports()
     content << generateClassDeclaration( domainClass.name )
     content << generateSetUpMethod( domainClass.name )
-    content << generateMethod( 'ok', "'15'", 5 )
-    content << generateMethod( 'null', "null", 10 )
-    content << generateMethod( 'blank', "''", 10 )
-    content << generateMethod( 'invalid', "'A'", 10 )
+    content << generateMethod( 'string value', "'15'", 5 )
+    content << generateMethod( 'null value', "null", 10 )
+    content << generateMethod( 'blank value', "''", 10 )
+    content << generateMethod( 'invalid value', "'A'", 10 )
+    content << generateMethod( 'integer value', "15", 5 )
+    content << generateMethod( 'floating value', "15.5", 10 )
     content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def filename = "${domainClass.name}ServiceListOffsetSpec.groovy"
@@ -33,8 +35,9 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
-    content << "import spock.lang.*\n\n"
+    def content = '' << "import grails.test.mixin.Mock\n"
+    content << "import grails.test.mixin.TestFor\n"
+    content << "import spock.lang.Speciication\n\n"
 
 }// End of method
 
@@ -62,7 +65,7 @@ String generateSetUpMethod( className ) {
 
 String generateMethod( methodSuffix, offsetValue, equalsValue ) {
 
-    def content = '' << "${tab()}def \"test ${methodSuffix}\"() {\n\n"
+    def content = '' << "${tab()}def \"Testing ${methodSuffix}\"() {\n\n"
     content << "${tab()*2}when:\n"
     content << "${tab()*3}def result = service.list( params )\n"
     content << "${tab()*2}then:\n"

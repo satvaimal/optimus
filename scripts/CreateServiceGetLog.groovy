@@ -79,7 +79,7 @@ String generateBeforeMethod( idAssigned ) {
     def idType = idAssigned ? idAssigned.type : 'Long'
     def content = '' << "${tab()}@Before('getMethod(${idName})')\n"
     content << "${tab()}void before( ${idType} ${idName} ) {\n"
-    content << "${tab()*2}log.info( \"Begins request:\${${idName}}\" )\n"
+    content << "${tab()*2}log.info( \"Begins request: \${${idName}}\" )\n"
     content << "${tab()}}${comment('method')}\n\n"
     content.toString()
 

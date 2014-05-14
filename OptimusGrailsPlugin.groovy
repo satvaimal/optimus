@@ -4,7 +4,7 @@ import groovy.util.ConfigSlurper
 
 class OptimusGrailsPlugin {
 
-  def version = "0.5"
+  def version = "0.512"
   def grailsVersion = "2.3.7 > *"
   def title = "Optimus Plugin"
   def author = "Alejandro Garc\u00EDa Granados"

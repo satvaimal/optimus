@@ -22,9 +22,11 @@ void generate( domainClass ) {
     content << generateSetUpMethod( domainClass.name )
     content << generateMethod( 'low value', "'9'", 9 )
     content << generateMethod( 'high value', "'11'", 10 )
-    content << generateMethod( 'null', "null", 10 )
-    content << generateMethod( 'blank', "''", 10 )
-    content << generateMethod( 'invalid', "'A'", 10 )
+    content << generateMethod( 'null value', "null", 10 )
+    content << generateMethod( 'blank value', "''", 10 )
+    content << generateMethod( 'invalid value', "'A'", 10 )
+    content << generateMethod( 'integer value', "9", 9 )
+    content << generateMethod( 'floating value', "9.5", 10 )
     content << "}${comment('class')}"
     def directory = generateDirectory( "test/unit", domainClass.packageName )
     def filename = "${domainClass.name}ServiceListMaxSpec.groovy"
@@ -34,8 +36,9 @@ void generate( domainClass ) {
 
 String generateImports() {
 
-    def content = '' << "import grails.test.mixin.*\n"
-    content << "import spock.lang.*\n\n"
+    def content = '' << "import grails.test.mixin.Mock\n"
+    content << "import grails.test.mixin.TestFor\n"
+    content << "import spock.lang.Specification\n\n"
 
 }// End of method
 
@@ -63,7 +66,7 @@ String generateSetUpMethod( className ) {
 
 String generateMethod( methodSuffix, maxValue, equalsValue ) {
 
-    def content = '' << "${tab()}def \"test ${methodSuffix}\"() {\n\n"
+    def content = '' << "${tab()}def \"Testing ${methodSuffix}\"() {\n\n"
     content << "${tab()*2}when:\n"
     content << "${tab()*3}def result = service.list( params )\n"
     content << "${tab()*2}then:\n"
